@@ -1,6 +1,6 @@
 {
-  "name": "haunted",
-  "version": "6.0.0-next.1",
+  "name": "@pionjs/pion",
+  "version": "1.0.0-next.1",
   "description": "Hooks for web components",
   "main": "lib/haunted.js",
   "module": "lib/haunted.js",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matthewp/haunted.git"
+    "url": "git+https://github.com/pionjs/pion.git"
   },
   "keywords": [
     "haunted",
@@ -31,9 +31,9 @@
   "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/matthewp/haunted/issues"
+    "url": "https://github.com/pionjs/pion/issues"
   },
-  "homepage": "https://github.com/matthewp/haunted#readme",
+  "homepage": "https://github.com/pionjs/pion#readme",
   "typings": "lib/haunted.d.ts",
   "devDependencies": {
     "@changesets/cli": "^2.16.0",
