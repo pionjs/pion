@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v4
+
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Cache Node Modules
         id: cache-node
@@ -33,7 +33,7 @@ jobs:
           npm run build
 
       - name: Upload Package Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
@@ -41,38 +41,38 @@ jobs:
           if-no-files-found: error
 
   test:
-    name: 'Test: ${{ matrix.os }} (node@${{ matrix.node_version }})'
+    name: "Test: ${{ matrix.os }} (node@${{ matrix.node_version }})"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: [16]
+        node_version: [16, 20]
       fail-fast: false
     needs: [build]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup node@${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Extract Artifacts
         run: ./.github/extract-artifacts.sh
 
       - name: Cache Node Modules
         id: cache-node
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: "**/node_modules"
-          key: cache-node_modules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-${{ github.run_id }}
+          key: cache-node_modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ github.run_id }}
           restore-keys: |
-            cache-node_modules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-${{ github.run_id }}
-            cache-node_modules-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            cache-node_modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ github.run_id }}
+            cache-node_modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install NPM Dependencies
         run: npm ci
@@ -86,28 +86,28 @@ jobs:
 
   changelog:
     name: Changelog PR or Release
-    if: ${{ github.ref_name == 'main' && github.repository_owner == 'matthewp' }}
+    if: ${{ github.ref_name == 'main' && github.repository_owner == 'pionjs' }}
     needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
-      
+          node-version: 20
+
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Extract Artifacts
         run: ./.github/extract-artifacts.sh
 
       - name: Cache Node Modules
         id: cache-node
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: "**/node_modules"
           key: cache-node_modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ github.run_id }}
@@ -121,14 +121,14 @@ jobs:
       - name: Extract package version
         id: extract_version
         uses: Saionaro/extract-package-version@v1.0.6
-      
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
           publish: npm run changeset publish
-          commit: '[ci] release'
-          title: '[ci] release'
+          commit: "[ci] release"
+          title: "[ci] release"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
