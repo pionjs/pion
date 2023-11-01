@@ -1,8 +1,8 @@
 {
-  "mode": "pre",
+  "mode": "exit",
   "tag": "next",
   "initialVersions": {
-    "haunted": "5.0.0"
+    "@pionjs/pion": "1.0.0"
   },
   "changesets": [
     "chilly-ants-swim",
