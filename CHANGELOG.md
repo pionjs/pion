@@ -1,5 +1,16 @@
 # pion
 
+## 1.1.0
+
+### Minor Changes
+
+- 9ad6954: Allow using context in virtual components.
+  Use the ChildPart's start, end or parentNode as event channel.
+
+### Patch Changes
+
+- 7e13cf7: Do not use Shadow DOM for contexts Provider & Consumer elements.
+
 ## 1.0.0
 
 ### Major Changes
