@@ -5,7 +5,7 @@ Haunted also has the concept of _virtual components_. These are components that 
 The following is an example of using virtual components:
 
 ```js playground virtual my-app.js
-import { component, html, virtual, useState } from 'haunted';
+import { component, html, virtual, useState } from '@pionjs/pion';
 
 const Counter = virtual(() => {
   const [count, setCount] = useState(0);

@@ -1,11 +1,12 @@
-# Haunted 🦇 🎃
+# pion
 
-[![npm](https://img.shields.io/npm/dt/haunted)](https://npm.im/haunted)
-[![npm](https://img.shields.io/npm/v/haunted)](https://npm.im/haunted)
+[![npm](https://img.shields.io/npm/dt/@pionjs/pion)](https://npm.im/@pionjs/pion)
+[![npm](https://img.shields.io/npm/v/@pionjs/pion)](https://npm.im/@pionjs/pion)
 
 React's Hooks API but for standard web components and [lit-html](https://lit-html.polymer-project.org/) or [hyperHTML](https://codepen.io/WebReflection/pen/pxXrdy?editors=0010).
+Forked from [haunted](https://github.com/matthewp/haunted).
 
-📚 [Read the Docs](https://hauntedhooks.netlify.app) 📖
+📚 [Read the Docs](https://pionjs.com) 📖
 
 ```html
 <html lang="en">
@@ -39,15 +40,15 @@ Haunted supports the same API as React Hooks. The hope is that by doing so you c
 
 Currently Haunted supports the following hooks:
 
-- [useCallback](https://hauntedhooks.netlify.app/docs/hooks/useCallback/)
-- [useContext](https://hauntedhooks.netlify.app/docs/hooks/useContext/)
-- [useController](https://hauntedhooks.netlify.app/docs/hooks/useController/)
-- [useEffect](https://hauntedhooks.netlify.app/docs/hooks/useEffect/)
-- [useLayoutEffect](https://hauntedhooks.netlify.app/docs/hooks/useLayoutEffect/)
-- [useMemo](https://hauntedhooks.netlify.app/docs/hooks/useMemo/)
-- [useReducer](https://hauntedhooks.netlify.app/docs/hooks/useReducer/)
-- [useRef](https://hauntedhooks.netlify.app/docs/hooks/useRef/)
-- [useState](https://hauntedhooks.netlify.app/docs/hooks/useState/)
+- [useCallback](https://pionjs.com/docs/hooks/useCallback/)
+- [useContext](https://pionjs.com/docs/hooks/useContext/)
+- [useController](https://pionjs.com/docs/hooks/useController/)
+- [useEffect](https://pionjs.com/docs/hooks/useEffect/)
+- [useLayoutEffect](https://pionjs.com/docs/hooks/useLayoutEffect/)
+- [useMemo](https://pionjs.com/docs/hooks/useMemo/)
+- [useReducer](https://pionjs.com/docs/hooks/useReducer/)
+- [useRef](https://pionjs.com/docs/hooks/useRef/)
+- [useState](https://pionjs.com/docs/hooks/useState/)
 
 ### Function Signatures
 

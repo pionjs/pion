@@ -8,10 +8,8 @@ module: lib/use-context.js
 
 Grabs the context value from the closest provider above and updates your component, the consumer, whenever the provider changes the value.
 
-`useContext` currently only works with custom element components, [track the issue here](https://github.com/matthewp/haunted/issues/40).
-
 ```js playground use-context use-context.js
-import { html, component, useState, useContext, createContext } from 'haunted';
+import { html, component, useState, useContext, createContext } from '@pionjs/pion';
 
 const ThemeContext = createContext('dark');
 

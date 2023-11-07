@@ -15,7 +15,7 @@ Returns an array of two values. The first value is the immutable state that is i
 When the setter is called, the element in which the state resides is rerendered.
 
 ```js playground use-state use-state.js
-import { component, html, useState, useEffect } from 'haunted';
+import { component, html, useState, useEffect } from '@pionj/pion';
 
 customElements.define('use-state', component(function Counter() {
   const [count, setCount] = useState(0);

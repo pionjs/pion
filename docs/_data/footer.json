@@ -4,7 +4,7 @@
     "children": [
       {
         "text": "Help and Feedback",
-        "href": "https://github.com/matthewp/haunted/issues"
+        "href": "https://github.com/pionjs/pion/issues"
       }
     ]
   },
@@ -13,7 +13,7 @@
     "children": [
       {
         "text": "GitHub",
-        "href": "https://github.com/matthewp/haunted"
+        "href": "https://github.com/pionjs/pion"
       }
     ]
   },
@@ -22,7 +22,7 @@
     "children": [
       {
         "text": "Contribute",
-        "href": "https://github.com/matthewp/haunted/blob/master/CONTRIBUTING.md"
+        "href": "https://github.com/pionjs/pion/blob/master/CONTRIBUTING.md"
       }
     ]
   }

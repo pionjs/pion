@@ -13,7 +13,7 @@ module: lib/use-effect.js
 Used to run a side-effect when the component rerenders or when a dependency changes. To run your side-effect only when the component rerenders, only pass in your side-effect function and nothing else:
 
 ```js playground use-effect use-effect.js
-import { component, html, useState, useEffect } from 'haunted';
+import { component, html, useState, useEffect } from '@pionjs/pion';
 
 function Counter() {
   const [count, setCount] = useState(0);
