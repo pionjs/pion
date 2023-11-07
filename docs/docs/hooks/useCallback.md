@@ -9,7 +9,7 @@ module: lib/use-callback.js
 Very similar to `useMemo` but instead of writing a function that returns your memoized value, your function is the memoized value. This and `useMemo` are often overused so try to only use this when your callback has dependencies and it is itself a dependency for something else (like `useEffect`) .
 
 ```js playground use-callback use-callback.js
-import { component, html, useCallback, useState, useEffect } from 'haunted';
+import { component, html, useCallback, useState, useEffect } from '@pionjs/pion';
 
 const input = setter => e => setter(e.target.value);
 

@@ -7,12 +7,12 @@ module.exports = function () {
     socialLinks: [
       {
         name: 'GitHub',
-        url: 'https://github.com/matthewp/haunted',
+        url: 'https://github.com/pionjs/pion',
       },
     ],
-    gitSiteUrl: 'https://github.com/matthewp/haunted',
+    gitSiteUrl: 'https://github.com/pionjs/pion',
     gitBranch: 'master',
-    helpUrl: 'https://github.com/matthewp/haunted/issues',
+    helpUrl: 'https://github.com/pionjs/pion/issues',
     logoAlt: 'Spooky Ghost',
     iconColorMaskIcon: '#e64a19',
     iconColorMsapplicationTileColor: '#dd2c00',

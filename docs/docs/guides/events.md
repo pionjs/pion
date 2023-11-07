@@ -27,7 +27,7 @@ With this, you can now listen for the `buy-product` event either on an instance 
 ### Listening higher up in the DOM
 
 ```js playground events app.js
-import { component, html, useEffect, useState } from 'haunted';
+import { component, html, useEffect, useState } from '@pionjs/pion';
 import './my-store.js';
 
 function App(element) {
@@ -60,7 +60,7 @@ customElements.define('my-app', component(App));
 ```
 
 ```js playground-file events my-store.js
-import { html, component, useState } from 'haunted';
+import { html, component, useState } from '@pionjs/pion';
 
 import './store-product.js';
 
@@ -70,7 +70,7 @@ customElements.define('my-store', component(Store));
 ```
 
 ```js playground-file events store-product.js
-import { component, html } from 'haunted';
+import { component, html } from '@pionjs/pion';
 
 {% include ./_assets/store-product.js %}
 

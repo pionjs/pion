@@ -11,7 +11,7 @@ Similarly to `useState`, `useReducer` will return an array of two values, the fi
 The following is an example of `useReducer` being used to handle incrementing and decrementing a count:
 
 ```js playground use-reducer use-reducer.js
-import { component, html, useReducer } from 'haunted';
+import { component, html, useReducer } from '@pionjs/pion';
 
 // doesn't have to be an object, could just be `initialState = 0`
 const initialState = { count: 0 };

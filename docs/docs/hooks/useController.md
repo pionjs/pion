@@ -9,7 +9,7 @@ module: lib/use-controller.js
 Reuse existing `ReactiveController`s in your haunted component without adding `@lit/reactive-element` to your bundle.
 
 ```js playground use-controller use-controller.js
-import { component, html, useController, useEffect } from 'haunted'
+import { component, html, useController, useEffect } from '@pionjs/pion'
 
 import { MouseController } from './mouse-controller.js';
 

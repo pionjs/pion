@@ -49,7 +49,7 @@ import {
   useRef,
   useController,
   useContext
-} from 'haunted';
+} from '@pionjs/pion';
 ```
 
 The main entry point is intended for [lit-html](https://github.com/Polymer/lit-html) users.
@@ -66,7 +66,7 @@ import { component, useState } from 'https://unpkg.com/haunted/haunted.js';
 If using pika then use the `html` export from Haunted, as pika bundles everything together:
 
 ```js
-import { html, component, useState } from 'https://cdn.pika.dev/haunted';
+import { html, component, useState } from 'https://cdn.pika.dev/@pionjs/pion';
 ```
 
 If you install Haunted **locally** this build is located at `/node_modules/haunted/haunted.js`. And if you're using PikaPkg (@pika/web) then you'll import it from `/web_modules/haunted.js`.

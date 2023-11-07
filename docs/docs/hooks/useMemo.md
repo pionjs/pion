@@ -9,7 +9,7 @@ module: lib/use-memo.js
 Create a memoized state value. Only reruns the function when dependent values have changed.
 
 ```js playground use-memo use-memo.js
-import { component, html, useState, useMemo } from 'haunted';
+import { component, html, useState, useMemo } from '@pionjs/pion';
 
 function fibonacci(num) {
   if (num <= 1) return 1;
