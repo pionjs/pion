@@ -1,4 +1,4 @@
-import haunted, { useState } from '../src/core.js';
+import pion, { useState } from '../src/core.js';
 import { fixture, expect } from '@open-wc/testing';
 
 // This is just to get the lit-html export for testing.
@@ -9,7 +9,7 @@ describe('haunted/core', () => {
     it('Can be used to build haunteds', async () => {
       const tag = 'custom-haunted-test';
 
-      const { component } = haunted({
+      const { component } = pion({
         render(what, where) {
           render(what, where);
         }

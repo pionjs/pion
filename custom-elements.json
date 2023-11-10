@@ -33,7 +33,7 @@
       "declarations": [
         {
           "kind": "function",
-          "name": "haunted",
+          "name": "pion",
           "parameters": [
             {
               "name": "{ render }"
@@ -46,7 +46,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "haunted",
+            "name": "pion",
             "module": "lib/core.js"
           }
         },
@@ -798,7 +798,7 @@
               }
             }
           ],
-          "description": "Creates and stores a stateful ReactiveController instance and provides it\nwith a ReactiveControllerHost that drives the controller lifecycle.\n\nUse this hook to convert a ReactiveController into a Haunted hook.",
+          "description": "Creates and stores a stateful ReactiveController instance and provides it\nwith a ReactiveControllerHost that drives the controller lifecycle.\n\nUse this hook to convert a ReactiveController into a pion hook.",
           "return": {
             "type": {
               "text": "ReactiveController"
