@@ -4,10 +4,10 @@
   html { --playground-ide-height: 420px; } /* lol you said 420 */
 </style>
 
-The main entry point is intended for [lit-html](https://github.com/Polymer/lit-html) users. If you are using [lighterhtml](https://github.com/WebReflection/lighterhtml) or [hyperHTML](https://github.com/WebReflection/hyperHTML) then instead import `haunted/core`. This export gives you a function that creates Hooks that work with any template library.
+The main entry point is intended for [lit-html](https://github.com/Polymer/lit-html) users. If you are using [lighterhtml](https://github.com/WebReflection/lighterhtml) or [hyperHTML](https://github.com/WebReflection/hyperHTML) then instead import `@pionjs/pion/core`. This export gives you a function that creates Hooks that work with any template library.
 
 ```js playground lighterhtml my-app.js
-import haunted, { useState } from 'haunted/core';
+import haunted, { useState } from '@pionjs/pion/core';
 import { html, render } from 'lighterhtml';
 
 const { component } = haunted({

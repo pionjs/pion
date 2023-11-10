@@ -1,12 +1,12 @@
 ---
 layout: layout-api
-package: haunted
+package: '@pionjs/pion'
 module: lib/use-controller.js
 ---
 
 # Hooks >> useController
 
-Reuse existing `ReactiveController`s in your haunted component without adding `@lit/reactive-element` to your bundle.
+Reuse existing `ReactiveController`s in your pion component without adding `@lit/reactive-element` to your bundle.
 
 ```js playground use-controller use-controller.js
 import { component, html, useController, useEffect } from '@pionjs/pion'

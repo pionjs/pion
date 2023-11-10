@@ -10,7 +10,7 @@ There are a few steps you have to take in order to dispatch an event from your c
 2. When defining your callback that you wish to dispatch from, make sure it is bound to `this`. You can do this by using the fat arrow syntax.
 3. Finally, you can create a `new CustomEvent` and pass that to `this.dispatchEvent`.
 
-Here are a couple of examples of dispatching events from a haunted custom element:
+Here are a couple of examples of dispatching events from a pion custom element:
 
 ```js
 {% include ./_assets/store-product.js %}

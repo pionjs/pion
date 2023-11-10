@@ -1,6 +1,6 @@
 ---
 layout: layout-api
-package: haunted
+package: '@pionjs/pion'
 module: lib/use-context.js
 ---
 

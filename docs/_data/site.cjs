@@ -2,7 +2,7 @@ module.exports = function () {
   return {
     dir: 'ltr',
     lang: 'en',
-    name: 'Haunted',
+    name: 'pion',
     description: 'Hooks API for Web Components',
     socialLinks: [
       {

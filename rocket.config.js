@@ -31,8 +31,8 @@ export default ({
 
     playgroundElements({
       importMap: {
-        "haunted": "https://cdn.pika.dev/haunted",
-        "haunted/core": "https://cdn.pika.dev/haunted",
+        "@pionjs/pion": "https://cdn.pika.dev/@pionjs/pion",
+        "@pionjs/pion/core": "https://cdn.pika.dev/@pionjs/pion/core",
         "lighterhtml": "https://unpkg.com/lighterhtml?module"
       }
     }),

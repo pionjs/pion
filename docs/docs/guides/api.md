@@ -1,16 +1,16 @@
 # Guides >> API || 25
 
-Haunted is all about writing plain functions that can contain their own state. The documentation below is separated into two sections: creating _components_ (the functions) and using _hooks_ to manage state.
+pion is all about writing plain functions that can contain their own state. The documentation below is separated into two sections: creating _components_ (the functions) and using _hooks_ to manage state.
 
 ## Components
 
 Components are functions that contain state and return HTML via lit-html or hyperHTML. Through the `component()` and `virtual()` they become connected to a lifecycle that keeps the HTML up-to-date when state changes.
 
-Using Haunted you can create custom elements or _virtual_ components (components that contain state but have no element tag).
+Using pion you can create custom elements or _virtual_ components (components that contain state but have no element tag).
 
 ## Custom elements
 
-A custom element can be defined via haunted by passing your component you defined (e.g. `function App() {}`) to haunted's `component` function. You then take the result of your call to `component` and pass it to `customElements.define` like so:
+A custom element can be defined via pion by passing your component you defined (e.g. `function App() {}`) to pion's `component` function. You then take the result of your call to `component` and pass it to `customElements.define` like so:
 
 ```js
 function App({ name }) {

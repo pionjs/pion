@@ -14,7 +14,7 @@ Forked from [haunted](https://github.com/matthewp/haunted).
 
   <script type="module">
     import { html } from 'https://unpkg.com/lit?module';
-    import { component, useState } from 'https://unpkg.com/haunted/haunted.js';
+    import { component, useState } from 'https://unpkg.com/@pionjs/pion';
 
     function Counter() {
       const [count, setCount] = useState(0);
@@ -36,9 +36,9 @@ More example integrations can be found in [this gist](https://gist.github.com/ma
 
 ## Hooks
 
-Haunted supports the same API as React Hooks. The hope is that by doing so you can reuse hooks available on npm simply by aliasing package names in your bundler's config.
+pion supports the same API as React Hooks. The hope is that by doing so you can reuse hooks available on npm simply by aliasing package names in your bundler's config.
 
-Currently Haunted supports the following hooks:
+Currently pion supports the following hooks:
 
 - [useCallback](https://pionjs.com/docs/hooks/useCallback/)
 - [useContext](https://pionjs.com/docs/hooks/useContext/)
