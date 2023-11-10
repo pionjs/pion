@@ -17,14 +17,14 @@ interface Options {
   render: RenderFunction;
 }
 
-function haunted({ render }: Options): { component: ComponentCreator, createContext: ContextCreator } {
+function pion({ render }: Options): { component: ComponentCreator, createContext: ContextCreator } {
   const component = makeComponent(render);
   const createContext = makeContext(component);
 
   return { component, createContext };
 }
 
-export { haunted as default, Options, GenericRenderer, RenderFunction, ComponentOrVirtualComponent };
+export { pion as default, Options, GenericRenderer, RenderFunction, ComponentOrVirtualComponent };
 export { useCallback } from './use-callback';
 export { useController } from './use-controller';
 export { useEffect } from './use-effect';

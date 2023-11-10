@@ -12,7 +12,7 @@ import { useState } from './use-state';
 const microtask = Promise.resolve();
 
 /**
- * An implementation of ReactiveControllerHost that is driven by Haunted hooks
+ * An implementation of ReactiveControllerHost that is driven by pion hooks
  * and `useController()`.
  */
 class HauntedControllerHost implements ReactiveControllerHost {
@@ -82,7 +82,7 @@ class HauntedControllerHost implements ReactiveControllerHost {
  * Creates and stores a stateful ReactiveController instance and provides it
  * with a ReactiveControllerHost that drives the controller lifecycle.
  *
- * Use this hook to convert a ReactiveController into a Haunted hook.
+ * Use this hook to convert a ReactiveController into a pion hook.
  *
  * @param {<C extends ReactiveController>(host: ReactiveControllerHost) => C} createController A function that creates a controller instance.
  * This function is given a HauntedControllerHost to pass to the controller. The
@@ -107,7 +107,7 @@ export function useController <C extends ReactiveController>(
   useLayoutEffect(() => host.updated());
 
   // Returning a cleanup function simulates hostDisconnected timing. An empty
-  // deps array tells Haunted to only call this once: on mount with the cleanup
+  // deps array tells pion to only call this once: on mount with the cleanup
   // called on unmount.
   useLayoutEffect(() => () => host.disconnected(), []);
 

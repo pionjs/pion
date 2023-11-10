@@ -1,6 +1,6 @@
 # Guides >> Getting Started || 00
 
-A starter app is available on [codesandbox](https://codesandbox.io/s/github/matthewp/haunted-starter-app/tree/master/) and also can be cloned from [this repo](https://github.com/matthewp/haunted-starter-app). This app gives you the basics of how to use pion and build components.
+A starter app is available on [codesandbox](https://codesandbox.io/s/github/pionjs/pion-starter-app/tree/master/) and also can be cloned from [this repo](https://github.com/pionjs/pion-starter-app). This app gives you the basics of how to use pion and build components.
 
 ## Use
 
@@ -26,7 +26,7 @@ For Internet Explorer 11, you'll need to use a proxy polyfill to use pion, in ad
 <script src="https://cdn.jsdelivr.net/npm/proxy-polyfill@0.3.0/proxy.min.js"></script>
 ```
 
-Here is a [full example of a web app that uses Haunted built for Internet Explorer 11](https://github.com/crisward/haunted-ie11). You can also use Custom Elements without the Shadow DOM if you need to:
+Here is a [full example of a web app that uses a build for Internet Explorer 11](https://github.com/crisward/haunted-ie11). You can also use Custom Elements without the Shadow DOM if you need to:
 
 ```js
 component(MyComponent, { useShadowDOM: false }));
