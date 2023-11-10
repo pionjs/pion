@@ -1,5 +1,12 @@
 # pion
 
+## 1.2.0
+
+### Minor Changes
+
+- 3ed194b: Avoid infinite loops caused when an effect schedules an update and then throws.
+- cbf2aff: Update docs and related packages.
+
 ## 1.1.0
 
 ### Minor Changes
