@@ -1,5 +1,5 @@
 ---
-title: Haunted
+title: pion
 layout: layout-home
 templateEngineOverride: njk,md
 slogan: Hooks for Web Components
@@ -17,7 +17,7 @@ callToActionItems:
 
 ```js playground example my-counter.js
 import { html } from 'https://unpkg.com/lit?module';
-import { component, useState } from 'https://unpkg.com/haunted/haunted.js';
+import { component, useState } from 'https://unpkg.com/@pionjs/pion';
 
 function Counter() {
   const [count, setCount] = useState(0);

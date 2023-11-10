@@ -4,476 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "haunted.js",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "State",
-          "members": [
-            {
-              "kind": "method",
-              "name": "run",
-              "parameters": [
-                {
-                  "name": "cb"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_runEffects",
-              "parameters": [
-                {
-                  "name": "phase"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "runEffects"
-            },
-            {
-              "kind": "method",
-              "name": "runLayoutEffects"
-            },
-            {
-              "kind": "method",
-              "name": "teardown"
-            },
-            {
-              "kind": "field",
-              "name": "update",
-              "default": "update"
-            },
-            {
-              "kind": "field",
-              "name": "host",
-              "default": "new HauntedControllerHost(count, kick)"
-            },
-            {
-              "kind": "field",
-              "default": "[]",
-              "type": {
-                "text": "array"
-              }
-            }
-          ]
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "BaseScheduler",
-          "members": [
-            {
-              "kind": "method",
-              "name": "update"
-            },
-            {
-              "kind": "method",
-              "name": "handlePhase",
-              "parameters": [
-                {
-                  "name": "phase"
-                },
-                {
-                  "name": "arg"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "render"
-            },
-            {
-              "kind": "method",
-              "name": "runEffects",
-              "parameters": [
-                {
-                  "name": "phase"
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "teardown"
-            },
-            {
-              "kind": "field",
-              "name": "renderer",
-              "default": "renderer"
-            },
-            {
-              "kind": "field",
-              "name": "host",
-              "default": "new HauntedControllerHost(count, kick)"
-            },
-            {
-              "kind": "field",
-              "name": "state",
-              "default": "new State(this.update.bind(this), host)"
-            },
-            {
-              "kind": "field",
-              "type": {
-                "text": "null"
-              },
-              "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "_updateQueued",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false"
-            }
-          ]
-        },
-        {
-          "kind": "mixin",
-          "description": "",
-          "name": "createContext",
-          "parameters": [
-            {
-              "name": "renderer"
-            },
-            {
-              "name": "baseElementOrOptions"
-            },
-            {
-              "name": "options"
-            }
-          ],
-          "mixins": [
-            {
-              "name": "makeContext",
-              "module": "haunted.js"
-            }
-          ]
-        },
-        {
-          "kind": "class",
-          "description": "",
-          "name": "Hook",
-          "members": [
-            {
-              "kind": "field",
-              "name": "id",
-              "default": "id"
-            },
-            {
-              "kind": "field",
-              "name": "state",
-              "default": "state"
-            }
-          ]
-        },
-        {
-          "kind": "variable",
-          "name": "hook"
-        },
-        {
-          "kind": "function",
-          "name": "hook",
-          "parameters": [
-            {
-              "name": "Hook"
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "useEffect",
-          "parameters": [
-            {
-              "description": "callback function that runs each time dependencies change",
-              "name": "effect",
-              "type": {
-                "text": "() => void"
-              }
-            },
-            {
-              "description": "list of dependencies to the effect",
-              "name": "dependencies",
-              "optional": true,
-              "type": {
-                "text": "unknown[]"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "void"
-            }
-          }
-        },
-        {
-          "kind": "variable",
-          "name": "useContext"
-        },
-        {
-          "kind": "variable",
-          "name": "useMemo"
-        },
-        {
-          "kind": "function",
-          "name": "useCallback",
-          "parameters": [
-            {
-              "name": "fn"
-            },
-            {
-              "name": "inputs"
-            }
-          ]
-        },
-        {
-          "kind": "variable",
-          "name": "useLayoutEffect"
-        },
-        {
-          "kind": "function",
-          "name": "useState",
-          "parameters": [
-            {
-              "description": "Optional initial state",
-              "name": "initialState",
-              "optional": true,
-              "type": {
-                "text": "T"
-              }
-            }
-          ],
-          "return": {
-            "type": {
-              "text": "readonly [state: T, updaterFn: StateUpdater<T>]"
-            }
-          }
-        },
-        {
-          "kind": "function",
-          "name": "useController",
-          "parameters": [
-            {
-              "name": "createController",
-              "description": "A function that creates a controller instance. This\nfunction is given a HauntedControllerHost to pass to the controller. The\ncreate function is only called once per component."
-            }
-          ],
-          "description": "Creates and stores a stateful ReactiveController instance and provides it\nwith a ReactiveControllerHost that drives the controller lifecycle.\n\nUse this hook to convert a ReactiveController into a Haunted hook."
-        },
-        {
-          "kind": "variable",
-          "name": "useReducer"
-        },
-        {
-          "kind": "function",
-          "name": "useRef",
-          "parameters": [
-            {
-              "name": "initialValue"
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "haunted",
-          "parameters": [
-            {
-              "name": "{ render }"
-            }
-          ]
-        },
-        {
-          "kind": "function",
-          "name": "virtual",
-          "parameters": [
-            {
-              "name": "renderer"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "html",
-          "declaration": {
-            "name": "html",
-            "package": "https://unpkg.com/lit?module"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "render",
-          "declaration": {
-            "name": "render",
-            "package": "https://unpkg.com/lit?module"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "haunted",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "BaseScheduler",
-          "declaration": {
-            "name": "BaseScheduler",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Hook",
-          "declaration": {
-            "name": "Hook",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "State",
-          "declaration": {
-            "name": "State",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "component",
-          "declaration": {
-            "name": "component",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "createContext",
-          "declaration": {
-            "name": "createContext",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "hook",
-          "declaration": {
-            "name": "hook",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useCallback",
-          "declaration": {
-            "name": "useCallback",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useContext",
-          "declaration": {
-            "name": "useContext",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useController",
-          "declaration": {
-            "name": "useController",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useEffect",
-          "declaration": {
-            "name": "useEffect",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useLayoutEffect",
-          "declaration": {
-            "name": "useLayoutEffect",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useMemo",
-          "declaration": {
-            "name": "useMemo",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useReducer",
-          "declaration": {
-            "name": "useReducer",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useRef",
-          "declaration": {
-            "name": "useRef",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "useState",
-          "declaration": {
-            "name": "useState",
-            "module": "haunted.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "virtual",
-          "declaration": {
-            "name": "virtual",
-            "module": "haunted.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "core.js",
-      "declarations": [],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "*",
-          "declaration": {
-            "name": "*",
-            "package": "./lib/core.js"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "default",
-            "module": "./lib/core.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "lib/component.js",
       "declarations": [
         {
@@ -525,7 +55,7 @@
           "name": "useCallback",
           "declaration": {
             "name": "useCallback",
-            "module": "./use-callback.js"
+            "module": "./use-callback"
           }
         },
         {
@@ -533,7 +63,7 @@
           "name": "useController",
           "declaration": {
             "name": "useController",
-            "module": "./use-controller.js"
+            "module": "./use-controller"
           }
         },
         {
@@ -541,7 +71,7 @@
           "name": "useEffect",
           "declaration": {
             "name": "useEffect",
-            "module": "./use-effect.js"
+            "module": "./use-effect"
           }
         },
         {
@@ -549,7 +79,7 @@
           "name": "useLayoutEffect",
           "declaration": {
             "name": "useLayoutEffect",
-            "module": "./use-layout-effect.js"
+            "module": "./use-layout-effect"
           }
         },
         {
@@ -557,7 +87,7 @@
           "name": "useState",
           "declaration": {
             "name": "useState",
-            "module": "./use-state.js"
+            "module": "./use-state"
           }
         },
         {
@@ -565,7 +95,7 @@
           "name": "useReducer",
           "declaration": {
             "name": "useReducer",
-            "module": "./use-reducer.js"
+            "module": "./use-reducer"
           }
         },
         {
@@ -573,7 +103,7 @@
           "name": "useMemo",
           "declaration": {
             "name": "useMemo",
-            "module": "./use-memo.js"
+            "module": "./use-memo"
           }
         },
         {
@@ -581,7 +111,7 @@
           "name": "useContext",
           "declaration": {
             "name": "useContext",
-            "module": "./use-context.js"
+            "module": "./use-context"
           }
         },
         {
@@ -589,7 +119,7 @@
           "name": "useRef",
           "declaration": {
             "name": "useRef",
-            "module": "./use-ref.js"
+            "module": "./use-ref"
           }
         },
         {
@@ -597,7 +127,7 @@
           "name": "hook",
           "declaration": {
             "name": "hook",
-            "module": "./hook.js"
+            "module": "./hook"
           }
         },
         {
@@ -605,7 +135,7 @@
           "name": "Hook",
           "declaration": {
             "name": "Hook",
-            "module": "./hook.js"
+            "module": "./hook"
           }
         },
         {
@@ -613,7 +143,7 @@
           "name": "BaseScheduler",
           "declaration": {
             "name": "BaseScheduler",
-            "module": "./scheduler.js"
+            "module": "./scheduler"
           }
         },
         {
@@ -621,7 +151,7 @@
           "name": "State",
           "declaration": {
             "name": "State",
-            "module": "./state.js"
+            "module": "./state"
           }
         }
       ]
@@ -686,7 +216,7 @@
           "name": "html",
           "declaration": {
             "name": "html",
-            "module": "./lit-haunted.js"
+            "module": "./lit-haunted"
           }
         },
         {
@@ -694,7 +224,7 @@
           "name": "render",
           "declaration": {
             "name": "render",
-            "module": "./lit-haunted.js"
+            "module": "./lit-haunted"
           }
         },
         {
@@ -702,7 +232,7 @@
           "name": "component",
           "declaration": {
             "name": "component",
-            "module": "./lit-haunted.js"
+            "module": "./lit-haunted"
           }
         },
         {
@@ -710,7 +240,7 @@
           "name": "createContext",
           "declaration": {
             "name": "createContext",
-            "module": "./lit-haunted.js"
+            "module": "./lit-haunted"
           }
         },
         {
@@ -718,7 +248,7 @@
           "name": "virtual",
           "declaration": {
             "name": "virtual",
-            "module": "./lit-haunted.js"
+            "module": "./lit-haunted"
           }
         },
         {
@@ -726,7 +256,7 @@
           "name": "*",
           "declaration": {
             "name": "*",
-            "package": "./core.js"
+            "package": "./core"
           }
         },
         {
@@ -734,7 +264,7 @@
           "name": "default",
           "declaration": {
             "name": "default",
-            "module": "./core.js"
+            "module": "./core"
           }
         }
       ]

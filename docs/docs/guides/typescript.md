@@ -1,6 +1,6 @@
 # Guides >> TypeScript || 50
 
-Haunted is written in TypeScript and should work quite well with existing TS projects.
+pion is written in TypeScript and should work quite well with existing TS projects.
 
 There are some tricks to defining custom elements in strict type projects that can help.
 
@@ -63,7 +63,7 @@ customElements.define('my-app', component<HTMLElement & AppProps>(App, { observe
 
 ## Using custom elements dynamically
 
-There are circumstances where you might want to use TypeScript to modify your Haunted custom element property values. For instance:
+There are circumstances where you might want to use TypeScript to modify your pion custom element property values. For instance:
 
 ```js
 const profile = document.createElement('my-app');
