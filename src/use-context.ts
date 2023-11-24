@@ -1,15 +1,15 @@
-import { ChildPart } from 'lit';
-import { Context, ContextDetail } from './create-context';
-import { hook, Hook } from './hook';
-import { State } from './state';
-import { contextEvent } from './symbols';
-import { setEffects } from './use-effect';
+import { ChildPart } from "lit";
+import { Context, ContextDetail } from "./create-context";
+import { hook, Hook } from "./hook";
+import { State } from "./state";
+import { contextEvent } from "./symbols";
+import { setEffects } from "./use-effect";
 
 type Host = Element | ChildPart;
-const getEmitter = (host: Host)=>{
-  if(host instanceof Element) return host;
+const getEmitter = (host: Host) => {
+  if (host instanceof Element) return host;
   return host.startNode || host.endNode || host.parentNode;
-}
+};
 
 /**
  * @function
@@ -17,65 +17,69 @@ const getEmitter = (host: Host)=>{
  * @param    {Context<T>} context
  * @return   {T}
  */
-const useContext = hook(class<T> extends Hook<[Context<T>], T, Host> {
-  Context!: Context<T>;
-  value!: T;
-  _ranEffect: boolean;
-  _unsubscribe: VoidFunction | null;
+const useContext = hook(
+  class<T> extends Hook<[Context<T>], T, Host> {
+    Context!: Context<T>;
+    value!: T;
+    _ranEffect: boolean;
+    _unsubscribe: VoidFunction | null;
 
-  constructor(id: number, state: State<Host>, _: Context<T>) {
-    super(id, state);
-    this._updater = this._updater.bind(this);
-    this._ranEffect = false;
-    this._unsubscribe = null;
-    setEffects(state, this);
-  }
-
-  update(Context: Context<T>): T {
-    if (this.Context !== Context) {
-      this._subscribe(Context);
-      this.Context = Context;
+    constructor(id: number, state: State<Host>, _: Context<T>) {
+      super(id, state);
+      this._updater = this._updater.bind(this);
+      this._ranEffect = false;
+      this._unsubscribe = null;
+      setEffects(state, this);
     }
 
-    return this.value;
-  }
+    update(Context: Context<T>): T {
+      if (this.Context !== Context) {
+        this._subscribe(Context);
+        this.Context = Context;
+      }
 
-  call(): void {
-    if(!this._ranEffect) {
-      this._ranEffect = true;
-      if(this._unsubscribe) this._unsubscribe();
-      this._subscribe(this.Context);
+      return this.value;
+    }
+
+    call(): void {
+      if (!this._ranEffect) {
+        this._ranEffect = true;
+        if (this._unsubscribe) this._unsubscribe();
+        this._subscribe(this.Context);
+        this.state.update();
+      }
+    }
+
+    _updater(value: T): void {
+      this.value = value;
       this.state.update();
     }
-  }
 
-  _updater(value: T): void {
-    this.value = value;
-    this.state.update();
-  }
+    _subscribe(Context: Context<T>): void {
+      const detail = { Context, callback: this._updater };
+      const emitter = getEmitter(this.state.host);
+      emitter.dispatchEvent(
+        new CustomEvent(contextEvent, {
+          detail, // carrier
+          bubbles: true, // to bubble up in tree
+          cancelable: true, // to be able to cancel
+          composed: true, // to pass ShadowDOM boundaries
+        })
+      );
 
-  _subscribe(Context: Context<T>): void {
-    const detail = { Context, callback: this._updater };
-    const emitter = getEmitter(this.state.host);
-    emitter.dispatchEvent(new CustomEvent(contextEvent, {
-      detail, // carrier
-      bubbles: true, // to bubble up in tree
-      cancelable: true, // to be able to cancel
-      composed: true, // to pass ShadowDOM boundaries
-    }));
+      const { unsubscribe = null, value } = detail as ContextDetail<T>;
 
-    const { unsubscribe = null, value } = detail as ContextDetail<T>;
+      this.value = unsubscribe ? value : Context.defaultValue;
 
-    this.value = unsubscribe ? value : Context.defaultValue;
+      this._unsubscribe = unsubscribe;
+    }
 
-    this._unsubscribe = unsubscribe;
-  }
-
-  teardown(): void {
-    if (this._unsubscribe) {
-      this._unsubscribe();
+    teardown(): void {
+      if (this._unsubscribe) {
+        this._unsubscribe();
+      }
     }
   }
-});
+);
 
 export { useContext };

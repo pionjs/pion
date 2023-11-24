@@ -1,8 +1,13 @@
-import { directive, DirectiveParameters, ChildPart, PartInfo } from 'lit/directive.js';
-import { noChange } from 'lit';
-import { AsyncDirective } from 'lit/async-directive.js';
-import { GenericRenderer } from './core';
-import { BaseScheduler } from './scheduler';
+import {
+  directive,
+  DirectiveParameters,
+  ChildPart,
+  PartInfo,
+} from "lit/directive.js";
+import { noChange } from "lit";
+import { AsyncDirective } from "lit/async-directive.js";
+import { GenericRenderer } from "./core";
+import { BaseScheduler } from "./scheduler";
 
 const includes = Array.prototype.includes;
 
@@ -13,7 +18,12 @@ interface Renderer<T extends unknown[]> extends GenericRenderer<ChildPart> {
 const partToScheduler: WeakMap<ChildPart, Scheduler<any>> = new WeakMap();
 const schedulerToPart: WeakMap<Scheduler<any>, ChildPart> = new WeakMap();
 
-class Scheduler<T extends unknown[]> extends BaseScheduler<object, ChildPart, Renderer<T>, ChildPart> {
+class Scheduler<T extends unknown[]> extends BaseScheduler<
+  object,
+  ChildPart,
+  Renderer<T>,
+  ChildPart
+> {
   args!: T;
   setValue: Function;
 
@@ -38,18 +48,18 @@ class Scheduler<T extends unknown[]> extends BaseScheduler<object, ChildPart, Re
   }
 }
 
-interface VirtualRenderer <T extends unknown[]>{
-  (this: ChildPart, ...args: T): unknown | void
+interface VirtualRenderer<T extends unknown[]> {
+  (this: ChildPart, ...args: T): unknown | void;
 }
 export interface Virtual {
-  <T extends unknown[]>(renderer: VirtualRenderer<T>): ((...values: T) => unknown)
+  <T extends unknown[]>(renderer: VirtualRenderer<T>): (
+    ...values: T
+  ) => unknown;
 }
 
-function makeVirtual() : Virtual{
-
+function makeVirtual(): Virtual {
   function virtual<T extends unknown[]>(renderer: VirtualRenderer<T>) {
     class VirtualDirective extends AsyncDirective {
-
       cont: Scheduler<T> | undefined;
 
       constructor(partInfo: PartInfo) {
@@ -60,7 +70,13 @@ function makeVirtual() : Virtual{
       update(part: ChildPart, args: DirectiveParameters<this>) {
         this.cont = partToScheduler.get(part);
         if (!this.cont || this.cont.renderer !== renderer) {
-          this.cont = new Scheduler(renderer as Renderer<T>, part, (r: unknown) => {this.setValue(r)});
+          this.cont = new Scheduler(
+            renderer as Renderer<T>,
+            part,
+            (r: unknown) => {
+              this.setValue(r);
+            }
+          );
           partToScheduler.set(part, this.cont);
           schedulerToPart.set(this.cont, part);
           teardownOnRemove(this.cont, part);
@@ -81,20 +97,24 @@ function makeVirtual() : Virtual{
   return virtual;
 }
 
-function teardownOnRemove<T extends unknown[]>(cont: BaseScheduler<object, ChildPart, Renderer<T>, ChildPart>, part: ChildPart, node = part.startNode): void {
+function teardownOnRemove<T extends unknown[]>(
+  cont: BaseScheduler<object, ChildPart, Renderer<T>, ChildPart>,
+  part: ChildPart,
+  node = part.startNode
+): void {
   let frag = node!.parentNode!;
-  let mo = new MutationObserver(mutations => {
-    for(let mutation of mutations) {
-      if(includes.call(mutation.removedNodes, node)) {
+  let mo = new MutationObserver((mutations) => {
+    for (let mutation of mutations) {
+      if (includes.call(mutation.removedNodes, node)) {
         mo.disconnect();
 
-        if(node!.parentNode instanceof ShadowRoot) {
+        if (node!.parentNode instanceof ShadowRoot) {
           teardownOnRemove(cont, part);
         } else {
           cont.teardown();
         }
         break;
-      } else if(includes.call(mutation.addedNodes, node!.nextSibling)) {
+      } else if (includes.call(mutation.addedNodes, node!.nextSibling)) {
         mo.disconnect();
         teardownOnRemove(cont, part, node!.nextSibling || undefined);
         break;
