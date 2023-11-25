@@ -1,5 +1,11 @@
 # pion
 
+## 1.3.0
+
+### Minor Changes
+
+- be7f9ee: Infer `virtual` type definition from renderer arguments.
+
 ## 1.2.0
 
 ### Minor Changes
