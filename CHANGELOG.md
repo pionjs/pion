@@ -1,5 +1,11 @@
 # pion
 
+## 1.4.0
+
+### Minor Changes
+
+- 373b46e: Upgrade to lit 3
+
 ## 1.3.0
 
 ### Minor Changes
