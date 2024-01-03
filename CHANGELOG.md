@@ -1,5 +1,11 @@
 # pion
 
+## 1.5.0
+
+### Minor Changes
+
+- bfa5997: Update lit-html typings to 2.x
+
 ## 1.4.0
 
 ### Minor Changes
