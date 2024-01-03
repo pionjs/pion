@@ -31,6 +31,7 @@ interface Options<P> {
   observedAttributes?: (keyof P)[];
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
+  styleSheets?: CSSStyleSheet[];
 }
 
 function makeComponent(render: RenderFunction): Creator {
@@ -84,6 +85,7 @@ function makeComponent(render: RenderFunction): Creator {
       observedAttributes = [],
       useShadowDOM = true,
       shadowRootInit = {},
+      styleSheets,
     } = options || (baseElementOrOptions as Options<P>) || {};
 
     class Element extends BaseElement {
@@ -98,8 +100,13 @@ function makeComponent(render: RenderFunction): Creator {
         if (useShadowDOM === false) {
           this._scheduler = new Scheduler(renderer, this);
         } else {
-          this.attachShadow({ mode: "open", ...shadowRootInit });
-          this._scheduler = new Scheduler(renderer, this.shadowRoot!, this);
+          const shadowRoot = this.attachShadow({
+            mode: "open",
+            ...shadowRootInit,
+          });
+          if (styleSheets)
+            shadowRoot.adoptedStyleSheets = styleSheets;
+          this._scheduler = new Scheduler(renderer, shadowRoot, this);
         }
       }
 
