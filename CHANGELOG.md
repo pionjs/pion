@@ -1,5 +1,11 @@
 # pion
 
+## 1.6.0
+
+### Minor Changes
+
+- c7fa104: Add adoptedStyleSheets support
+
 ## 1.5.0
 
 ### Minor Changes
