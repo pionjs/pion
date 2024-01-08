@@ -42,7 +42,6 @@ Currently pion supports the following hooks:
 
 - [useCallback](https://pionjs.com/docs/hooks/useCallback/)
 - [useContext](https://pionjs.com/docs/hooks/useContext/)
-- [useController](https://pionjs.com/docs/hooks/useController/)
 - [useEffect](https://pionjs.com/docs/hooks/useEffect/)
 - [useLayoutEffect](https://pionjs.com/docs/hooks/useLayoutEffect/)
 - [useMemo](https://pionjs.com/docs/hooks/useMemo/)

@@ -6,7 +6,6 @@ Currently pion supports the following hooks:
 
 - [useCallback](./useCallback/)
 - [useContext](./useContext/)
-- [useController](./useController/)
 - [useEffect](./useEffect/)
 - [useLayoutEffect](./useLayoutEffect/)
 - [useMemo](./useMemo/)
