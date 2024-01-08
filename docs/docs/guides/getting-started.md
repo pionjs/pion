@@ -47,7 +47,6 @@ import {
   useLayoutEffect,
   useReducer,
   useRef,
-  useController,
   useContext
 } from '@pionjs/pion';
 ```

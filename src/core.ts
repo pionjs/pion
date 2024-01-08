@@ -1,6 +1,6 @@
 import { makeComponent, ComponentCreator } from "./component";
 import { makeContext, ContextCreator } from "./create-context";
-import { ChildPart } from "lit/html";
+import { ChildPart } from "lit-html";
 
 type Component<P> = HTMLElement & P;
 
@@ -40,7 +40,6 @@ export {
   ComponentOrVirtualComponent,
 };
 export { useCallback } from "./use-callback";
-export { useController } from "./use-controller";
 export { useEffect } from "./use-effect";
 export { useLayoutEffect } from "./use-layout-effect";
 export { useState } from "./use-state";

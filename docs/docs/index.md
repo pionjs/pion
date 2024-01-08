@@ -15,7 +15,6 @@
 
 - [useCallback](./hooks/useCallback/)
 - [useContext](./hooks/useContext/)
-- [useController](./hooks/useController/)
 - [useEffect](./hooks/useEffect/)
 - [useLayoutEffect](./hooks/useLayoutEffect/)
 - [useMemo](./hooks/useMemo/)

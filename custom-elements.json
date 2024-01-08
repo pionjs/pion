@@ -60,14 +60,6 @@
         },
         {
           "kind": "js",
-          "name": "useController",
-          "declaration": {
-            "name": "useController",
-            "module": "./use-controller"
-          }
-        },
-        {
-          "kind": "js",
           "name": "useEffect",
           "declaration": {
             "name": "useEffect",

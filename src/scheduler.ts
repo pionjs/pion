@@ -9,7 +9,7 @@ import {
   EffectsSymbols,
 } from "./symbols";
 import { GenericRenderer, ComponentOrVirtualComponent } from "./core";
-import { ChildPart } from "lit/html";
+import { ChildPart } from "lit-html";
 
 const defer = Promise.resolve().then.bind(Promise.resolve());
 
