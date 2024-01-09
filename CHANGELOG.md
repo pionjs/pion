@@ -1,5 +1,11 @@
 # pion
 
+## 2.0.0
+
+### Major Changes
+
+- ac196c3: Remove useController and lit dependency.
+
 ## 1.6.0
 
 ### Minor Changes
