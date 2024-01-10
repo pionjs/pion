@@ -1,6 +1,6 @@
 {
   "name": "@pionjs/pion",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Hooks for web components",
   "main": "lib/haunted.js",
   "module": "lib/haunted.js",
