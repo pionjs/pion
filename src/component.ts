@@ -4,9 +4,19 @@ import { BaseScheduler } from "./scheduler";
 const toCamelCase = (val = ""): string =>
   val.replace(/-+([a-z])?/g, (_, char) => (char ? char.toUpperCase() : ""));
 
+type KebabCase<S> = S extends `${infer C}${infer T}`
+  ? KebabCase<T> extends infer U
+    ? U extends string
+      ? T extends Uncapitalize<T>
+        ? `${Uncapitalize<C>}${U}`
+        : `${Uncapitalize<C>}-${U}`
+      : never
+    : never
+  : S;
+
 interface Renderer<P extends object> extends GenericRenderer<HTMLElement, P> {
   (this: Component<P>, host: Component<P>): unknown | void;
-  observedAttributes?: (keyof P)[];
+  observedAttributes?: KebabCase<keyof P>[];
 }
 
 type Component<P extends object> = HTMLElement & P;
@@ -28,7 +38,7 @@ interface Creator {
 
 interface Options<P> {
   baseElement?: Constructor<{}>;
-  observedAttributes?: (keyof P)[];
+  observedAttributes?: KebabCase<keyof P>[];
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
   styleSheets?: CSSStyleSheet[];
@@ -91,7 +101,7 @@ function makeComponent(render: RenderFunction): Creator {
     class Element extends BaseElement {
       _scheduler: Scheduler<P>;
 
-      static get observedAttributes(): (keyof P)[] {
+      static get observedAttributes(): KebabCase<keyof P>[] {
         return renderer.observedAttributes || observedAttributes || [];
       }
 
@@ -104,8 +114,7 @@ function makeComponent(render: RenderFunction): Creator {
             mode: "open",
             ...shadowRootInit,
           });
-          if (styleSheets)
-            shadowRoot.adoptedStyleSheets = styleSheets;
+          if (styleSheets) shadowRoot.adoptedStyleSheets = styleSheets;
           this._scheduler = new Scheduler(renderer, shadowRoot, this);
         }
       }
