@@ -1,5 +1,12 @@
 # pion
 
+## 2.1.0
+
+### Minor Changes
+
+- 9e28314: `observedAttributes` should allow kebab-case properties.
+  For example if there is a property called `myProp` allow setting `observedAttributes` to `['my-prop']`;
+
 ## 2.0.0
 
 ### Major Changes
