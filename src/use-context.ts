@@ -1,4 +1,4 @@
-import { ChildPart } from "lit";
+import { ChildPart } from "lit-html";
 import { Context, ContextDetail } from "./create-context";
 import { hook, Hook } from "./hook";
 import { State } from "./state";
