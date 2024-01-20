@@ -1,4 +1,4 @@
-import { html, render } from "lit";
+import { html, render } from "lit-html";
 import pion from "./core";
 import { makeVirtual } from "./virtual";
 
