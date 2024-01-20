@@ -1,5 +1,11 @@
 # pion
 
+## 2.2.0
+
+### Minor Changes
+
+- fba5448: Replace lit imports with lit-html imports
+
 ## 2.1.0
 
 ### Minor Changes
