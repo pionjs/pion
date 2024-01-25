@@ -1,5 +1,11 @@
 # pion
 
+## 2.3.0
+
+### Minor Changes
+
+- 4133b6b: Allow omitting initialValue from useRef.
+
 ## 2.2.0
 
 ### Minor Changes
