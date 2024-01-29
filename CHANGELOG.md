@@ -1,5 +1,11 @@
 # pion
 
+## 2.4.0
+
+### Minor Changes
+
+- 256e638: export Ref type
+
 ## 2.3.0
 
 ### Minor Changes
