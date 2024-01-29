@@ -50,3 +50,5 @@ export { useRef } from "./use-ref";
 export { hook, Hook } from "./hook";
 export { BaseScheduler } from "./scheduler";
 export { State } from "./state";
+
+export type { Ref } from "./use-ref";
