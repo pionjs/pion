@@ -1,5 +1,11 @@
 # pion
 
+## 2.5.0
+
+### Minor Changes
+
+- d03fc57: Export type `Options` from component as `ComponentOptions`.
+
 ## 2.4.0
 
 ### Minor Changes
