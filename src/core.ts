@@ -1,10 +1,6 @@
-import {
-  makeComponent,
-  ComponentCreator,
-  Options as ComponentOptions,
-} from "./component";
-import { makeContext, ContextCreator } from "./create-context";
 import { ChildPart } from "lit-html";
+import { makeComponent, ComponentCreator } from "./component";
+import { makeContext, ContextCreator } from "./create-context";
 
 type Component<P> = HTMLElement & P;
 
@@ -42,7 +38,6 @@ export {
   GenericRenderer,
   RenderFunction,
   ComponentOrVirtualComponent,
-  ComponentOptions,
 };
 export { useCallback } from "./use-callback";
 export { useEffect } from "./use-effect";
@@ -57,3 +52,4 @@ export { BaseScheduler } from "./scheduler";
 export { State } from "./state";
 
 export type { Ref } from "./use-ref";
+export type { Options as ComponentOptions } from "./component";
