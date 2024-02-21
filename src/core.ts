@@ -1,4 +1,8 @@
-import { makeComponent, ComponentCreator } from "./component";
+import {
+  makeComponent,
+  ComponentCreator,
+  Options as ComponentOptions,
+} from "./component";
 import { makeContext, ContextCreator } from "./create-context";
 import { ChildPart } from "lit-html";
 
@@ -38,6 +42,7 @@ export {
   GenericRenderer,
   RenderFunction,
   ComponentOrVirtualComponent,
+  ComponentOptions,
 };
 export { useCallback } from "./use-callback";
 export { useEffect } from "./use-effect";
