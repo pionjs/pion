@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/dt/@pionjs/pion)](https://npm.im/@pionjs/pion)
 [![npm](https://img.shields.io/npm/v/@pionjs/pion)](https://npm.im/@pionjs/pion)
+![coverage](https://api.codelyze.com/v1/projects/badge/clb_880e4a45e784d25b8115b2111d5cf157?r=1)
 
 React's Hooks API but for standard web components and [lit-html](https://lit-html.polymer-project.org/) or [hyperHTML](https://codepen.io/WebReflection/pen/pxXrdy?editors=0010).
 Forked from [haunted](https://github.com/matthewp/haunted).
