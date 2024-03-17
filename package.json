@@ -11,8 +11,8 @@
     "changeset": "changeset",
     "analyze": "tsc; cem analyze",
     "preversion": "tsc",
-    "test": "web-test-runner \"test/**/*.test.ts\" --node-resolve",
-    "test:watch": "web-test-runner test/**/*.test.ts --node-resolve --watch",
+    "test": "web-test-runner \"test/**/*.test.ts\" --coverage",
+    "test:watch": "web-test-runner test/**/*.test.ts --watch",
     "start": "rocket start",
     "docs": "rocket build"
   },
