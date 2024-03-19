@@ -1,5 +1,11 @@
 # pion
 
+## 2.5.1
+
+### Patch Changes
+
+- 767a24e: Fixed a bug in which [lit directives are never cleaned up properly](https://github.com/pionjs/pion/issues/17).
+
 ## 2.5.0
 
 ### Minor Changes
