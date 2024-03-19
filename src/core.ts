@@ -13,10 +13,13 @@ type GenericRenderer<
   T extends HTMLElement | ChildPart,
   P extends object = {}
 > = (this: ComponentOrVirtualComponent<T, P>, ...args: any[]) => unknown | void;
+type RenderResult = {
+  setConnected: (isConnected: boolean) => void;
+};
 type RenderFunction = (
   result: unknown,
   container: DocumentFragment | HTMLElement
-) => void;
+) => RenderResult;
 
 interface Options {
   render: RenderFunction;
@@ -37,6 +40,7 @@ export {
   Options,
   GenericRenderer,
   RenderFunction,
+  RenderResult,
   ComponentOrVirtualComponent,
 };
 export { useCallback } from "./use-callback";
