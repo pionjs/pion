@@ -1,4 +1,4 @@
-import { GenericRenderer, RenderFunction } from "./core";
+import { GenericRenderer, RenderFunction, RenderResult } from "./core";
 import { BaseScheduler } from "./scheduler";
 
 const toCamelCase = (val = ""): string =>
@@ -52,6 +52,7 @@ function makeComponent(render: RenderFunction): Creator {
     Component<P>
   > {
     frag: DocumentFragment | HTMLElement;
+    renderResult?: RenderResult;
 
     constructor(
       renderer: Renderer<P>,
@@ -69,7 +70,7 @@ function makeComponent(render: RenderFunction): Creator {
     }
 
     commit(result: unknown): void {
-      render(result, this.frag);
+      this.renderResult = render(result, this.frag);
     }
   }
 
@@ -121,10 +122,12 @@ function makeComponent(render: RenderFunction): Creator {
 
       connectedCallback(): void {
         this._scheduler.update();
+        this._scheduler.renderResult?.setConnected(true);
       }
 
       disconnectedCallback(): void {
         this._scheduler.teardown();
+        this._scheduler.renderResult?.setConnected(false);
       }
 
       attributeChangedCallback(

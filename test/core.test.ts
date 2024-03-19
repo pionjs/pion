@@ -11,7 +11,7 @@ describe("haunted/core", () => {
 
       const { component } = pion({
         render(what, where) {
-          render(what, where);
+          return render(what, where);
         },
       });
 
@@ -25,7 +25,7 @@ describe("haunted/core", () => {
         html`<custom-haunted-test></custom-haunted-test>`
       );
 
-      expect(el.shadowRoot.textContent).to.equal("Test-Matthew");
+      expect(el.shadowRoot!.textContent).to.equal("Test-Matthew");
     });
   });
 });
