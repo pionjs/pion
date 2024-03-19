@@ -2,4 +2,4 @@
 "@pionjs/pion": patch
 ---
 
-Better integrate with lit-html to properly call directive callbacks
+Fixed a bug in which [lit directives are never cleaned up properly](https://github.com/pionjs/pion/issues/17). 
