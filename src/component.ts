@@ -13,10 +13,11 @@ type KebabCase<S> = S extends `${infer C}${infer T}`
       : never
     : never
   : S;
+type Atts<P> = readonly KebabCase<keyof P>[];
 
 interface Renderer<P extends object> extends GenericRenderer<HTMLElement, P> {
   (this: Component<P>, host: Component<P>): unknown | void;
-  observedAttributes?: KebabCase<keyof P>[];
+  observedAttributes?: Atts<P>;
 }
 
 type Component<P extends object> = HTMLElement & P;
@@ -38,7 +39,7 @@ interface Creator {
 
 export interface Options<P> {
   baseElement?: Constructor<{}>;
-  observedAttributes?: KebabCase<keyof P>[];
+  observedAttributes?: Atts<P>;
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
   styleSheets?: CSSStyleSheet[];
@@ -102,7 +103,7 @@ function makeComponent(render: RenderFunction): Creator {
     class Element extends BaseElement {
       _scheduler: Scheduler<P>;
 
-      static get observedAttributes(): KebabCase<keyof P>[] {
+      static get observedAttributes(): Atts<P> {
         return renderer.observedAttributes || observedAttributes || [];
       }
 
