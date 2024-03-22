@@ -1,5 +1,11 @@
 # pion
 
+## 2.5.2
+
+### Patch Changes
+
+- fe795f5: `observedAttributes` can be readonly
+
 ## 2.5.1
 
 ### Patch Changes
