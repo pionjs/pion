@@ -37,7 +37,7 @@
   "typings": "lib/haunted.d.ts",
   "devDependencies": {
     "@changesets/cli": "^2.16.0",
-    "@custom-elements-manifest/analyzer": "^0.5.7",
+    "@custom-elements-manifest/analyzer": "^0.9.4",
     "@matthewp/compile": "^3.0.0",
     "@open-wc/testing": "^4.0.0",
     "@polymer/polymer": "^3.5.1",
@@ -47,7 +47,6 @@
     "@types/mocha": "^10.0.0",
     "@web/dev-server-esbuild": "^1.0.0",
     "@web/test-runner": "^0.18.0",
-    "cem-plugin-jsdoc-function": "^0.0.5",
     "eleventy-plugin-helmet": "^0.2.2",
     "rocket-preset-code-tabs": "^0.2.4",
     "rocket-preset-custom-elements-manifest": "^0.1.7",
@@ -57,5 +56,9 @@
   },
   "dependencies": {
     "lit-html": "^2.0.0 || ^3.0.0"
+  },
+  "overrides": {
+    "ramda": "^0.29.1",
+    "@types/ramda": "^0.29.1"
   }
 }

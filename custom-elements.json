@@ -55,7 +55,7 @@
           "name": "useCallback",
           "declaration": {
             "name": "useCallback",
-            "module": "./use-callback"
+            "module": "\"./use-callback\""
           }
         },
         {
@@ -63,7 +63,7 @@
           "name": "useEffect",
           "declaration": {
             "name": "useEffect",
-            "module": "./use-effect"
+            "module": "\"./use-effect\""
           }
         },
         {
@@ -71,7 +71,7 @@
           "name": "useLayoutEffect",
           "declaration": {
             "name": "useLayoutEffect",
-            "module": "./use-layout-effect"
+            "module": "\"./use-layout-effect\""
           }
         },
         {
@@ -79,7 +79,7 @@
           "name": "useState",
           "declaration": {
             "name": "useState",
-            "module": "./use-state"
+            "module": "\"./use-state\""
           }
         },
         {
@@ -87,7 +87,7 @@
           "name": "useReducer",
           "declaration": {
             "name": "useReducer",
-            "module": "./use-reducer"
+            "module": "\"./use-reducer\""
           }
         },
         {
@@ -95,7 +95,7 @@
           "name": "useMemo",
           "declaration": {
             "name": "useMemo",
-            "module": "./use-memo"
+            "module": "\"./use-memo\""
           }
         },
         {
@@ -103,7 +103,7 @@
           "name": "useContext",
           "declaration": {
             "name": "useContext",
-            "module": "./use-context"
+            "module": "\"./use-context\""
           }
         },
         {
@@ -111,7 +111,7 @@
           "name": "useRef",
           "declaration": {
             "name": "useRef",
-            "module": "./use-ref"
+            "module": "\"./use-ref\""
           }
         },
         {
@@ -119,7 +119,7 @@
           "name": "hook",
           "declaration": {
             "name": "hook",
-            "module": "./hook"
+            "module": "\"./hook\""
           }
         },
         {
@@ -127,7 +127,7 @@
           "name": "Hook",
           "declaration": {
             "name": "Hook",
-            "module": "./hook"
+            "module": "\"./hook\""
           }
         },
         {
@@ -135,7 +135,7 @@
           "name": "BaseScheduler",
           "declaration": {
             "name": "BaseScheduler",
-            "module": "./scheduler"
+            "module": "\"./scheduler\""
           }
         },
         {
@@ -143,7 +143,7 @@
           "name": "State",
           "declaration": {
             "name": "State",
-            "module": "./state"
+            "module": "\"./state\""
           }
         }
       ]
@@ -208,7 +208,7 @@
           "name": "html",
           "declaration": {
             "name": "html",
-            "module": "./lit-haunted"
+            "module": "\"./lit-haunted\""
           }
         },
         {
@@ -216,7 +216,7 @@
           "name": "render",
           "declaration": {
             "name": "render",
-            "module": "./lit-haunted"
+            "module": "\"./lit-haunted\""
           }
         },
         {
@@ -224,7 +224,7 @@
           "name": "component",
           "declaration": {
             "name": "component",
-            "module": "./lit-haunted"
+            "module": "\"./lit-haunted\""
           }
         },
         {
@@ -232,7 +232,7 @@
           "name": "createContext",
           "declaration": {
             "name": "createContext",
-            "module": "./lit-haunted"
+            "module": "\"./lit-haunted\""
           }
         },
         {
@@ -240,7 +240,7 @@
           "name": "virtual",
           "declaration": {
             "name": "virtual",
-            "module": "./lit-haunted"
+            "module": "\"./lit-haunted\""
           }
         },
         {
@@ -248,7 +248,7 @@
           "name": "*",
           "declaration": {
             "name": "*",
-            "package": "./core"
+            "package": "\"./core\""
           }
         },
         {
@@ -256,7 +256,7 @@
           "name": "default",
           "declaration": {
             "name": "default",
-            "module": "./core"
+            "module": "\"./core\""
           }
         }
       ]
@@ -638,7 +638,7 @@
           "type": {
             "text": "string"
           },
-          "default": "'haunted.context'"
+          "default": "\"haunted.context\""
         }
       ],
       "exports": [
@@ -1013,17 +1013,9 @@
           "name": "useRef",
           "parameters": [
             {
-              "name": "initialValue",
-              "type": {
-                "text": "T"
-              }
+              "name": "initialValue"
             }
-          ],
-          "return": {
-            "type": {
-              "text": "{ current: T }"
-            }
-          }
+          ]
         }
       ],
       "exports": [
