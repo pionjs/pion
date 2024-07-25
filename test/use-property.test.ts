@@ -3,8 +3,10 @@ import {
   component,
   html,
   lift,
+  render,
   useProperty,
   useState,
+  virtual,
 } from "../src/haunted.js";
 import { fixture, expect, nextFrame } from "@open-wc/testing";
 import { PolymerElement, html as polymerHtml } from "@polymer/polymer";
@@ -29,10 +31,10 @@ describe("useProperty", () => {
     let span = el.shadowRoot?.firstElementChild;
     expect(span?.textContent).to.equal("8");
 
-    setter(33);
+    setter((value) => value * 2);
 
     await nextFrame();
-    expect(span?.textContent).to.equal("33");
+    expect(span?.textContent).to.equal("16");
   });
 
   it("can override the initial value", async () => {
@@ -70,7 +72,7 @@ describe("useProperty", () => {
 
     customElements.define(tag, component(App));
 
-    const el = await fixture<HTMLElement>(
+    await fixture<HTMLElement>(
       html`<use-property-notify-change
         @age-changed=${spy}
       ></use-property-notify-change>`
@@ -86,6 +88,10 @@ describe("useProperty", () => {
     expect(spy).to.have.been.calledWithMatch({
       detail: { value: 20 },
     });
+
+    // does not notify if the same value is already set
+    setter(20);
+    expect(spy).to.have.been.calledTwice;
   });
 
   it("does not notify when the initial value is undefined", async () => {
@@ -227,5 +233,19 @@ describe("useProperty", () => {
     await nextFrame();
     expect(parentSpan?.textContent).to.equal("3");
     expect(childSpan?.textContent).to.equal("3");
+  });
+
+  it("cannot be used in virtual components", async () => {
+    const spy = Sinon.spy();
+    function App() {
+      let [age, setAge] = useProperty("age", () => 8);
+      spy();
+      return html`<span>${age}</span>`;
+    }
+
+    const vApp = virtual(App);
+    const el = document.createElement("div");
+    render(vApp(), el);
+    expect(spy).to.not.have.been.calledOnce;
   });
 });
