@@ -23,6 +23,11 @@ export const useProperty = hook(
       initialValue: NewState<T>
     ) {
       super(id, state);
+
+      if (this.state.virtual) {
+        throw new Error("Can't be used with virtual components.");
+      }
+
       this.updater = this.updater.bind(this);
       this.property = property;
       this.eventName =
@@ -42,10 +47,6 @@ export const useProperty = hook(
     }
 
     update(ignored: string, ignored2: T): [T, StateUpdater<T>] {
-      if (this.state.virtual) {
-        throw new Error("Can't be used with virtual components.");
-      }
-
       return [this.state.host[this.property], this.updater];
     }
 
