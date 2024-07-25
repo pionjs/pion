@@ -1,5 +1,11 @@
 # pion
 
+## 2.6.0
+
+### Minor Changes
+
+- bba4d67: Add useProperty hook
+
 ## 2.5.2
 
 ### Patch Changes
