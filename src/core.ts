@@ -58,3 +58,11 @@ export { State } from "./state";
 
 export type { Ref } from "./use-ref";
 export type { Options as ComponentOptions } from "./component";
+
+export type {
+  StateUpdater,
+  InitialState,
+  NewState,
+  StateTuple,
+  UseState,
+} from "./use-state.ts";
