@@ -1,18 +1,27 @@
 import { hook, Hook } from "./hook";
 import { State } from "./state";
+import type {
+  InitialState,
+  NewState,
+  StateUpdater,
+  StateTuple,
+} from "./use-state";
 
 type Host<T> = Element & { [key: string]: T };
-type NewState<T> = T | ((previousState?: T) => T);
-type StateUpdater<T> = (value: NewState<T>) => void;
 type ChangeEvent<T> = {
   value: T;
   path: string;
 };
 
+export interface UseProperty {
+  <T>(property: string): StateTuple<T | undefined>;
+  <T>(property: string, value?: InitialState<T>): StateTuple<T>;
+}
+
 const UPPER = /([A-Z])/gu;
 
 export const useProperty = hook(
-  class<T> extends Hook<[string, T], [T, StateUpdater<T>], Host<T>> {
+  class<T> extends Hook<[string, T], StateTuple<T>, Host<T>> {
     property: string;
     eventName: string;
 
@@ -20,7 +29,7 @@ export const useProperty = hook(
       id: number,
       state: State<Host<T>>,
       property: string,
-      initialValue: NewState<T>
+      initialValue: InitialState<T>
     ) {
       super(id, state);
 
@@ -46,7 +55,7 @@ export const useProperty = hook(
       this.updateProp(initialValue);
     }
 
-    update(ignored: string, ignored2: T): [T, StateUpdater<T>] {
+    update(ignored: string, ignored2: T): StateTuple<T> {
       return [this.state.host[this.property], this.updater];
     }
 
@@ -54,7 +63,7 @@ export const useProperty = hook(
       const previousValue = this.state.host[this.property];
 
       if (typeof value === "function") {
-        const updaterFn = value as (previousState?: T) => T;
+        const updaterFn = value as (previousState: T) => T;
         value = updaterFn(previousValue);
       }
 
@@ -80,16 +89,10 @@ export const useProperty = hook(
       return ev;
     }
   }
-) as <T>(
-  property: string,
-  initialValue?: T
-) => readonly [
-  T extends (...args: any[]) => infer R ? R : T,
-  StateUpdater<T extends (...args: any[]) => infer S ? S : T>
-];
+) as UseProperty;
 
 export const lift =
-  <T>(setter: (value: T) => void) =>
+  <T>(setter: StateUpdater<T>) =>
   (ev: CustomEvent<ChangeEvent<T>>) => {
     ev.preventDefault();
     setter(ev.detail.value);

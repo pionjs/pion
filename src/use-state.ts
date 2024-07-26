@@ -24,11 +24,13 @@ const useState = hook(
     constructor(id: number, state: State, initialValue: InitialState<T>) {
       super(id, state);
       this.updater = this.updater.bind(this);
-      const initial =
-        typeof initialValue === "function"
-          ? (initialValue as () => T)()
-          : initialValue;
-      this.makeArgs(initial);
+
+      if (typeof initialValue === "function") {
+        const initFn = initialValue as () => T;
+        initialValue = initFn();
+      }
+
+      this.makeArgs(initialValue);
     }
 
     update(): StateTuple<T> {
