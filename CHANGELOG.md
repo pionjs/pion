@@ -1,5 +1,17 @@
 # pion
 
+## 2.7.0
+
+### Minor Changes
+
+- f788452: Add stylesheet related util
+
+  Exports `css`, `tagged`, `sheet`, `sheets` helpers to ease the usage of css.
+  Additionally the `styleSheets` param accepts string and converts it `CSSStyleSheet` via a call to sheets.
+
+- 1a3a87e: Improve the type definition of useState and useProperty adding better support for initial values
+  and return better defined state updaters.
+
 ## 2.6.0
 
 ### Minor Changes
