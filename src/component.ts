@@ -1,5 +1,6 @@
 import { GenericRenderer, RenderFunction, RenderResult } from "./core";
 import { BaseScheduler } from "./scheduler";
+import { sheets } from "./util";
 
 const toCamelCase = (val = ""): string =>
   val.replace(/-+([a-z])?/g, (_, char) => (char ? char.toUpperCase() : ""));
@@ -42,7 +43,7 @@ export interface Options<P> {
   observedAttributes?: Atts<P>;
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
-  styleSheets?: CSSStyleSheet[];
+  styleSheets?: (CSSStyleSheet | string)[];
 }
 
 function makeComponent(render: RenderFunction): Creator {
@@ -116,7 +117,7 @@ function makeComponent(render: RenderFunction): Creator {
             mode: "open",
             ...shadowRootInit,
           });
-          if (styleSheets) shadowRoot.adoptedStyleSheets = styleSheets;
+          if (styleSheets) shadowRoot.adoptedStyleSheets = sheets(styleSheets);
           this._scheduler = new Scheduler(renderer, shadowRoot, this);
         }
       }
