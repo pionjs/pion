@@ -46,7 +46,7 @@ export {
 export { useCallback } from "./use-callback";
 export { useEffect } from "./use-effect";
 export { useLayoutEffect } from "./use-layout-effect";
-export { useState, StateUpdater } from "./use-state";
+export { useState } from "./use-state";
 export { useReducer } from "./use-reducer";
 export { useMemo } from "./use-memo";
 export { useContext } from "./use-context";
@@ -58,3 +58,5 @@ export { State } from "./state";
 
 export type { Ref } from "./use-ref";
 export type { Options as ComponentOptions } from "./component";
+
+export type { StateUpdater } from "./use-state";
