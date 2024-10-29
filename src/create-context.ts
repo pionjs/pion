@@ -34,6 +34,9 @@ function makeContext(component: ComponentCreator): Creator {
 
         constructor() {
           super();
+
+          this.style.display = "contents";
+
           this.listeners = new Set();
 
           this.addEventListener(contextEvent, this);
