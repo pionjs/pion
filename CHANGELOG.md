@@ -1,5 +1,11 @@
 # pion
 
+## 2.7.1
+
+### Patch Changes
+
+- c5409e8: Make context providers transparent to the layout
+
 ## 2.7.0
 
 ### Minor Changes
