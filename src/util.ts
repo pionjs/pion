@@ -4,8 +4,8 @@ export const sheet = (...styles: string[]) => {
   return cs;
 };
 
-export const sheets = (styleSheets: (string | CSSStyleSheet)[]) =>
-  styleSheets.map((style) => {
+export const sheets = (styleSheets?: (string | CSSStyleSheet)[]) =>
+  styleSheets?.map((style) => {
     if (typeof style === "string") return sheet(style);
     return style;
   });
