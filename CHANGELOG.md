@@ -1,5 +1,11 @@
 # pion
 
+## 2.8.0
+
+### Minor Changes
+
+- 3bcf1ba: Improve `styleSheets` support.
+
 ## 2.7.1
 
 ### Patch Changes
