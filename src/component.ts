@@ -19,6 +19,7 @@ type Atts<P> = readonly KebabCase<keyof P>[];
 interface Renderer<P extends object> extends GenericRenderer<HTMLElement, P> {
   (this: Component<P>, host: Component<P>): unknown | void;
   observedAttributes?: Atts<P>;
+  styleSheets?: (CSSStyleSheet | string)[];
 }
 
 type Component<P extends object> = HTMLElement & P;
@@ -98,9 +99,9 @@ function makeComponent(render: RenderFunction): Creator {
       observedAttributes = [],
       useShadowDOM = true,
       shadowRootInit = {},
-      styleSheets,
+      styleSheets: _styleSheets,
     } = options || (baseElementOrOptions as Options<P>) || {};
-
+    const styleSheets = sheets(renderer.styleSheets || _styleSheets);
     class Element extends BaseElement {
       _scheduler: Scheduler<P>;
 
@@ -117,7 +118,7 @@ function makeComponent(render: RenderFunction): Creator {
             mode: "open",
             ...shadowRootInit,
           });
-          if (styleSheets) shadowRoot.adoptedStyleSheets = sheets(styleSheets);
+          if (styleSheets) shadowRoot.adoptedStyleSheets = styleSheets;
           this._scheduler = new Scheduler(renderer, shadowRoot, this);
         }
       }
