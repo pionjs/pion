@@ -92,7 +92,7 @@ export const useProperty = hook(
 ) as UseProperty;
 
 export const lift =
-  <T>(setter: StateUpdater<T>) =>
+  <T>(setter: (value: T) => void) =>
   (ev: CustomEvent<ChangeEvent<T>>) => {
     ev.preventDefault();
     setter(ev.detail.value);
