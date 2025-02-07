@@ -1,5 +1,11 @@
 # pion
 
+## 2.8.1
+
+### Patch Changes
+
+- 9dfa50a: `lift` does not need `setter` to be a `StateUpdater`
+
 ## 2.8.0
 
 ### Minor Changes
