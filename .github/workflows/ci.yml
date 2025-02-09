@@ -88,6 +88,11 @@ jobs:
         with:
           token: ${{ secrets.CODELYZE_TOKEN }}
           path: coverage/lcov.info
+          annotations: true
+          threshold: 50
+          difference-threshold: 0
+          patch-threshold: 10
+          skip-empty-patch: true
 
   changelog:
     name: Changelog PR or Release
