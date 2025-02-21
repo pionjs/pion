@@ -86,6 +86,38 @@ describe("useEffect", () => {
     expect(subs.length).to.equal(0);
   });
 
+  it("Runs on reattach", async () => {
+    const tag = "teardown-effect-reattach-test";
+    let setups = 0,
+      teardowns = 0;
+
+    function app() {
+      useEffect(() => {
+        setups++;
+        return () => {
+          teardowns++;
+        };
+      }, []);
+
+      return html`Test`;
+    }
+
+    customElements.define(tag, component(app));
+
+    const el = await fixture(
+      html`<teardown-effect-reattach-test></teardown-effect-reattach-test>`
+    );
+
+    const parent = el.parentNode;
+    el.remove();
+    parent?.append(el);
+
+    await nextFrame();
+
+    expect(setups).to.equal(2, 'the effect was set up twice');
+    expect(teardowns).to.equal(1, 'the effect was cleaned up once');
+  });
+
   it("useEffect(fn, []) runs the effect only once", async () => {
     const tag = "empty-array-effect-test";
     let calls = 0;
