@@ -40,9 +40,16 @@ function createEffect(setEffects: (state: State, cb: Callable) => void) {
         this._teardown = this.callback.call(this.state);
       }
 
-      teardown(): void {
+      teardown(disconnected?: boolean): void {
         if (typeof this._teardown === "function") {
           this._teardown();
+          // ensure effect is not torn down multiple times
+          this._teardown = undefined;
+        }
+
+        // reset to pristine state when element is disconnected
+        if (disconnected) {
+          this.lastValues = this.values = undefined;
         }
       }
 

@@ -55,7 +55,7 @@ class State<H = unknown> {
     let hooks = this[hookSymbol];
     hooks.forEach((hook) => {
       if (typeof hook.teardown === "function") {
-        hook.teardown();
+        hook.teardown(true);
       }
     });
   }

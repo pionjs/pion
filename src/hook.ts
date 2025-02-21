@@ -12,7 +12,7 @@ abstract class Hook<P extends unknown[] = unknown[], R = unknown, H = unknown> {
   }
 
   abstract update(...args: P): R;
-  teardown?(): void;
+  teardown?(disconnected?: boolean): void;
 }
 
 interface CustomHook<
