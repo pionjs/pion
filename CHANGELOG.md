@@ -1,5 +1,11 @@
 # pion
 
+## 2.8.2
+
+### Patch Changes
+
+- a948e76: Run effects on element reattach
+
 ## 2.8.1
 
 ### Patch Changes
