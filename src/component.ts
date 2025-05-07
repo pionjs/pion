@@ -124,11 +124,13 @@ function makeComponent(render: RenderFunction): Creator {
       }
 
       connectedCallback(): void {
+        this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
       }
 
       disconnectedCallback(): void {
+        this._scheduler.pause();
         this._scheduler.teardown();
         this._scheduler.renderResult?.setConnected(false);
       }
