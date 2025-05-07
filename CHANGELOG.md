@@ -1,5 +1,11 @@
 # pion
 
+## 2.8.3
+
+### Patch Changes
+
+- 1f3e6c2: Pause rendering while disconnected
+
 ## 2.8.2
 
 ### Patch Changes
