@@ -87,7 +87,6 @@ describe("useEffect", () => {
   });
 
   it("Runs on reattach", async () => {
-    const tag = "teardown-effect-reattach-test";
     let setups = 0,
       teardowns = 0;
 
@@ -102,7 +101,7 @@ describe("useEffect", () => {
       return html`Test`;
     }
 
-    customElements.define(tag, component(app));
+    customElements.define("teardown-effect-reattach-test", component(app));
 
     const el = await fixture(
       html`<teardown-effect-reattach-test></teardown-effect-reattach-test>`
@@ -114,8 +113,96 @@ describe("useEffect", () => {
 
     await nextFrame();
 
-    expect(setups).to.equal(2, 'the effect was set up twice');
-    expect(teardowns).to.equal(1, 'the effect was cleaned up once');
+    expect(setups).to.equal(2, "the effect was set up twice");
+    expect(teardowns).to.equal(1, "the effect was cleaned up once");
+  });
+
+  it("Pauses rendering when disconnected", async () => {
+    let renders = 0,
+      _setState;
+
+    function app({ prop }) {
+      renders++;
+
+      const [state, setState] = useState("abc");
+      _setState = setState;
+
+      return [prop, " ", state];
+    }
+
+    customElements.define(
+      "pause-rendering-when-disconnected-test",
+      component(app)
+    );
+
+    const el = (await fixture(
+      html`<pause-rendering-when-disconnected-test
+        .prop=${1}
+      ></pause-rendering-when-disconnected-test>`
+    )) as Element & { prop: number };
+
+    expect(el.shadowRoot!.textContent).to.equal("1 abc");
+
+    const parent = el.parentNode;
+    el.remove();
+    el.prop = 2;
+    _setState("omg");
+    await nextFrame();
+
+    parent?.append(el);
+
+    await nextFrame();
+
+    expect(el.shadowRoot!.textContent).to.equal(
+      "2 omg",
+      "it rendered the with most recent state and props"
+    );
+    expect(renders).to.equal(2, "it did not render while disconnected");
+  });
+
+  it("Does not run effects when disconnected", async () => {
+    let setups = 0,
+      teardowns = 0;
+
+    function app({ prop }) {
+      useEffect(() => {
+        setups++;
+        return () => {
+          teardowns++;
+        };
+      }, []);
+
+      return html`Test ${prop}`;
+    }
+
+    customElements.define("disconnected-effects-test", component(app));
+
+    const el = (await fixture(
+      html`<disconnected-effects-test .prop=${0}></disconnected-effects-test>`
+    )) as Element & { prop: number };
+
+    expect(setups).to.equal(1, "the effect was set up when connected");
+    expect(teardowns).to.equal(0, "the effect was not torn down");
+
+    const parent = el.parentNode;
+    el.remove();
+
+    expect(setups).to.equal(1, "the effect was not set up again");
+    expect(teardowns).to.equal(1, "the effect was torn down");
+
+    el.prop = 1;
+    await nextFrame();
+
+    expect(setups).to.equal(1, "the effect was not set up while disconnected");
+    expect(teardowns).to.equal(1, "the teardown was not called again");
+
+    parent?.append(el);
+
+    await nextFrame();
+
+    expect(el.shadowRoot!.textContent).to.equal("Test 1");
+    expect(setups).to.equal(2, "the effect was set up again when reconnected");
+    expect(teardowns).to.equal(1, "the effect was not torn down");
   });
 
   it("useEffect(fn, []) runs the effect only once", async () => {

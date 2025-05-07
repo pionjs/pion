@@ -48,6 +48,7 @@ abstract class BaseScheduler<
   state: State<H>;
   [phaseSymbol]: Phase | null;
   _updateQueued: boolean;
+  _active: boolean;
 
   constructor(renderer: R, host: H) {
     this.renderer = renderer;
@@ -55,9 +56,11 @@ abstract class BaseScheduler<
     this.state = new State(this.update.bind(this), host);
     this[phaseSymbol] = null;
     this._updateQueued = false;
+    this._active = true;
   }
 
   update(): void {
+    if (!this._active) return;
     if (this._updateQueued) return;
     read(() => {
       let result = this.handlePhase(updateSymbol);
@@ -102,6 +105,14 @@ abstract class BaseScheduler<
 
   teardown(): void {
     this.state.teardown();
+  }
+
+  pause(): void {
+    this._active = false;
+  }
+
+  resume(): void {
+    this._active = true;
   }
 }
 
