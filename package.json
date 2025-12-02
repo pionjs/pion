@@ -43,7 +43,7 @@
     "@polymer/polymer": "^3.5.1",
     "@rocket/cli": "^0.9.8",
     "@rocket/launch": "^0.5.4",
-    "@rocket/search": "^0.4.1",
+    "@rocket/search": "^0.7.0",
     "@types/mocha": "^10.0.0",
     "@web/dev-server-esbuild": "^1.0.0",
     "@web/test-runner": "^0.18.0",
