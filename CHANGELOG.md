@@ -1,5 +1,11 @@
 # pion
 
+## 2.9.0
+
+### Minor Changes
+
+- 2086e16: Define a Renderable type, so developers can annotate content that will be passed to lit-html templates or rendering functions
+
 ## 2.8.3
 
 ### Patch Changes
