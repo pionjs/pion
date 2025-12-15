@@ -7,21 +7,21 @@ function createEffect(setEffects: (state: State, cb: Callable) => void) {
   return hook(
     class extends Hook {
       callback!: Effect;
-      lastValues?: unknown[];
-      values?: unknown[];
+      lastValues?: readonly unknown[];
+      values?: readonly unknown[];
       _teardown!: Promise<void> | VoidFunction | void;
 
       constructor(
         id: number,
         state: State,
         ignored1: Effect,
-        ignored2?: unknown[]
+        ignored2?: readonly unknown[]
       ) {
         super(id, state);
         setEffects(state, this);
       }
 
-      update(callback: Effect, values?: unknown[]): void {
+      update(callback: Effect, values?: readonly unknown[]): void {
         this.callback = callback;
         this.values = values;
       }

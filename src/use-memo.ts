@@ -5,21 +5,26 @@ import { State } from "./state";
  * @function
  * @template T
  * @param  {() => T} fn function to memoize
- * @param  {unknown[]} values dependencies to the memoized computation
+ * @param  {readonly unknown[]} values dependencies to the memoized computation
  * @return {T} The next computed value
  */
 const useMemo = hook(
   class<T> extends Hook {
     value: T;
-    values: unknown[];
+    values: readonly unknown[];
 
-    constructor(id: number, state: State, fn: () => T, values: unknown[]) {
+    constructor(
+      id: number,
+      state: State,
+      fn: () => T,
+      values: readonly unknown[]
+    ) {
       super(id, state);
       this.value = fn();
       this.values = values;
     }
 
-    update(fn: () => T, values: unknown[]): T {
+    update(fn: () => T, values: readonly unknown[]): T {
       if (this.hasChanged(values)) {
         this.values = values;
         this.value = fn();
@@ -27,7 +32,7 @@ const useMemo = hook(
       return this.value;
     }
 
-    hasChanged(values: unknown[] = []): boolean {
+    hasChanged(values: readonly unknown[] = []): boolean {
       return values.some((value, i) => this.values[i] !== value);
     }
   }
