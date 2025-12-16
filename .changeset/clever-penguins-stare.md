@@ -1,5 +1,5 @@
 ---
-"@pionjs/pion": patch
+"@pionjs/pion": minor
 ---
 
 Readonly deps arrays
