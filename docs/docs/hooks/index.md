@@ -9,6 +9,7 @@ Currently pion supports the following hooks:
 - [useEffect](./useEffect/)
 - [useLayoutEffect](./useLayoutEffect/)
 - [useMemo](./useMemo/)
+- [useProperty](./useProperty/)
 - [useReducer](./useReducer/)
 - [useRef](./useRef/)
 - [useState](./useState/)
