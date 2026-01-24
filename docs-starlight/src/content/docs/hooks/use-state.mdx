@@ -1,0 +1,36 @@
+---
+title: useState
+description: Manage component state with the useState hook in pion.
+---
+
+import ApiDocs from '../../../components/ApiDocs.astro';
+
+Returns an array of two values. The first value is the immutable state that is initialized to the argument you pass in. The second value is the function that is used to change the first value (the setter).
+
+When the setter is called, the element in which the state resides is rerendered.
+
+```js
+import { component, html, useState } from '@pionjs/pion';
+
+customElements.define('use-state', component(function Counter() {
+  const [count, setCount] = useState(0);
+  return html`
+    Count: ${count}
+    <button @click=${() => setCount(count + 1)}>Increment</button>
+  `;
+}));
+```
+
+```html
+<use-state></use-state>
+```
+
+Additionally if you provide a function as the argument to `useState`, the function is called to initialize the first state, but never called again.
+
+```js
+const [count, setCount] = useState(() => {
+  return expensiveComputation(42);
+});
+```
+
+<ApiDocs module="lib/use-state.js" />

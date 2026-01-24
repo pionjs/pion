@@ -1,0 +1,152 @@
+---
+/**
+ * ApiDocs component - renders API documentation from custom-elements.json
+ *
+ * Props:
+ * - module: The module path to look up (e.g., 'lib/use-state.js')
+ */
+interface Props {
+  module: string;
+}
+
+import customElementsManifest from '../custom-elements.json';
+
+const { module: modulePath } = Astro.props;
+
+// Find the module in the manifest
+const moduleData = customElementsManifest.modules.find(
+  (m) => m.path === modulePath
+);
+
+// Get function declarations from the module
+const functions = moduleData?.declarations?.filter(
+  (d) => d.kind === 'function' && d.name && !d.name.startsWith('_')
+) || [];
+---
+
+{functions.length > 0 && (
+  <div class="api-docs">
+    <h3>API Reference</h3>
+    {functions.map((fn) => (
+      <div class="api-function">
+        <h4>
+          <code>{fn.name}</code>
+          {fn.return?.type?.text && (
+            <span class="return-type"> → {fn.return.type.text}</span>
+          )}
+        </h4>
+
+        {fn.description && (
+          <p class="function-description">{fn.description}</p>
+        )}
+
+        {fn.parameters && fn.parameters.length > 0 && (
+          <div class="params">
+            <h5>Parameters</h5>
+            {fn.parameters.map((param) => (
+              <div class="param">
+                <span class="param-name">{param.name}</span>
+                {param.type?.text && (
+                  <span class="param-type">: {param.type.text}</span>
+                )}
+                {param.optional && <span class="param-optional"> (optional)</span>}
+                {param.description && (
+                  <p class="param-description">{param.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .api-docs {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--sl-color-gray-4);
+    border-radius: 8px;
+    background: var(--sl-color-gray-6);
+  }
+
+  .api-docs h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: var(--sl-color-accent);
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    padding-bottom: 0.5rem;
+  }
+
+  .api-function {
+    margin-bottom: 1.5rem;
+  }
+
+  .api-function:last-child {
+    margin-bottom: 0;
+  }
+
+  .api-function h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .api-function h4 code {
+    color: var(--sl-color-white);
+    background: var(--sl-color-accent);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+  }
+
+  .return-type {
+    font-family: var(--sl-font-mono);
+    font-size: 0.9em;
+    color: var(--sl-color-gray-3);
+  }
+
+  .function-description {
+    margin: 0.5rem 0;
+    color: var(--sl-color-gray-2);
+  }
+
+  .params h5 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--sl-color-gray-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .param {
+    margin: 0.5rem 0;
+    padding: 0.75rem;
+    background: var(--sl-color-black);
+    border-radius: 4px;
+    border-left: 3px solid var(--sl-color-accent);
+  }
+
+  .param-name {
+    font-family: var(--sl-font-mono);
+    font-weight: 600;
+    color: var(--sl-color-accent-high);
+  }
+
+  .param-type {
+    font-family: var(--sl-font-mono);
+    color: var(--sl-color-gray-4);
+    font-size: 0.9em;
+  }
+
+  .param-optional {
+    font-size: 0.8em;
+    color: var(--sl-color-gray-4);
+    font-style: italic;
+  }
+
+  .param-description {
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9em;
+    color: var(--sl-color-gray-3);
+  }
+</style>

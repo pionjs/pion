@@ -1,0 +1,34 @@
+---
+title: useMemo
+description: Memoize expensive computations with the useMemo hook in pion.
+---
+
+import ApiDocs from '../../../components/ApiDocs.astro';
+
+Create a memoized state value. Only reruns the function when dependent values have changed.
+
+```js
+import { component, html, useState, useMemo } from '@pionjs/pion';
+
+function fibonacci(num) {
+  if (num <= 1) return 1;
+  return fibonacci(num - 1) + fibonacci(num - 2);
+}
+
+function App() {
+  const [value, setVal] = useState(12);
+  const fib = useMemo(() => fibonacci(value), [value]);
+
+  return html`
+    <h1>Fibonacci</h1>
+    <input type="number" max="35" step="1"
+           @change=${e => setVal(parseInt(e.target.value))}
+           value=${value} />
+    <div>Fibonacci <strong>${fib}</strong></div>
+  `;
+}
+
+customElements.define('use-memo', component(App));
+```
+
+<ApiDocs module="lib/use-memo.js" />

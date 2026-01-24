@@ -1,0 +1,95 @@
+/* Custom theme for pion documentation */
+
+:root {
+  /* Deep orange color palette */
+  --sl-color-accent-low: #fbe9e7;
+  --sl-color-accent: #dd2c00;
+  --sl-color-accent-high: #bf360c;
+  
+  /* Text colors */
+  --sl-color-white: #fff;
+  --sl-color-gray-1: #f5f5f5;
+  --sl-color-gray-2: #eee;
+  --sl-color-gray-3: #ccc;
+  --sl-color-gray-4: #888;
+  --sl-color-gray-5: #555;
+  --sl-color-gray-6: #333;
+  --sl-color-black: #111;
+}
+
+/* Dark mode adjustments */
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #3d1a00;
+  --sl-color-accent: #ff6e40;
+  --sl-color-accent-high: #ffab91;
+}
+
+/* Code block styling */
+.expressive-code pre {
+  border-radius: 6px;
+}
+
+/* API Docs component styling */
+.api-docs {
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid var(--sl-color-gray-3);
+  border-radius: 8px;
+  background: var(--sl-color-gray-1);
+}
+
+:root[data-theme='dark'] .api-docs {
+  background: var(--sl-color-gray-6);
+  border-color: var(--sl-color-gray-5);
+}
+
+.api-docs h3 {
+  margin-top: 0;
+  color: var(--sl-color-accent);
+}
+
+.api-docs .param {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: var(--sl-color-white);
+  border-radius: 4px;
+}
+
+:root[data-theme='dark'] .api-docs .param {
+  background: var(--sl-color-black);
+}
+
+.api-docs .param-name {
+  font-family: var(--sl-font-mono);
+  font-weight: 600;
+  color: var(--sl-color-accent);
+}
+
+.api-docs .param-type {
+  font-family: var(--sl-font-mono);
+  color: var(--sl-color-gray-4);
+  font-size: 0.9em;
+}
+
+.api-docs .param-description {
+  margin-top: 0.25rem;
+  color: var(--sl-color-gray-5);
+}
+
+:root[data-theme='dark'] .api-docs .param-description {
+  color: var(--sl-color-gray-3);
+}
+
+/* Playground embed styling */
+.playground-embed {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-3);
+}
+
+.playground-embed iframe {
+  width: 100%;
+  min-height: 400px;
+  border: none;
+}

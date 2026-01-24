@@ -1,0 +1,61 @@
+---
+title: pion
+description: Hooks API for Web Components
+template: splash
+hero:
+  tagline: Hooks for Web Components
+  image:
+    file: ../../assets/logo.svg
+  actions:
+    - text: Get Started
+      link: ./guides/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/pionjs/pion
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Features
+
+<CardGrid stagger>
+  <Card title="React-like Hooks" icon="rocket">
+    Use familiar hooks like `useState`, `useEffect`, `useContext`, and more in your Web Components.
+  </Card>
+  <Card title="Lightweight" icon="seti:html">
+    Built on top of lit-html for minimal bundle size and maximum performance.
+  </Card>
+  <Card title="Framework Agnostic" icon="puzzle">
+    Works with any renderer - lit-html, lighterhtml, hyperHTML, or bring your own.
+  </Card>
+  <Card title="TypeScript Ready" icon="seti:typescript">
+    Full TypeScript support with excellent type inference for your components.
+  </Card>
+</CardGrid>
+
+## Quick Example
+
+```js
+import { html, component, useState } from '@pionjs/pion';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return html`
+    <div>Count: ${count}</div>
+    <button @click=${() => setCount(count + 1)}>
+      Increment
+    </button>
+  `;
+}
+
+customElements.define('my-counter', component(Counter));
+```
+
+Use it anywhere:
+
+```html
+<my-counter></my-counter>
+```

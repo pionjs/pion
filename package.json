@@ -13,8 +13,10 @@
     "preversion": "tsc",
     "test": "web-test-runner \"test/**/*.test.ts\" --coverage",
     "test:watch": "web-test-runner test/**/*.test.ts --watch",
-    "start": "rocket start",
-    "docs": "rocket build"
+    "start": "npm run start --prefix docs-starlight",
+    "docs": "npm run build --prefix docs-starlight",
+    "start:rocket": "rocket start",
+    "docs:rocket": "rocket build"
   },
   "files": [
     "lib"
