@@ -38,13 +38,13 @@
   "typings": "lib/haunted.d.ts",
   "devDependencies": {
     "@changesets/cli": "^2.16.0",
-    "@custom-elements-manifest/analyzer": "^0.10.0",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "@matthewp/compile": "^3.0.0",
     "@open-wc/testing": "^4.0.0",
     "@polymer/polymer": "^3.5.1",
     "@types/mocha": "^10.0.0",
     "@web/dev-server-esbuild": "^1.0.0",
-    "@web/test-runner": "^0.18.0",
+    "@web/test-runner": "^0.20.0",
     "sinon": "^17.0.1",
     "typescript": "^5.2.0"
   },
