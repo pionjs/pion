@@ -1,0 +1,92 @@
+---
+layout: layout-api
+package: '@pionjs/pion'
+module: lib/use-property.js
+---
+
+# Hooks >> useProperty
+
+<style data-helmet>
+  html { --playground-ide-height: 275px; }
+</style>
+
+Returns an array of two values, similar to `useState`. The first value is the current state bound to a property on the host element. The second value is the setter function used to update it.
+
+When the setter is called, the element dispatches a `{property}-changed` event before updating the property. This enables parent components to listen for changes and optionally prevent them.
+
+```js playground use-property use-property.js
+import { component, html, useProperty } from '@pionjs/pion';
+
+customElements.define('use-property', component(function Counter() {
+  const [count, setCount] = useProperty('count', 0);
+  return html`
+    Count: ${count}
+    <button @click=${() => setCount(count + 1)}>Increment</button>
+  `;
+}));
+```
+
+```html playground-file use-property index.html
+<script type="module" src="use-property.js"></script>
+<use-property></use-property>
+```
+
+## Parent Override
+
+If the parent component sets the property before the component renders, that value takes precedence over the initial value:
+
+```js
+html`<my-counter .count=${10}></my-counter>`
+```
+
+In this case, `count` will be `10` instead of the default `0`.
+
+## Change Events
+
+When the setter is called, the component dispatches a `{property}-changed` event. Property names are converted from camelCase to kebab-case:
+
+- `count` → `count-changed`
+- `selectedItems` → `selected-items-changed`
+
+Parents can listen for these events:
+
+```js
+html`<my-counter @count-changed=${(e) => console.log(e.detail.value)}></my-counter>`
+```
+
+The event detail contains `{ value, path }` where `value` is the new value and `path` is the property name.
+
+## The `lift` Helper
+
+The `lift` helper simplifies two-way binding by intercepting change events and calling a setter with the new value:
+
+```js
+import { component, html, useState, lift } from '@pionjs/pion';
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  return html`
+    <my-counter
+      .count=${count}
+      @count-changed=${lift(setCount)}
+    ></my-counter>
+  `;
+}
+```
+
+The `lift` helper calls `preventDefault()` on the event and passes `event.detail.value` to the provided setter.
+
+## API
+
+```ts
+function useProperty<T>(property: string): [T | undefined, (value: T) => void];
+function useProperty<T>(property: string, initialValue: T | (() => T)): [T, (value: T) => void];
+```
+
+Like `useState`, you can provide a function as the initial value for lazy initialization:
+
+```js
+const [data, setData] = useProperty('data', () => expensiveComputation());
+```
+
+> **Note:** `useProperty` cannot be used with virtual components. It requires a host element to bind the property to.
