@@ -55,7 +55,7 @@
           "name": "useCallback",
           "declaration": {
             "name": "useCallback",
-            "module": "\"./use-callback\""
+            "module": "./use-callback"
           }
         },
         {
@@ -63,7 +63,7 @@
           "name": "useEffect",
           "declaration": {
             "name": "useEffect",
-            "module": "\"./use-effect\""
+            "module": "./use-effect"
           }
         },
         {
@@ -71,7 +71,7 @@
           "name": "useLayoutEffect",
           "declaration": {
             "name": "useLayoutEffect",
-            "module": "\"./use-layout-effect\""
+            "module": "./use-layout-effect"
           }
         },
         {
@@ -79,7 +79,7 @@
           "name": "useState",
           "declaration": {
             "name": "useState",
-            "module": "\"./use-state\""
+            "module": "./use-state"
           }
         },
         {
@@ -87,7 +87,7 @@
           "name": "useReducer",
           "declaration": {
             "name": "useReducer",
-            "module": "\"./use-reducer\""
+            "module": "./use-reducer"
           }
         },
         {
@@ -95,7 +95,7 @@
           "name": "useMemo",
           "declaration": {
             "name": "useMemo",
-            "module": "\"./use-memo\""
+            "module": "./use-memo"
           }
         },
         {
@@ -103,7 +103,23 @@
           "name": "useContext",
           "declaration": {
             "name": "useContext",
-            "module": "\"./use-context\""
+            "module": "./use-context"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "useProperty",
+          "declaration": {
+            "name": "useProperty",
+            "module": "./use-property"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "lift",
+          "declaration": {
+            "name": "lift",
+            "module": "./use-property"
           }
         },
         {
@@ -111,7 +127,15 @@
           "name": "useRef",
           "declaration": {
             "name": "useRef",
-            "module": "\"./use-ref\""
+            "module": "./use-ref"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "useHost",
+          "declaration": {
+            "name": "useHost",
+            "module": "./use-host"
           }
         },
         {
@@ -119,7 +143,7 @@
           "name": "hook",
           "declaration": {
             "name": "hook",
-            "module": "\"./hook\""
+            "module": "./hook"
           }
         },
         {
@@ -127,7 +151,7 @@
           "name": "Hook",
           "declaration": {
             "name": "Hook",
-            "module": "\"./hook\""
+            "module": "./hook"
           }
         },
         {
@@ -135,7 +159,7 @@
           "name": "BaseScheduler",
           "declaration": {
             "name": "BaseScheduler",
-            "module": "\"./scheduler\""
+            "module": "./scheduler"
           }
         },
         {
@@ -143,7 +167,7 @@
           "name": "State",
           "declaration": {
             "name": "State",
-            "module": "\"./state\""
+            "module": "./state"
           }
         }
       ]
@@ -208,7 +232,7 @@
           "name": "html",
           "declaration": {
             "name": "html",
-            "module": "\"./lit-haunted\""
+            "module": "./lit-haunted"
           }
         },
         {
@@ -216,7 +240,7 @@
           "name": "render",
           "declaration": {
             "name": "render",
-            "module": "\"./lit-haunted\""
+            "module": "./lit-haunted"
           }
         },
         {
@@ -224,7 +248,7 @@
           "name": "component",
           "declaration": {
             "name": "component",
-            "module": "\"./lit-haunted\""
+            "module": "./lit-haunted"
           }
         },
         {
@@ -232,7 +256,7 @@
           "name": "createContext",
           "declaration": {
             "name": "createContext",
-            "module": "\"./lit-haunted\""
+            "module": "./lit-haunted"
           }
         },
         {
@@ -240,7 +264,7 @@
           "name": "virtual",
           "declaration": {
             "name": "virtual",
-            "module": "\"./lit-haunted\""
+            "module": "./lit-haunted"
           }
         },
         {
@@ -248,7 +272,15 @@
           "name": "*",
           "declaration": {
             "name": "*",
-            "package": "\"./core\""
+            "module": "lib/core"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "lib/util"
           }
         },
         {
@@ -256,7 +288,7 @@
           "name": "default",
           "declaration": {
             "name": "default",
-            "module": "\"./core\""
+            "module": "./core"
           }
         }
       ]
@@ -465,6 +497,14 @@
               "default": "false"
             },
             {
+              "kind": "field",
+              "name": "_active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
               "kind": "method",
               "name": "update"
             },
@@ -496,6 +536,14 @@
             {
               "kind": "method",
               "name": "teardown"
+            },
+            {
+              "kind": "method",
+              "name": "pause"
+            },
+            {
+              "kind": "method",
+              "name": "resume"
             },
             {
               "kind": "field",
@@ -776,41 +824,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "lib/use-controller.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "useController",
-          "parameters": [
-            {
-              "name": "createController",
-              "description": "A function that creates a controller instance.\nThis function is given a HauntedControllerHost to pass to the controller. The\ncreate function is only called once per component.",
-              "type": {
-                "text": "<C extends ReactiveController>(host: ReactiveControllerHost) => C"
-              }
-            }
-          ],
-          "description": "Creates and stores a stateful ReactiveController instance and provides it\nwith a ReactiveControllerHost that drives the controller lifecycle.\n\nUse this hook to convert a ReactiveController into a pion hook.",
-          "return": {
-            "type": {
-              "text": "ReactiveController"
-            }
-          }
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "useController",
-          "declaration": {
-            "name": "useController",
-            "module": "lib/use-controller.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "lib/use-effect.js",
       "declarations": [
         {
@@ -867,6 +880,26 @@
           "declaration": {
             "name": "useEffect",
             "module": "lib/use-effect.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "lib/use-host.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "useHost"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "useHost",
+          "declaration": {
+            "name": "useHost",
+            "module": "lib/use-host.js"
           }
         }
       ]
@@ -932,7 +965,7 @@
               "description": "dependencies to the memoized computation",
               "name": "values",
               "type": {
-                "text": "unknown[]"
+                "text": "readonly unknown[]"
               }
             }
           ],
@@ -950,6 +983,43 @@
           "declaration": {
             "name": "useMemo",
             "module": "lib/use-memo.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "lib/use-property.js",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "useProperty"
+        },
+        {
+          "kind": "function",
+          "name": "lift",
+          "parameters": [
+            {
+              "name": "setter"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "useProperty",
+          "declaration": {
+            "name": "useProperty",
+            "module": "lib/use-property.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "lift",
+          "declaration": {
+            "name": "lift",
+            "module": "lib/use-property.js"
           }
         }
       ]
@@ -1048,7 +1118,7 @@
           ],
           "return": {
             "type": {
-              "text": "readonly [state: T, updaterFn: StateUpdater<T>]"
+              "text": "StateTuple<T>"
             }
           }
         }
@@ -1060,6 +1130,81 @@
           "declaration": {
             "name": "useState",
             "module": "lib/use-state.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "lib/util.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "sheet",
+          "parameters": [
+            {
+              "name": "styles"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "sheets",
+          "parameters": [
+            {
+              "name": "styleSheets"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "tagged",
+          "parameters": [
+            {
+              "name": "strings"
+            },
+            {
+              "name": "values"
+            }
+          ]
+        },
+        {
+          "kind": "variable",
+          "name": "css",
+          "default": "tagged"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sheet",
+          "declaration": {
+            "name": "sheet",
+            "module": "lib/util.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "sheets",
+          "declaration": {
+            "name": "sheets",
+            "module": "lib/util.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "tagged",
+          "declaration": {
+            "name": "tagged",
+            "module": "lib/util.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "css",
+          "declaration": {
+            "name": "css",
+            "module": "lib/util.js"
           }
         }
       ]
