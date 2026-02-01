@@ -82,6 +82,7 @@ function makeVirtual(): Virtual {
           teardownOnRemove(this.cont, part);
         }
         this.cont.args = args;
+        this.cont.resume();
         this.cont.update();
         return this.render(...args);
       }

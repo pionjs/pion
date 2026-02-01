@@ -56,7 +56,7 @@ abstract class BaseScheduler<
     this.state = new State(this.update.bind(this), host);
     this[phaseSymbol] = null;
     this._updateQueued = false;
-    this._active = true;
+    this._active = false;
   }
 
   update(): void {
