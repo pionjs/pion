@@ -205,6 +205,43 @@ describe("useEffect", () => {
     expect(teardowns).to.equal(1, "the effect was not torn down");
   });
 
+  it("Does not render or run effects for elements that are never connected", async () => {
+    let renders = 0;
+    let effects = 0;
+
+    function app() {
+      renders++;
+
+      useEffect(() => {
+        effects++;
+        return () => {};
+      }, []);
+
+      return html`Test`;
+    }
+
+    customElements.define("orphan-element-test", component(app));
+
+    // Create an element but don't connect it to the DOM
+    const orphan = document.createElement("orphan-element-test") as HTMLElement & { prop: number };
+    orphan.prop = 1; // Trigger a property setter which would normally queue an update
+
+    await nextFrame();
+
+    expect(renders).to.equal(0, "the orphan element should not render");
+    expect(effects).to.equal(0, "the orphan element should not run effects");
+
+    // Now connect it
+    document.body.appendChild(orphan);
+    await nextFrame();
+
+    expect(renders).to.equal(1, "the element should render after being connected");
+    expect(effects).to.equal(1, "the element should run effects after being connected");
+
+    // Cleanup
+    orphan.remove();
+  });
+
   it("useEffect(fn, []) runs the effect only once", async () => {
     const tag = "empty-array-effect-test";
     let calls = 0;
