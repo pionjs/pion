@@ -1,5 +1,20 @@
 # pion
 
+## 2.12.0
+
+### Minor Changes
+
+- 9b813bf: fix: prevent orphan elements from rendering
+
+  Elements that are constructed but never connected to the DOM (orphan elements) will no longer render or run effects. This fixes issues where lit-html creates elements during template parsing that are never inserted into the DOM.
+
+  The scheduler now starts with `_active = false` and only activates when:
+
+  - `connectedCallback` is called (for custom elements)
+  - `resume()` is called explicitly (for virtual components)
+
+  Fixes #64
+
 ## 2.11.0
 
 ### Minor Changes
