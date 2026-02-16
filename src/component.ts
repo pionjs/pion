@@ -1,5 +1,6 @@
 import { GenericRenderer, RenderFunction, RenderResult } from "./core";
 import { BaseScheduler } from "./scheduler";
+import { reflectingSymbol } from "./symbols";
 import { sheets } from "./util";
 
 const toCamelCase = (val = ""): string =>
@@ -143,7 +144,11 @@ function makeComponent(render: RenderFunction): Creator {
         if (oldValue === newValue) {
           return;
         }
+        if ((this as any)[reflectingSymbol]) {
+          return;
+        }
         let val = newValue === "" ? true : newValue;
+        if (val === null) val = false;
         Reflect.set(this, toCamelCase(name), val);
       }
     }
