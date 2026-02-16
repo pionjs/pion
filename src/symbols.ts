@@ -11,6 +11,18 @@ type Phase = typeof updateSymbol | typeof commitSymbol | typeof effectsSymbol;
 
 const contextEvent = "haunted.context";
 
+/**
+ * Symbol used to store the renderer function on the Element class.
+ * Used by HMR runtime to extract and replace renderers.
+ */
+const rendererSymbol = Symbol("pion.renderer");
+
+/**
+ * Symbol used to store the HMR tag name on element instances.
+ * Used by HMR runtime for instance tracking.
+ */
+const hmrTagSymbol = Symbol("pion.hmrTag");
+
 export {
   phaseSymbol,
   hookSymbol,
@@ -19,6 +31,8 @@ export {
   effectsSymbol,
   layoutEffectsSymbol,
   contextEvent,
+  rendererSymbol,
+  hmrTagSymbol,
   Phase,
   EffectsSymbols,
 };
