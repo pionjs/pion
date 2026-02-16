@@ -5,6 +5,7 @@
   "main": "lib/haunted.js",
   "module": "lib/haunted.js",
   "type": "module",
+  "workspaces": ["docs"],
   "customElements": "custom-elements.json",
   "scripts": {
     "build": "tsc",
@@ -13,8 +14,8 @@
     "preversion": "tsc",
     "test": "web-test-runner \"test/**/*.test.ts\" --coverage",
     "test:watch": "web-test-runner test/**/*.test.ts --watch",
-    "start": "npm run dev --prefix docs",
-    "docs": "npm run build --prefix docs"
+    "start": "npm run dev -w docs",
+    "docs": "npm run build -w docs"
   },
   "files": [
     "lib"

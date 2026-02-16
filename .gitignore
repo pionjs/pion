@@ -6,5 +6,4 @@ coverage/
 
 ## Astro / Starlight docs
 docs/dist/
-docs/node_modules/
 docs/.astro/
