@@ -9,6 +9,9 @@ const layoutEffectsSymbol = Symbol("haunted.layoutEffects");
 type EffectsSymbols = typeof effectsSymbol | typeof layoutEffectsSymbol;
 type Phase = typeof updateSymbol | typeof commitSymbol | typeof effectsSymbol;
 
+const reflectingSymbol = Symbol("haunted.reflecting");
+const attributeObserverSymbol = Symbol("haunted.attributeObserver");
+
 const contextEvent = "haunted.context";
 
 export {
@@ -18,6 +21,8 @@ export {
   commitSymbol,
   effectsSymbol,
   layoutEffectsSymbol,
+  reflectingSymbol,
+  attributeObserverSymbol,
   contextEvent,
   Phase,
   EffectsSymbols,
