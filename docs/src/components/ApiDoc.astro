@@ -1,0 +1,78 @@
+---
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+interface Props {
+  module: string;
+}
+
+interface CemParameter {
+  name: string;
+  description?: string;
+  type?: { text: string };
+  optional?: boolean;
+}
+
+interface CemDeclaration {
+  kind: string;
+  name: string;
+  description?: string;
+  parameters?: CemParameter[];
+  return?: { type: { text: string } };
+}
+
+interface CemModule {
+  kind: string;
+  path: string;
+  declarations: CemDeclaration[];
+}
+
+interface CemManifest {
+  modules: CemModule[];
+}
+
+const { module: modulePath } = Astro.props;
+
+const cemPath = resolve(process.cwd(), '..', 'custom-elements.json');
+let functions: CemDeclaration[] = [];
+
+try {
+  const cem: CemManifest = JSON.parse(readFileSync(cemPath, 'utf-8'));
+  const mod = cem.modules.find((m) => m.path === modulePath);
+  if (mod) {
+    functions = mod.declarations.filter(
+      (d) => d.kind === 'function' && d.name.startsWith('use') && d.parameters && d.parameters.length > 0
+    );
+  }
+} catch {
+  // CEM not found - component renders nothing
+}
+---
+
+{functions.map((fn) => (
+  <div>
+    <h3><code>{fn.name}</code></h3>
+    {fn.description && <p>{fn.description}</p>}
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {fn.parameters!.map((p) => (
+          <tr>
+            <td><code>{p.name}{p.optional ? '?' : ''}</code></td>
+            <td><code>{p.type?.text ?? '-'}</code></td>
+            <td>{p.description ?? '-'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {fn.return?.type && (
+      <p><strong>Returns:</strong> <code>{fn.return.type.text}</code></p>
+    )}
+  </div>
+))}

@@ -1,0 +1,54 @@
+---
+title: pion
+description: Hooks for Web Components
+template: splash
+hero:
+  title: pion
+  tagline: Hooks for Web Components
+  image:
+    file: ../../assets/logo.svg
+    alt: pion logo
+  actions:
+    - text: Docs
+      link: /guides/getting-started/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/pionjs/pion
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="React-like Hooks" icon="rocket">
+    Use familiar hooks like useState, useEffect, useReducer — but for Web Components.
+  </Card>
+  <Card title="Framework Interop" icon="puzzle">
+    Web Components work everywhere — drop pion components into React, Vue, Angular, or use them standalone.
+  </Card>
+  <Card title="Lightweight" icon="star">
+    Tiny footprint with no framework overhead — just hooks on top of Custom Elements.
+  </Card>
+  <Card title="Standards Based" icon="approve-check">
+    Built entirely on the Custom Elements standard — no proprietary abstractions, future-proof by design.
+  </Card>
+</CardGrid>
+
+```js
+import { html } from 'https://unpkg.com/lit?module';
+import { component, useState } from 'https://unpkg.com/@pionjs/pion';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return html`
+    <div part="count">${count}</div>
+    <button part="button" @click=${() => setCount(count + 1)}>
+      Increment
+    </button>
+  `;
+}
+
+customElements.define('my-counter', component(Counter));
+```
