@@ -51,6 +51,7 @@ export { useReducer } from "./use-reducer";
 export { useMemo } from "./use-memo";
 export { useContext } from "./use-context";
 export { useProperty, lift } from "./use-property";
+export { useAttribute } from "./use-attribute";
 export { useRef } from "./use-ref";
 export { useHost } from "./use-host";
 export { hook, Hook } from "./hook";
