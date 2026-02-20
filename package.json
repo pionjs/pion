@@ -5,6 +5,7 @@
   "main": "lib/haunted.js",
   "module": "lib/haunted.js",
   "type": "module",
+  "workspaces": ["docs"],
   "customElements": "custom-elements.json",
   "scripts": {
     "build": "tsc",
@@ -13,8 +14,8 @@
     "preversion": "tsc",
     "test": "web-test-runner \"test/**/*.test.ts\" --coverage",
     "test:watch": "web-test-runner test/**/*.test.ts --watch",
-    "start": "rocket start",
-    "docs": "rocket build"
+    "start": "npm run dev -w docs",
+    "docs": "npm run build -w docs"
   },
   "files": [
     "lib"
@@ -41,17 +42,10 @@
     "@matthewp/compile": "^3.0.0",
     "@open-wc/testing": "^4.0.0",
     "@polymer/polymer": "^3.5.1",
-    "@rocket/cli": "^0.9.8",
-    "@rocket/launch": "^0.5.4",
-    "@rocket/search": "^0.4.1",
     "@types/mocha": "^10.0.0",
     "@web/dev-server-esbuild": "^1.0.0",
     "@web/test-runner": "^0.18.0",
     "cem-plugin-jsdoc-function": "^0.0.5",
-    "eleventy-plugin-helmet": "^0.2.2",
-    "rocket-preset-code-tabs": "^0.2.4",
-    "rocket-preset-custom-elements-manifest": "^0.1.7",
-    "rocket-preset-playground-elements": "^0.2.0",
     "sinon": "^17.0.1",
     "typescript": "^5.2.0"
   },
