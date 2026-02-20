@@ -13,6 +13,9 @@ export default defineConfig({
       social: {
         github: 'https://github.com/pionjs/pion',
       },
+      components: {
+        PageFrame: './src/components/PageFrame.astro',
+      },
       sidebar: [
         {
           label: 'Guides',
