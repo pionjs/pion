@@ -1,0 +1,53 @@
+---
+title: useContext
+---
+
+import ApiDoc from '../../../components/ApiDoc.astro';
+
+Grabs the context value from the closest provider above and updates your component, the consumer, whenever the provider changes the value.
+
+```js
+import { html, component, useState, useContext, createContext } from '@pionjs/pion';
+
+const ThemeContext = createContext('dark');
+
+customElements.define('theme-provider', ThemeContext.Provider);
+customElements.define('theme-consumer', ThemeContext.Consumer);
+
+function Consumer() {
+  const context = useContext(ThemeContext);
+  return context;
+}
+
+customElements.define('my-consumer', component(Consumer));
+
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  return html`
+    <select value=${theme} @change=${event => setTheme(event.target.value)}>
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+    </select>
+
+    <theme-provider .value=${theme}>
+      <my-consumer></my-consumer>
+
+      <!-- creates context with inverted theme -->
+      <theme-provider .value=${theme === 'dark' ? 'light' : 'dark'}>
+        <theme-consumer
+          .render=${value =>
+            html`<h1>${value}</h1>`
+          }
+        ></theme-consumer>
+      </theme-provider>
+    </theme-provider>
+  `;
+}
+
+customElements.define('use-context', component(App));
+```
+
+## API
+
+<ApiDoc module="lib/use-context.js" />
