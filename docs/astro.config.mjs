@@ -10,9 +10,13 @@ export default defineConfig({
       logo: {
         src: './src/assets/logo.svg',
       },
-      social: {
-        github: 'https://github.com/pionjs/pion',
-      },
+      social: [
+        {
+          label: 'GitHub',
+          icon: 'github',
+          href: 'https://github.com/pionjs/pion',
+        },
+      ],
       components: {
         PageFrame: './src/components/PageFrame.astro',
       },
