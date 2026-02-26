@@ -15,6 +15,6 @@ updates:
     - 4.2.2
     - 4.2.3
 - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
+  directory: "/"
+  schedule:
+    interval: "weekly"
