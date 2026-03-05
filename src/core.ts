@@ -62,6 +62,8 @@ export type { Options as ComponentOptions } from "./component";
 
 export type { StateUpdater } from "./use-state";
 
+export { rendererSymbol, hmrTagSymbol } from "./symbols";
+
 /**
  * Represents any value that can be rendered by lit-html.
  *
