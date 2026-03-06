@@ -1,6 +1,7 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 
 export default {
+  concurrency: 1,
   coverageConfig: {
     reportDir: "coverage",
     threshold: {
