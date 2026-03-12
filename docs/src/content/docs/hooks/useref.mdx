@@ -15,6 +15,32 @@ function App() {
 }
 ```
 
+## lit-html Compatibility
+
+The ref object also has a `.value` property that stays in sync with `.current`. This makes it compatible with lit-html's [`ref` directive](https://lit.dev/docs/templates/directives/#ref):
+
+```js
+import { ref } from 'lit-html/directives/ref.js';
+
+function App() {
+  const inputRef = useRef();
+  return html`<input ${ref(inputRef)} />`;
+}
+// After render: inputRef.current === inputRef.value === the <input> element
+```
+
+## createRef
+
+If you need a ref outside of a component context (e.g., in a class or module scope), use `createRef`:
+
+```js
+import { createRef } from '@pionjs/pion';
+
+const myRef = createRef(0);
+console.log(myRef.current); // 0
+console.log(myRef.value);   // 0 (same as .current)
+```
+
 ## API
 
 <ApiDoc module="lib/use-ref.js" />
