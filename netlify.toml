@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --prefix docs && npm run build --prefix docs"
+  command = "rm -rf node_modules docs/node_modules && npm install --prefix docs && npm run build --prefix docs"
   publish = "docs/dist"
 
 [build.environment]
