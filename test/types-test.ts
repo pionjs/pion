@@ -13,6 +13,7 @@ import {
   useReducer,
   useMemo,
   useRef,
+  createRef,
   virtual,
   useContext,
   createContext,
@@ -121,10 +122,21 @@ useMemo(() => {}, 1);
 useRef(1);
 useRef(() => {});
 useRef({ foo: 1 }).current;
+useRef({ foo: 1 }).value;
 // negactive tests, should all fail
 useRef();
 useRef(1, 1);
 useRef(1).foo;
+
+// createRef tests
+// positive tests, should all pass
+createRef(1);
+createRef();
+createRef({ foo: 1 }).current;
+createRef({ foo: 1 }).value;
+// negactive tests, should all fail
+createRef(1, 1);
+createRef(1).foo;
 
 // virtual tests
 // positive tests, should all pass
