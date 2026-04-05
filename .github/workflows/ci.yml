@@ -84,7 +84,7 @@ jobs:
           CI: true
 
       - name: Upload coverage
-        uses: codelyze/action@2.9.1
+        uses: codelyze/action@3.0.0
         with:
           token: ${{ secrets.CODELYZE_TOKEN }}
           path: coverage/lcov.info
