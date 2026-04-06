@@ -1,6 +1,12 @@
 import { GenericRenderer, RenderFunction, RenderResult } from "./core";
 import { BaseScheduler } from "./scheduler";
+import { rendererSymbol, hmrTagSymbol } from "./symbols";
 import { sheets } from "./util";
+import {
+  isHMRActive,
+  trackInstance,
+  untrackInstance,
+} from "./hmr";
 
 const toCamelCase = (val = ""): string =>
   val.replace(/-+([a-z])?/g, (_, char) => (char ? char.toUpperCase() : ""));
@@ -127,12 +133,24 @@ function makeComponent(render: RenderFunction): Creator {
         this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
+
+        // HMR: track this instance
+        if (isHMRActive()) {
+          const tag = (this as any)[hmrTagSymbol];
+          if (tag) trackInstance(tag, this);
+        }
       }
 
       disconnectedCallback(): void {
         this._scheduler.pause();
         this._scheduler.teardown();
         this._scheduler.renderResult?.setConnected(false);
+
+        // HMR: untrack this instance
+        if (isHMRActive()) {
+          const tag = (this as any)[hmrTagSymbol];
+          if (tag) untrackInstance(tag, this);
+        }
       }
 
       attributeChangedCallback(
@@ -208,6 +226,9 @@ function makeComponent(render: RenderFunction): Creator {
     });
 
     Object.setPrototypeOf(Element.prototype, proto);
+
+    // Store the renderer on the class for HMR access
+    (Element as any)[rendererSymbol] = renderer;
 
     return Element as unknown as Constructor<P>;
   }
