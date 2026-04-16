@@ -127,6 +127,10 @@ function makeComponent(render: RenderFunction): Creator {
         this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
+        this.adoptStyleSheets();
+      }
+
+      adoptStyleSheets(): void {
         const allStyleSheets = renderer.styleSheets || _styleSheets;
         if (!allStyleSheets || !this.shadowRoot) return;
         const ownerWin = this.ownerDocument?.defaultView;
