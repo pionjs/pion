@@ -10,152 +10,162 @@ const createIframe = async () => {
 };
 
 describe("adoptStyleSheets", () => {
-	it("applies string styleSheets in same document", async () => {
-		const tag = "same-doc-string-sheets";
-		const style = "div { color: rgb(255, 0, 0); }";
+	describe("same document", () => {
+		it("applies string styleSheets", async () => {
+			const tag = "same-doc-string-sheets";
+			const style = "div { color: rgb(255, 0, 0); }";
 
-		customElements.define(
-			tag,
-			component(() => html`<div class="styled">test</div>`, {
-				styleSheets: [style],
-			})
-		);
+			customElements.define(
+				tag,
+				component(() => html`<div class="styled">test</div>`, {
+					styleSheets: [style],
+				})
+			);
 
-		const el = await fixture(
-			html`<same-doc-string-sheets></same-doc-string-sheets>`
-		);
+			const el = await fixture(
+				html`<same-doc-string-sheets></same-doc-string-sheets>`
+			);
 
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(getComputedStyle(styled).color).to.equal("rgb(255, 0, 0)");
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(getComputedStyle(styled).color).to.equal("rgb(255, 0, 0)");
+		});
+
+		it("applies CSSStyleSheet objects", async () => {
+			const tag = "same-doc-css-stylesheet";
+			const cs = new CSSStyleSheet();
+			cs.replaceSync("div { color: rgb(0, 128, 0); }");
+
+			customElements.define(
+				tag,
+				component(() => html`<div class="styled">test</div>`, {
+					styleSheets: [cs],
+				})
+			);
+
+			const el = await fixture(
+				html`<same-doc-css-stylesheet></same-doc-css-stylesheet>`
+			);
+
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(getComputedStyle(styled).color).to.equal("rgb(0, 128, 0)");
+		});
 	});
 
-	it("applies CSSStyleSheet objects in same document", async () => {
-		const tag = "same-doc-css-stylesheet";
-		const cs = new CSSStyleSheet();
-		cs.replaceSync("div { color: rgb(0, 128, 0); }");
+	describe("cross-document context", () => {
+		let iframe: HTMLIFrameElement;
+		let iframeDoc: Document;
+		let iframeWin: Window;
 
-		customElements.define(
-			tag,
-			component(() => html`<div class="styled">test</div>`, {
-				styleSheets: [cs],
-			})
-		);
+		before(async () => {
+			iframe = await createIframe();
+			iframeDoc = iframe.contentDocument!;
+			iframeWin = iframe.contentWindow!;
+		});
 
-		const el = await fixture(
-			html`<same-doc-css-stylesheet></same-doc-css-stylesheet>`
-		);
+		after(() => {
+			document.body.removeChild(iframe);
+		});
 
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(getComputedStyle(styled).color).to.equal("rgb(0, 128, 0)");
-	});
+		it("applies string styleSheets", async () => {
+			const tag = "cross-doc-string-sheets";
+			const style = "div { color: rgb(255, 0, 0); }";
 
-	it("applies string styleSheets in cross-document context", async () => {
-		const iframe = await createIframe();
-		const { contentDocument: iframeDoc, contentWindow: iframeWin } = iframe;
+			customElements.define(
+				tag,
+				component(() => html`<div class="styled">test</div>`, {
+					styleSheets: [style],
+				})
+			);
 
-		const tag = "cross-doc-string-sheets";
-		const style = "div { color: rgb(255, 0, 0); }";
+			const el = document.createElement(tag);
+			iframeDoc.body.appendChild(el);
+			await aTimeout(100);
 
-		customElements.define(
-			tag,
-			component(() => html`<div class="styled">test</div>`, {
-				styleSheets: [style],
-			})
-		);
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(iframeWin.getComputedStyle(styled).color).to.equal(
+				"rgb(255, 0, 0)"
+			);
+		});
 
-		const el = document.createElement(tag);
-		iframeDoc!.body.appendChild(el);
-		await aTimeout(100);
+		it("applies CSSStyleSheet objects", async () => {
+			const tag = "cross-doc-css-stylesheet";
+			const cs = new CSSStyleSheet();
+			cs.replaceSync("div { color: rgb(0, 128, 0); }");
 
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
-			"rgb(255, 0, 0)"
-		);
+			customElements.define(
+				tag,
+				component(() => html`<div class="styled">test</div>`, {
+					styleSheets: [cs],
+				})
+			);
 
-		document.body.removeChild(iframe);
-	});
+			const el = document.createElement(tag);
+			iframeDoc.body.appendChild(el);
+			await aTimeout(100);
 
-	it("applies CSSStyleSheet objects in cross-document context", async () => {
-		const iframe = await createIframe();
-		const { contentDocument: iframeDoc, contentWindow: iframeWin } = iframe;
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(iframeWin.getComputedStyle(styled).color).to.equal(
+				"rgb(0, 128, 0)"
+			);
+		});
 
-		const tag = "cross-doc-css-stylesheet";
-		const cs = new CSSStyleSheet();
-		cs.replaceSync("div { color: rgb(0, 128, 0); }");
+		it("applies renderer.styleSheets", async () => {
+			const tag = "cross-doc-renderer-sheets";
+			const style = "div { color: rgb(0, 0, 255); }";
 
-		customElements.define(
-			tag,
-			component(() => html`<div class="styled">test</div>`, {
-				styleSheets: [cs],
-			})
-		);
+			function Renderer(this: any) {
+				return html`<div class="styled">test</div>`;
+			}
+			Renderer.styleSheets = [style];
 
-		const el = document.createElement(tag);
-		iframeDoc!.body.appendChild(el);
-		await aTimeout(100);
+			customElements.define(tag, component(Renderer as any));
 
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
-			"rgb(0, 128, 0)"
-		);
+			const el = document.createElement(tag);
+			iframeDoc.body.appendChild(el);
+			await aTimeout(100);
 
-		document.body.removeChild(iframe);
-	});
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(iframeWin.getComputedStyle(styled).color).to.equal(
+				"rgb(0, 0, 255)"
+			);
+		});
 
-	it("applies renderer.styleSheets in cross-document context", async () => {
-		const iframe = await createIframe();
-		const { contentDocument: iframeDoc, contentWindow: iframeWin } = iframe;
+		it("applies multiple mixed styleSheets", async () => {
+			const tag = "cross-doc-mixed-sheets";
+			const cs = new CSSStyleSheet();
+			cs.replaceSync("div { color: rgb(255, 0, 0); }");
+			const stringStyle = "div { background-color: rgb(0, 128, 0); }";
 
-		const tag = "cross-doc-renderer-sheets";
-		const style = "div { color: rgb(0, 0, 255); }";
+			customElements.define(
+				tag,
+				component(() => html`<div class="styled">test</div>`, {
+					styleSheets: [cs, stringStyle],
+				})
+			);
 
-		function Renderer(this: any) {
-			return html`<div class="styled">test</div>`;
-		}
-		Renderer.styleSheets = [style];
+			const el = document.createElement(tag);
+			iframeDoc.body.appendChild(el);
+			await aTimeout(100);
 
-		customElements.define(tag, component(Renderer as any));
-
-		const el = document.createElement(tag);
-		iframeDoc!.body.appendChild(el);
-		await aTimeout(100);
-
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
-			"rgb(0, 0, 255)"
-		);
-
-		document.body.removeChild(iframe);
-	});
-
-	it("applies multiple mixed styleSheets in cross-document context", async () => {
-		const iframe = await createIframe();
-		const { contentDocument: iframeDoc, contentWindow: iframeWin } = iframe;
-
-		const tag = "cross-doc-mixed-sheets";
-		const cs = new CSSStyleSheet();
-		cs.replaceSync("div { color: rgb(255, 0, 0); }");
-		const stringStyle = "div { background-color: rgb(0, 128, 0); }";
-
-		customElements.define(
-			tag,
-			component(() => html`<div class="styled">test</div>`, {
-				styleSheets: [cs, stringStyle],
-			})
-		);
-
-		const el = document.createElement(tag);
-		iframeDoc!.body.appendChild(el);
-		await aTimeout(100);
-
-		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
-		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
-			"rgb(255, 0, 0)"
-		);
-		expect(iframeWin!.getComputedStyle(styled).backgroundColor).to.equal(
-			"rgb(0, 128, 0)"
-		);
-
-		document.body.removeChild(iframe);
+			const styled = el.shadowRoot!.querySelector(
+				".styled"
+			) as HTMLDivElement;
+			expect(iframeWin.getComputedStyle(styled).color).to.equal(
+				"rgb(255, 0, 0)"
+			);
+			expect(iframeWin.getComputedStyle(styled).backgroundColor).to.equal(
+				"rgb(0, 128, 0)"
+			);
+		});
 	});
 });
