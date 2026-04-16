@@ -130,6 +130,17 @@ function makeComponent(render: RenderFunction): Creator {
         this.adoptStyleSheets();
       }
 
+      /**
+       * Re-creates adoptedStyleSheets for cross-document contexts.
+       *
+       * When a component is rendered into a different document (e.g., a popup
+       * window), the CSSStyleSheet objects created at class-definition time
+       * belong to the parent document and are silently rejected by
+       * shadowRoot.adoptedStyleSheets. This method detects the mismatch
+       * (by comparing the ownerDocument's CSSStyleSheet constructor with the
+       * global one) and re-creates the sheets using the correct window's
+       * constructor so they are accepted by the shadow root.
+       */
       adoptStyleSheets(): void {
         const allStyleSheets = renderer.styleSheets || _styleSheets;
         if (!allStyleSheets || !this.shadowRoot) return;
