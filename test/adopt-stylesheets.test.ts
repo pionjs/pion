@@ -76,7 +76,7 @@ describe("adoptStyleSheets", () => {
 
 		const sheets = el.shadowRoot!.adoptedStyleSheets;
 		expect(sheets.length).to.equal(1);
-		expect(sheets[0]).to.be.instanceOf(iframeWin!.CSSStyleSheet);
+		expect(sheets[0].constructor).to.equal(iframeWin!.CSSStyleSheet);
 
 		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
 		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
@@ -107,7 +107,7 @@ describe("adoptStyleSheets", () => {
 
 		const sheets = el.shadowRoot!.adoptedStyleSheets;
 		expect(sheets.length).to.equal(1);
-		expect(sheets[0]).to.be.instanceOf(iframeWin!.CSSStyleSheet);
+		expect(sheets[0].constructor).to.equal(iframeWin!.CSSStyleSheet);
 		expect(sheets[0]).to.not.equal(cs);
 
 		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
@@ -138,7 +138,7 @@ describe("adoptStyleSheets", () => {
 
 		const sheets = el.shadowRoot!.adoptedStyleSheets;
 		expect(sheets.length).to.equal(1);
-		expect(sheets[0]).to.be.instanceOf(iframeWin!.CSSStyleSheet);
+		expect(sheets[0].constructor).to.equal(iframeWin!.CSSStyleSheet);
 
 		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
 		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
@@ -170,8 +170,8 @@ describe("adoptStyleSheets", () => {
 
 		const sheets = el.shadowRoot!.adoptedStyleSheets;
 		expect(sheets.length).to.equal(2);
-		expect(sheets[0]).to.be.instanceOf(iframeWin!.CSSStyleSheet);
-		expect(sheets[1]).to.be.instanceOf(iframeWin!.CSSStyleSheet);
+		expect(sheets[0].constructor).to.equal(iframeWin!.CSSStyleSheet);
+		expect(sheets[1].constructor).to.equal(iframeWin!.CSSStyleSheet);
 
 		const styled = el.shadowRoot!.querySelector(".styled") as HTMLDivElement;
 		expect(iframeWin!.getComputedStyle(styled).color).to.equal(
