@@ -128,20 +128,18 @@ function makeComponent(render: RenderFunction): Creator {
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
         const allStyleSheets = renderer.styleSheets || _styleSheets;
-        if (allStyleSheets && this.shadowRoot) {
-          const ownerWin = this.ownerDocument?.defaultView;
-          if (ownerWin && ownerWin.CSSStyleSheet !== CSSStyleSheet) {
-            this.shadowRoot.adoptedStyleSheets = allStyleSheets.map((s) => {
-              const cs = new ownerWin.CSSStyleSheet();
-              cs.replaceSync(
-                typeof s === "string"
-                  ? s
-                  : [...s.cssRules].map((r) => r.cssText).join("\n")
-              );
-              return cs;
-            });
-          }
-        }
+        if (!allStyleSheets || !this.shadowRoot) return;
+        const ownerWin = this.ownerDocument?.defaultView;
+        if (!ownerWin || ownerWin.CSSStyleSheet === CSSStyleSheet) return;
+        this.shadowRoot.adoptedStyleSheets = allStyleSheets.map((s) => {
+          const cs = new ownerWin.CSSStyleSheet();
+          cs.replaceSync(
+            typeof s === "string"
+              ? s
+              : [...s.cssRules].map((r) => r.cssText).join("\n")
+          );
+          return cs;
+        });
       }
 
       disconnectedCallback(): void {
