@@ -43,7 +43,7 @@
     "@web/dev-server-esbuild": "^1.0.0",
     "@web/test-runner": "^0.20.0",
     "sinon": "^17.0.1",
-    "typescript": "^5.2.0"
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "lit-html": "^2.0.0 || ^3.0.0"
