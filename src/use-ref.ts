@@ -1,8 +1,8 @@
 import { useMemo } from "./use-memo";
 
 export interface Ref<T> {
-  current: T;
-  value: T;
+  current: T | undefined;
+  value?: T;
 }
 
 /**
@@ -12,11 +12,9 @@ export interface Ref<T> {
  * @function
  * @template T
  * @param   {T} [initialValue]
- * @return  {Ref<T | undefined>}
+ * @return  {Ref<T>}
  */
-export function createRef<T>(): Ref<T | undefined>;
-export function createRef<T>(initialValue: T): Ref<T>;
-export function createRef<T>(initialValue?: T): Ref<T | undefined> {
+export function createRef<T>(initialValue?: T): Ref<T> {
   let _value: T | undefined = initialValue;
   return {
     get current() {
@@ -42,11 +40,9 @@ export function createRef<T>(initialValue?: T): Ref<T | undefined> {
  *
  * @function
  * @template T
- * @param   {T} initialValue
+ * @param   {T} [initialValue]
  * @return  {Ref<T>} Ref object with both `current` and `value` properties
  */
-export function useRef<T>(): Ref<T | undefined>;
-export function useRef<T>(initialValue: T): Ref<T>;
-export function useRef<T>(initialValue?: T): Ref<T | undefined> {
+export function useRef<T>(initialValue?: T): Ref<T> {
   return useMemo(() => createRef(initialValue), []);
 }
