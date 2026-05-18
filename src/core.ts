@@ -62,6 +62,8 @@ export type { Options as ComponentOptions } from "./component";
 
 export type { StateUpdater } from "./use-state";
 
+export { InfiniteLoopError } from "./errors";
+
 /**
  * Represents any value that can be rendered by lit-html.
  *
