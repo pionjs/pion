@@ -178,6 +178,37 @@ describe("Observed attributes", () => {
     expect(div.textContent).to.equal("test test");
   });
 
+  it("Attribute removal sets property to false", async () => {
+    const tag = "attrs-removal-test";
+    let val: unknown;
+
+    interface Props {
+      open: boolean;
+    }
+
+    function Drawer({ open }) {
+      val = open;
+      return html`Test`;
+    }
+
+    customElements.define(
+      tag,
+      component<HTMLElement & Props>(Drawer, { observedAttributes: ["open"] })
+    );
+
+    const el = (await fixture(
+      html`<attrs-removal-test open></attrs-removal-test>`
+    )) as HTMLElement & Props;
+
+    expect(el.open).to.be.true;
+    expect(val).to.be.true;
+
+    el.removeAttribute("open");
+    await nextFrame();
+    expect(el.open).to.equal(false);
+    expect(val).to.equal(false);
+  });
+
   it("observed attribute names turn into camelCase props", async () => {
     const tag = "attrs-camelcase-test";
     let el;
