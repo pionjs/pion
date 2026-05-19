@@ -6,6 +6,24 @@
   "module": "lib/haunted.js",
   "type": "module",
   "customElements": "custom-elements.json",
+  "exports": {
+    ".": {
+      "types": "./lib/haunted.d.ts",
+      "default": "./lib/haunted.js"
+    },
+    "./hmr": {
+      "types": "./lib/hmr.d.ts",
+      "default": "./lib/hmr.js"
+    },
+    "./vite-plugin": {
+      "types": "./lib/vite-plugin.d.ts",
+      "default": "./lib/vite-plugin.js"
+    },
+    "./core": {
+      "types": "./lib/core.d.ts",
+      "default": "./lib/core.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "changeset": "changeset",
