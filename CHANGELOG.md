@@ -1,5 +1,11 @@
 # pion
 
+## 2.15.0
+
+### Minor Changes
+
+- f0dab4f: Detect and stop infinite update loops.
+
 ## 2.14.0
 
 ### Minor Changes
