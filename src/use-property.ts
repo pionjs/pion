@@ -3,13 +3,12 @@ import { State } from "./state";
 import type {
   InitialState,
   NewState,
-  StateUpdater,
   StateTuple,
 } from "./use-state";
 
 type Host<T> = Element & { [key: string]: T };
 type ChangeEvent<T> = {
-  value: T | undefined;
+  value: T;
   updater: ((previousState: T) => T) | undefined;
   path: string;
 };
@@ -60,44 +59,42 @@ export const useProperty = hook(
       return [this.state.host[this.property], this.updater];
     }
 
-    updater(valueOrUpdater: NewState<T>): void {
-      const ev = this.notify(valueOrUpdater);
-      if (ev.defaultPrevented) return;
-      this.commit(valueOrUpdater);
-    }
-
-    commit(valueOrUpdater: NewState<T>): void {
+    resolve(
+      valueOrUpdater: NewState<T>
+    ): [previousValue: T, value: T, updater: ((previousState: T) => T) | undefined] {
       const previousValue = this.state.host[this.property];
-      const value =
-        typeof valueOrUpdater === "function"
-          ? (valueOrUpdater as (previousState: T) => T)(previousValue)
-          : valueOrUpdater;
-      if (Object.is(previousValue, value)) return;
-      this.state.host[this.property] = value;
-    }
-
-    notify(valueOrUpdater: NewState<T>) {
       const updater =
         typeof valueOrUpdater === "function"
           ? (valueOrUpdater as (previousState: T) => T)
           : undefined;
+      const value = updater
+        ? updater(previousValue)
+        : (valueOrUpdater as T);
+      return [previousValue, value, updater];
+    }
+
+    notify(value: T, updater?: (previousState: T) => T) {
       const ev = new CustomEvent<ChangeEvent<T>>(this.eventName, {
-        detail: {
-          value: updater ? undefined : (valueOrUpdater as T),
-          updater,
-          path: this.property,
-        },
+        detail: { value, updater, path: this.property },
         cancelable: true,
       });
       this.state.host.dispatchEvent(ev);
       return ev;
     }
+
+    updater(valueOrUpdater: NewState<T>): void {
+      const [previousValue, value, updater] = this.resolve(valueOrUpdater);
+      const ev = this.notify(value, updater);
+      if (ev.defaultPrevented) return;
+      if (Object.is(previousValue, value)) return;
+      this.state.host[this.property] = value;
+    }
   }
 ) as UseProperty;
 
 export const lift =
-  <T>(setter: StateUpdater<T> | ((value: NewState<T>) => void)) =>
+  <T>(setter: (value: T | ((previousState: T) => T)) => void) =>
   (ev: CustomEvent<ChangeEvent<T>>) => {
     ev.preventDefault();
-    setter(ev.detail.updater ?? (ev.detail.value as NewState<T>));
+    setter(ev.detail.updater ?? ev.detail.value);
   };

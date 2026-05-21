@@ -275,7 +275,7 @@ describe("useProperty", () => {
 
     expect(spy).to.have.been.calledTwice;
     expect(spy.secondCall).to.have.been.calledWithMatch({
-      detail: { value: undefined, updater: Sinon.match.func },
+      detail: { value: 9, updater: Sinon.match.func },
     });
   });
 
