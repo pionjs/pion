@@ -13,3 +13,4 @@ This fixes rapid-fire functional updater calls (e.g., `setItems((items) => [...i
 - `useProperty.updateProp` removed (was internal, not part of public API)
 - Event detail shape now includes `updater` field alongside `value`
 - `lift` now passes `ev.detail.updater ?? ev.detail.value` to setter (was `ev.detail.value`)
+- `useProperty` setter now always dispatches a change event, even if the value is unchanged. Previously, setting the same value would silently skip the event. This allows `lift` to always receive the updater function.

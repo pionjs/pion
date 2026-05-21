@@ -67,11 +67,6 @@ export const useProperty = hook(
     }
 
     updater(valueOrUpdater: NewState<T>): void {
-      if (
-        typeof valueOrUpdater !== "function" &&
-        Object.is(this.state.host[this.property], valueOrUpdater)
-      )
-        return;
       const ev = this.notify(valueOrUpdater);
       if (ev.defaultPrevented) return;
       this.commit(valueOrUpdater);

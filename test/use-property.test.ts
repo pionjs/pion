@@ -80,18 +80,21 @@ describe("useProperty", () => {
 
     expect(spy).to.have.been.calledOnce;
     expect(spy).to.have.been.calledWithMatch({
-      detail: { value: 8 },
+      detail: { value: 8, updater: undefined },
     });
 
     setter(20);
     expect(spy).to.have.been.calledTwice;
     expect(spy).to.have.been.calledWithMatch({
-      detail: { value: 20 },
+      detail: { value: 20, updater: undefined },
     });
 
-    // does not notify if the same value is already set
+    // always notifies, even if the same value is already set
     setter(20);
-    expect(spy).to.have.been.calledTwice;
+    expect(spy).to.have.been.calledThrice;
+    expect(spy).to.have.been.calledWithMatch({
+      detail: { value: 20, updater: undefined },
+    });
   });
 
   it("does not notify when the initial value is undefined", async () => {
