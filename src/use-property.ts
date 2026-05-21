@@ -9,7 +9,8 @@ import type {
 
 type Host<T> = Element & { [key: string]: T };
 type ChangeEvent<T> = {
-  value: T;
+  value: T | undefined;
+  updater: ((previousState: T) => T) | undefined;
   path: string;
 };
 
@@ -52,37 +53,51 @@ export const useProperty = hook(
 
       if (initialValue == null) return;
 
-      this.updateProp(initialValue);
+      this.init(initialValue);
+    }
+
+    init(value: T): void {
+      const ev = this.notify(value);
+      if (ev.defaultPrevented) return;
+      this.commit(value);
     }
 
     update(ignored: string, ignored2: T): StateTuple<T> {
       return [this.state.host[this.property], this.updater];
     }
 
-    updater(value: NewState<T>): void {
-      const previousValue = this.state.host[this.property];
-
-      if (typeof value === "function") {
-        const updaterFn = value as (previousState: T) => T;
-        value = updaterFn(previousValue);
-      }
-
-      if (Object.is(previousValue, value)) {
+    updater(valueOrUpdater: NewState<T>): void {
+      if (
+        typeof valueOrUpdater !== "function" &&
+        Object.is(this.state.host[this.property], valueOrUpdater)
+      )
         return;
-      }
-
-      this.updateProp(value);
+      const ev = this.notify(valueOrUpdater);
+      if (ev.defaultPrevented) return;
+      this.commit(valueOrUpdater);
     }
 
-    updateProp(value: T): void {
-      const ev = this.notify(value);
-      if (ev.defaultPrevented) return;
+    commit(valueOrUpdater: NewState<T>): void {
+      const previousValue = this.state.host[this.property];
+      const value =
+        typeof valueOrUpdater === "function"
+          ? (valueOrUpdater as (previousState: T) => T)(previousValue)
+          : valueOrUpdater;
+      if (Object.is(previousValue, value)) return;
       this.state.host[this.property] = value;
     }
 
-    notify(value: T) {
+    notify(valueOrUpdater: NewState<T>) {
+      const updater =
+        typeof valueOrUpdater === "function"
+          ? (valueOrUpdater as (previousState: T) => T)
+          : undefined;
       const ev = new CustomEvent<ChangeEvent<T>>(this.eventName, {
-        detail: { value, path: this.property },
+        detail: {
+          value: updater ? undefined : (valueOrUpdater as T),
+          updater,
+          path: this.property,
+        },
         cancelable: true,
       });
       this.state.host.dispatchEvent(ev);
@@ -92,8 +107,8 @@ export const useProperty = hook(
 ) as UseProperty;
 
 export const lift =
-  <T>(setter: (value: T) => void) =>
+  <T>(setter: StateUpdater<T> | ((value: NewState<T>) => void)) =>
   (ev: CustomEvent<ChangeEvent<T>>) => {
     ev.preventDefault();
-    setter(ev.detail.value);
+    setter(ev.detail.updater ?? (ev.detail.value as NewState<T>));
   };

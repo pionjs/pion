@@ -248,4 +248,182 @@ describe("useProperty", () => {
     render(vApp(), el);
     expect(spy).to.not.have.been.calledOnce;
   });
+
+  it("event detail contains updater for functional calls", async () => {
+    const tag = "use-property-event-detail-updater";
+    const spy = Sinon.spy();
+    let setter;
+
+    function App() {
+      let [age, setAge] = useProperty("age", () => 8);
+      setter = setAge;
+      return html`<span>${age}</span>`;
+    }
+
+    customElements.define(tag, component(App));
+
+    await fixture<HTMLElement>(
+      html`<use-property-event-detail-updater
+        @age-changed=${spy}
+      ></use-property-event-detail-updater>`
+    );
+
+    setter((value) => value + 1);
+
+    expect(spy).to.have.been.calledTwice;
+    expect(spy.secondCall).to.have.been.calledWithMatch({
+      detail: { value: undefined, updater: Sinon.match.func },
+    });
+  });
+
+  it("event detail contains value for direct calls", async () => {
+    const tag = "use-property-event-detail-value";
+    const spy = Sinon.spy();
+    let setter;
+
+    function App() {
+      let [age, setAge] = useProperty("age", () => 8);
+      setter = setAge;
+      return html`<span>${age}</span>`;
+    }
+
+    customElements.define(tag, component(App));
+
+    await fixture<HTMLElement>(
+      html`<use-property-event-detail-value
+        @age-changed=${spy}
+      ></use-property-event-detail-value>`
+    );
+
+    setter(20);
+
+    expect(spy).to.have.been.calledTwice;
+    expect(spy.secondCall).to.have.been.calledWithMatch({
+      detail: { value: 20, updater: undefined },
+    });
+  });
+
+  it("lift bubbles functional updater to parent", async () => {
+    let childSetter;
+
+    function Parent() {
+      let [count, setCount] = useState(0);
+      return html`<use-property-lift-updater-child
+        .count=${count}
+        @count-changed=${lift(setCount)}
+      ></use-property-lift-updater-child>`;
+    }
+
+    function Child() {
+      let [count, setCount] = useProperty("count", 0);
+      childSetter = setCount;
+      return html`<span>${count}</span>`;
+    }
+
+    customElements.define(
+      "use-property-lift-updater-parent",
+      component(Parent)
+    );
+    customElements.define(
+      "use-property-lift-updater-child",
+      component(Child)
+    );
+
+    const el = await fixture<HTMLElement>(
+      html`<use-property-lift-updater-parent></use-property-lift-updater-parent>`
+    );
+    const child = el.shadowRoot?.firstElementChild as HTMLElement;
+    const span = child?.shadowRoot?.firstElementChild;
+
+    expect(span?.textContent).to.equal("0");
+
+    childSetter((c) => c + 1);
+    await nextFrame();
+    expect(span?.textContent).to.equal("1");
+
+    childSetter((c) => c + 1);
+    await nextFrame();
+    expect(span?.textContent).to.equal("2");
+  });
+
+  it("rapid-fire functional updaters with lift accumulate correctly", async () => {
+    let childSetter;
+
+    function Parent() {
+      let [items, setItems] = useState<string[]>([]);
+      return html`<use-property-rapid-fire-child
+        .items=${items}
+        @items-changed=${lift(setItems)}
+      ></use-property-rapid-fire-child>`;
+    }
+
+    function Child() {
+      let [items, setItems] = useProperty<string[]>("items", () => []);
+      childSetter = setItems;
+      return html`<span>${items.join(",")}</span>`;
+    }
+
+    customElements.define(
+      "use-property-rapid-fire-parent",
+      component(Parent)
+    );
+    customElements.define(
+      "use-property-rapid-fire-child",
+      component(Child)
+    );
+
+    const el = await fixture<HTMLElement>(
+      html`<use-property-rapid-fire-parent></use-property-rapid-fire-parent>`
+    );
+    const child = el.shadowRoot?.firstElementChild as HTMLElement;
+    const span = child?.shadowRoot?.firstElementChild;
+
+    expect(span?.textContent).to.equal("");
+
+    childSetter((items) => [...items, "a"]);
+    childSetter((items) => [...items, "b"]);
+    childSetter((items) => [...items, "c"]);
+
+    await nextFrame();
+    expect(span?.textContent).to.equal("a,b,c");
+  });
+
+  it("lift with direct value still works", async () => {
+    let childSetter;
+
+    function Parent() {
+      let [age, setAge] = useState(20);
+      return html`<use-property-lift-direct-child
+        .age=${age}
+        @age-changed=${lift(setAge)}
+      ></use-property-lift-direct-child>`;
+    }
+
+    function Child() {
+      let [age, setAge] = useProperty("age", 2);
+      childSetter = setAge;
+      return html`<span>${age}</span>`;
+    }
+
+    customElements.define(
+      "use-property-lift-direct-parent",
+      component(Parent)
+    );
+    customElements.define(
+      "use-property-lift-direct-child",
+      component(Child)
+    );
+
+    const el = await fixture<HTMLElement>(
+      html`<use-property-lift-direct-parent></use-property-lift-direct-parent>`
+    );
+    const child = el.shadowRoot?.firstElementChild as HTMLElement;
+    const span = child?.shadowRoot?.firstElementChild;
+
+    expect(span?.textContent).to.equal("20");
+
+    childSetter(30);
+    await nextFrame();
+    expect(span?.textContent).to.equal("30");
+  });
 });
