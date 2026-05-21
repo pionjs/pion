@@ -53,13 +53,7 @@ export const useProperty = hook(
 
       if (initialValue == null) return;
 
-      this.init(initialValue);
-    }
-
-    init(value: T): void {
-      const ev = this.notify(value);
-      if (ev.defaultPrevented) return;
-      this.commit(value);
+      this.updater(initialValue);
     }
 
     update(ignored: string, ignored2: T): StateTuple<T> {
