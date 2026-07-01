@@ -391,6 +391,41 @@ describe("useProperty", () => {
     expect(span?.textContent).to.equal("a,b,c");
   });
 
+  it("initializes default value even when lift prevents default", async () => {
+    let parentSetter;
+
+    function Parent() {
+      let [items, setItems] = useState<string[] | undefined>(undefined);
+      parentSetter = setItems;
+      return html`<use-property-lift-no-prop-child
+        @items-changed=${lift(setItems)}
+      ></use-property-lift-no-prop-child>`;
+    }
+
+    function Child() {
+      let [items, setItems] = useProperty<string[]>("items", () => []);
+      return html`<span>${(items ?? []).length}</span>`;
+    }
+
+    customElements.define(
+      "use-property-lift-no-prop-parent",
+      component(Parent)
+    );
+    customElements.define(
+      "use-property-lift-no-prop-child",
+      component(Child)
+    );
+
+    const el = await fixture<HTMLElement>(
+      html`<use-property-lift-no-prop-parent></use-property-lift-no-prop-parent>`
+    );
+    const child = el.shadowRoot?.firstElementChild as HTMLElement;
+    const span = child?.shadowRoot?.firstElementChild;
+
+    expect(child?.items).to.deep.equal([]);
+    expect(span?.textContent).to.equal("0");
+  });
+
   it("lift with direct value still works", async () => {
     let childSetter;
 

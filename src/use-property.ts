@@ -52,7 +52,7 @@ export const useProperty = hook(
 
       if (initialValue == null) return;
 
-      this.updater(initialValue);
+      this.updater(initialValue, true);
     }
 
     update(ignored: string, ignored2: T): StateTuple<T> {
@@ -82,10 +82,10 @@ export const useProperty = hook(
       return ev;
     }
 
-    updater(valueOrUpdater: NewState<T>): void {
+    updater(valueOrUpdater: NewState<T>, isInit = false): void {
       const [previousValue, value, updater] = this.resolve(valueOrUpdater);
       const ev = this.notify(value, updater);
-      if (ev.defaultPrevented) return;
+      if (!isInit && ev.defaultPrevented) return;
       if (Object.is(previousValue, value)) return;
       this.state.host[this.property] = value;
     }
