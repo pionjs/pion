@@ -404,7 +404,7 @@ describe("useProperty", () => {
 
     function Child() {
       let [items, setItems] = useProperty<string[]>("items", () => []);
-      return html`<span>${(items ?? []).length}</span>`;
+      return html`<span>${items.length}</span>`;
     }
 
     customElements.define(
