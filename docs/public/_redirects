@@ -1,0 +1,4 @@
+/docs/                    /                           301
+/docs/guides/             /guides/                    301
+/docs/guides/:path        /guides/:path               301
+/docs/hooks/:path         /hooks/:path                301
