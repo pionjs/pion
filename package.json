@@ -46,7 +46,7 @@
     "@polymer/polymer": "^3.5.1",
     "@types/mocha": "^10.0.0",
     "@web/dev-server-esbuild": "^2.0.0",
-    "@web/test-runner": "^0.20.0",
+    "@web/test-runner": "^1.0.0",
     "sinon": "^22.0.0",
     "typescript": "^7.0.2"
   },
