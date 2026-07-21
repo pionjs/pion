@@ -1,5 +1,6 @@
 ---
 title: API
+description: Reference for pion's component and virtual functions — write plain functions that hold state and return HTML.
 ---
 
 pion is all about writing plain functions that can contain their own state. The documentation below is separated into two sections: creating _components_ (the functions) and using _hooks_ to manage state.

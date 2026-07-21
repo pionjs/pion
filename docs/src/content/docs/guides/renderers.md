@@ -1,5 +1,6 @@
 ---
 title: Bring Your Own Renderer
+description: Use pion with lighterhtml, hyperHTML, or any template library by importing the core build and wiring up your own render function.
 ---
 
 The main entry point is intended for [lit-html](https://github.com/Polymer/lit-html) users. If you are using [lighterhtml](https://github.com/WebReflection/lighterhtml) or [hyperHTML](https://github.com/WebReflection/hyperHTML) then instead import `@pionjs/pion/core`. This export gives you a function that creates Hooks that work with any template library.

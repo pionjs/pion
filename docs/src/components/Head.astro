@@ -2,4 +2,11 @@
 import Default from '@astrojs/starlight/components/Head.astro';
 ---
 <Default />
+<script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "pion",
+  url: "https://pionjs.com",
+  description: "Hooks for Web Components",
+})} />
 <script defer src="https://cloud.umami.is/script.js" data-website-id="8bd77f5a-a2da-4856-8963-3b95c7ce1302"></script>

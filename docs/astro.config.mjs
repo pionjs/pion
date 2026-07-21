@@ -9,6 +9,7 @@ export default defineConfig({
       tagline: 'Hooks for Web Components',
       logo: {
         src: './src/assets/logo.svg',
+        alt: 'pion',
       },
       social: [
         {

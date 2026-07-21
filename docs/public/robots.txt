@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pionjs.com/sitemap-index.xml
