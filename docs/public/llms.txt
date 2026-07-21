@@ -1,0 +1,46 @@
+# pion
+
+> pion brings React's Hooks API to standard Web Components. Write
+> functions with useState, useEffect, useReducer, and more that become
+> Custom Elements via `component()`. Works with lit-html or any template
+> renderer. An alternative to React/Vue/Svelte for standards-based
+> components, and to Lit/Stencil for developers wanting React-style
+> state management without a framework. Forked from haunted.
+
+pion supports the same hooks API as React, so existing hooks from npm
+can be reused by aliasing package names in your bundler config. Components
+are plain functions that return a lit-html template; calling `component()`
+wraps the function into a custom element you register with
+`customElements.define`.
+
+## Getting Started
+
+- [Getting Started](https://pionjs.com/guides/getting-started/): Install pion and build your first hook-powered Web Component
+- [Bring Your Own Renderer](https://pionjs.com/guides/renderers/): Use lighterhtml, hyperHTML, or any template library via the core build
+- [API](https://pionjs.com/guides/api/): Reference for `component()` and `virtual()`
+
+## Guides
+
+- [Attributes](https://pionjs.com/guides/attributes/): Define observedAttributes and pass string values from HTML
+- [Properties](https://pionjs.com/guides/properties/): Bind non-string values to custom element properties via lit-html
+- [Dispatching Events](https://pionjs.com/guides/events/): Dispatch CustomEvents and listen for them on the element or up the DOM
+- [Virtual Components](https://pionjs.com/guides/virtual/): Stateful components without a custom element tag
+- [TypeScript](https://pionjs.com/guides/typescript/): Typing components, attributes, and HTMLElementTagNameMap
+
+## Hooks
+
+- [useState](https://pionjs.com/hooks/usestate/): Add reactive state; setter triggers re-render
+- [useEffect](https://pionjs.com/hooks/useeffect/): Side effects with dependency array and cleanup
+- [useReducer](https://pionjs.com/hooks/usereducer/): Reducer-based state management (redux-like)
+- [useContext](https://pionjs.com/hooks/usecontext/): Read values from the nearest context provider
+- [useRef](https://pionjs.com/hooks/useref/): Mutable value across renders without re-rendering; lit-html ref compatible
+- [useMemo](https://pionjs.com/hooks/usememo/): Memoize expensive computations by dependency
+- [useCallback](https://pionjs.com/hooks/usecallback/): Stable callback identity across renders
+- [useLayoutEffect](https://pionjs.com/hooks/uselayouteffect/): Synchronous effects before browser paint
+- [useHost](https://pionjs.com/hooks/usehost/): Access the host custom element instance
+- [useProperty](https://pionjs.com/hooks/useproperty/): State bound to a host property with change events
+
+## Optional
+
+- [GitHub repository](https://github.com/pionjs/pion): Source code, issues, and contributing guide
+- [npm package](https://www.npmjs.com/package/@pionjs/pion): Install with npm, yarn, or pnpm

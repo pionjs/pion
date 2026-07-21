@@ -41,14 +41,16 @@ pion supports the same API as React Hooks. The hope is that by doing so you can 
 
 Currently pion supports the following hooks:
 
-- [useCallback](https://pionjs.com/docs/hooks/useCallback/)
-- [useContext](https://pionjs.com/docs/hooks/useContext/)
-- [useEffect](https://pionjs.com/docs/hooks/useEffect/)
-- [useLayoutEffect](https://pionjs.com/docs/hooks/useLayoutEffect/)
-- [useMemo](https://pionjs.com/docs/hooks/useMemo/)
-- [useReducer](https://pionjs.com/docs/hooks/useReducer/)
-- [useRef](https://pionjs.com/docs/hooks/useRef/)
-- [useState](https://pionjs.com/docs/hooks/useState/)
+- [useCallback](https://pionjs.com/hooks/usecallback/)
+- [useContext](https://pionjs.com/hooks/usecontext/)
+- [useEffect](https://pionjs.com/hooks/useeffect/)
+- [useHost](https://pionjs.com/hooks/usehost/)
+- [useLayoutEffect](https://pionjs.com/hooks/uselayouteffect/)
+- [useMemo](https://pionjs.com/hooks/usememo/)
+- [useProperty](https://pionjs.com/hooks/useproperty/)
+- [useReducer](https://pionjs.com/hooks/usereducer/)
+- [useRef](https://pionjs.com/hooks/useref/)
+- [useState](https://pionjs.com/hooks/usestate/)
 
 ### Function Signatures
 
