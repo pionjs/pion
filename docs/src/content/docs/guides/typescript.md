@@ -1,5 +1,6 @@
 ---
 title: TypeScript
+description: Type your pion components and custom elements in strict TypeScript projects — props, attributes, and tag name maps.
 ---
 
 pion is written in TypeScript and should work quite well with existing TS projects.

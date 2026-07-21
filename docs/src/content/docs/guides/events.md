@@ -1,5 +1,6 @@
 ---
 title: Dispatching Events
+description: Dispatch custom events from your pion custom elements and listen for them on the element or higher up in the DOM.
 ---
 
 There are a few steps you have to take in order to dispatch an event from your custom element:

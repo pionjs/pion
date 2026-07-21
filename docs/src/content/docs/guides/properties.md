@@ -1,5 +1,6 @@
 ---
 title: Properties
+description: Bind to custom element properties with lit-html's dot syntax to pass values of any type beyond strings.
 ---
 
 If you haven't used lit-html before you're probably wondering what the differences between properties and attributes are. As stated above, attributes can only have string values, this is because all attributes go through [`Element#setAttribute`](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute). Properties do not go through `setAttribute`, instead they are properties on the custom element itself. This allows you to pass in any value instead of just strings.

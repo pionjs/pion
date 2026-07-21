@@ -1,7 +1,7 @@
 {
   "name": "@pionjs/pion",
   "version": "2.16.1",
-  "description": "Hooks for web components",
+  "description": "Hooks for Web Components — React's hooks API for custom elements, works with lit-html or any renderer",
   "main": "lib/haunted.js",
   "module": "lib/haunted.js",
   "type": "module",
@@ -22,9 +22,14 @@
     "url": "git+https://github.com/pionjs/pion.git"
   },
   "keywords": [
+    "pion",
     "haunted",
     "lit",
-    "web-components"
+    "lit-html",
+    "web-components",
+    "custom-elements",
+    "hooks",
+    "react-hooks"
   ],
   "author": "",
   "license": "BSD-2-Clause",

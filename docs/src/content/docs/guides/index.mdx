@@ -1,0 +1,33 @@
+---
+title: Guides
+description: Browse all pion guides — from getting started and renderers to attributes, properties, events, virtual components, and TypeScript.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="Getting Started" icon="rocket" href="/guides/getting-started/">
+    Install pion and write your first hook-powered Web Component.
+  </Card>
+  <Card title="Bring Your Own Renderer" icon="puzzle" href="/guides/renderers/">
+    Use your preferred templating library — Lit, htm, or a custom renderer.
+  </Card>
+  <Card title="Attributes" icon="settings" href="/guides/attributes/">
+    React to attribute changes on your custom elements.
+  </Card>
+  <Card title="Properties" icon="layers" href="/guides/properties/">
+    Manage reactive properties with type-safe accessors.
+  </Card>
+  <Card title="API" icon="code" href="/guides/api/">
+    Explore the full pion API reference.
+  </Card>
+  <Card title="Dispatching Events" icon="notification" href="/guides/events/">
+    Emit and listen to custom DOM events from hooks.
+  </Card>
+  <Card title="Virtual Components" icon="view-in-ar" href="/guides/virtual/">
+    Compose lightweight components without custom element registration.
+  </Card>
+  <Card title="TypeScript" icon="terminal" href="/guides/typescript/">
+    Get full type inference for hooks, props, and events.
+  </Card>
+</CardGrid>

@@ -1,5 +1,6 @@
 ---
 title: Attributes
+description: Define observed attributes on your custom elements and pass string values from HTML using kebab-case names.
 ---
 
 In custom elements, attributes must be pre-defined. To define what attributes your component supports, set the `observedAttributes` property on the function you defined. Note that attributes use kebab case in templates and are converted into camel case for use in your component's code.

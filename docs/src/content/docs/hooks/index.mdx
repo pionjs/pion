@@ -1,0 +1,39 @@
+---
+title: Hooks
+description: Browse every pion hook — useState, useEffect, useReducer, useContext, useRef, useMemo, and more for building Web Components.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid>
+  <Card title="useCallback" icon="repeat" href="/hooks/usecallback/">
+    Memoize a callback function to avoid unnecessary re-renders.
+  </Card>
+  <Card title="useContext" icon="share" href="/hooks/usecontext/">
+    Access shared context from parent components.
+  </Card>
+  <Card title="useEffect" icon="sync" href="/hooks/useeffect/">
+    Run side effects in response to state or prop changes.
+  </Card>
+  <Card title="useHost" icon="settings" href="/hooks/usehost/">
+    Access the host custom element instance.
+  </Card>
+  <Card title="useLayoutEffect" icon="speed" href="/hooks/uselayouteffect/">
+    Run side effects synchronously before the browser paints.
+  </Card>
+  <Card title="useMemo" icon="memory" href="/hooks/usememo/">
+    Cache expensive computations between renders.
+  </Card>
+  <Card title="useProperty" icon="layers" href="/hooks/useproperty/">
+    Create reactive properties with optional attribute reflection.
+  </Card>
+  <Card title="useReducer" icon="filter-list" href="/hooks/usereducer/">
+    Manage complex state with a reducer function.
+  </Card>
+  <Card title="useRef" icon="bookmark" href="/hooks/useref/">
+    Store a mutable value that persists across renders.
+  </Card>
+  <Card title="useState" icon="star" href="/hooks/usestate/">
+    Add reactive state to your Web Component.
+  </Card>
+</CardGrid>

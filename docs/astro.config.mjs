@@ -2,13 +2,14 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
-  site: 'https://pionjs.github.io/pion',
+  site: 'https://pionjs.com',
   integrations: [
     starlight({
       title: 'pion',
       tagline: 'Hooks for Web Components',
       logo: {
         src: './src/assets/logo.svg',
+        alt: 'pion',
       },
       social: [
         {
@@ -24,6 +25,7 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Guides',
+          collapsed: true,
           items: [
             { label: 'Getting Started', slug: 'guides/getting-started' },
             { label: 'Bring Your Own Renderer', slug: 'guides/renderers' },
@@ -37,6 +39,7 @@ export default defineConfig({
         },
         {
           label: 'Hooks',
+          collapsed: true,
           items: [
             { label: 'useCallback', slug: 'hooks/usecallback' },
             { label: 'useContext', slug: 'hooks/usecontext' },
