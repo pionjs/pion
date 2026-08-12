@@ -12,6 +12,11 @@
   display: none;
 }
 
+/* Cap hero image size */
+.hero > img {
+  width: min(100%, 15rem);
+}
+
 /* Dark mode (default, or [data-theme='dark']) */
 :root:not([data-theme='light']),
 [data-theme='dark'] ::backdrop {
