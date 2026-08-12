@@ -1,0 +1,36 @@
+/* PionJS brand theme overrides for Starlight */
+/* Brand palette: #9AD1CE (teal), #0C1419 (navy), #6C8E8B (slate), #CAEAE7 (pale mint) */
+
+:root,
+::backdrop {
+  /* Brand font */
+  --sl-font: 'Instrument Sans', sans-serif;
+}
+
+/* Hide site-title text — wordmark is in the logo SVG */
+.site-title span {
+  display: none;
+}
+
+/* Dark mode (default, or [data-theme='dark']) */
+:root:not([data-theme='light']),
+[data-theme='dark'] ::backdrop {
+  /* Accent — #9AD1CE teal */
+  --sl-color-accent: hsl(177, 37%, 71%);
+  --sl-color-accent-low: hsl(177, 37%, 20%);
+  --sl-color-accent-high: hsl(174, 43%, 85%);
+
+  /* Background — #0C1419 dark navy */
+  --sl-color-black: hsl(203, 35%, 7%);
+  --sl-color-bg: hsl(203, 35%, 7%);
+  --sl-color-gray-6: hsl(203, 30%, 11%);
+}
+
+/* Light mode */
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  /* Accent — #6C8E8B slate (teal too low-contrast on white) */
+  --sl-color-accent: hsl(175, 14%, 49%);
+  --sl-color-accent-low: hsl(174, 43%, 85%);
+  --sl-color-accent-high: hsl(177, 37%, 30%);
+}
