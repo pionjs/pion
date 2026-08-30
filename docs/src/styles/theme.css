@@ -7,11 +7,6 @@
   --sl-font: 'Instrument Sans', sans-serif;
 }
 
-/* Hide site-title text — wordmark is in the logo SVG */
-.site-title span {
-  display: none;
-}
-
 /* Cap hero image size */
 .hero > img {
   width: min(100%, 15rem);
@@ -34,8 +29,9 @@
 /* Light mode */
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
-  /* Accent — #6C8E8B slate (teal too low-contrast on white) */
-  --sl-color-accent: hsl(175, 14%, 49%);
+  /* Accent — darkened brand teal for WCAG AA contrast on white
+     (#6C8E8B slate is 3.6:1, too low for text links) */
+  --sl-color-accent: hsl(177, 37%, 31%);
   --sl-color-accent-low: hsl(174, 43%, 85%);
   --sl-color-accent-high: hsl(177, 37%, 30%);
 }

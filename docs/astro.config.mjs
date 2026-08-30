@@ -8,8 +8,10 @@ export default defineConfig({
       title: 'PionJS',
       tagline: 'Hooks for Web Components',
       logo: {
-        src: './src/assets/logo.svg',
-        alt: 'pion',
+        dark: './src/assets/logo.svg',
+        light: './src/assets/logo-navy.svg',
+        alt: 'PionJS',
+        replacesTitle: true,
       },
       social: [
         {
