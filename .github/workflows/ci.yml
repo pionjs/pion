@@ -133,8 +133,7 @@ jobs:
         id: changesets
         uses: changesets/action@v2
         with:
-          publish: npm run changeset publish
-          commit: "[ci] release"
-          title: "[ci] release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish-script: npm run changeset publish
+          commit-message: "[ci] release"
+          pr-title: "[ci] release"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
