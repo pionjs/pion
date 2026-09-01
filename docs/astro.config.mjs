@@ -5,11 +5,13 @@ export default defineConfig({
   site: 'https://pionjs.com',
   integrations: [
     starlight({
-      title: 'pion',
+      title: 'PionJS',
       tagline: 'Hooks for Web Components',
       logo: {
-        src: './src/assets/logo.svg',
-        alt: 'pion',
+        dark: './src/assets/logo.svg',
+        light: './src/assets/logo-navy.svg',
+        alt: 'PionJS',
+        replacesTitle: true,
       },
       social: [
         {
@@ -18,6 +20,7 @@ export default defineConfig({
           href: 'https://github.com/pionjs/pion',
         },
       ],
+      customCss: ['./src/styles/theme.css'],
       components: {
         Head: './src/components/Head.astro',
         PageFrame: './src/components/PageFrame.astro',
