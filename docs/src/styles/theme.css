@@ -1,10 +1,13 @@
 /* PionJS brand theme overrides for Starlight */
-/* Brand palette: #9AD1CE (teal), #0C1419 (navy), #6C8E8B (slate), #CAEAE7 (pale mint) */
+/* Brand palette (guidelines v1.1): #89D3CF (teal), #0C1419 (navy), #6C8E8B (slate), #CAEAE7 (pale mint) */
 
 :root,
 ::backdrop {
   /* Brand font */
   --sl-font: 'Instrument Sans', sans-serif;
+
+  /* Brand teal for native UI (checkboxes, radios, progress bars) */
+  accent-color: var(--sl-color-accent);
 }
 
 /* Cap hero image size */
@@ -15,9 +18,9 @@
 /* Dark mode (default, or [data-theme='dark']) */
 :root:not([data-theme='light']),
 [data-theme='dark'] ::backdrop {
-  /* Accent — #9AD1CE teal */
-  --sl-color-accent: hsl(177, 37%, 71%);
-  --sl-color-accent-low: hsl(177, 37%, 20%);
+  /* Accent — #89D3CF teal */
+  --sl-color-accent: #89d3cf;
+  --sl-color-accent-low: hsl(177, 46%, 20%);
   --sl-color-accent-high: hsl(174, 43%, 85%);
 
   /* Background — #0C1419 dark navy */
@@ -30,8 +33,8 @@
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
   /* Accent — darkened brand teal for WCAG AA contrast on white
-     (#6C8E8B slate is 3.6:1, too low for text links) */
-  --sl-color-accent: hsl(177, 37%, 31%);
+     (raw #89D3CF teal is ~1.7:1, unusable for text links) */
+  --sl-color-accent: hsl(177, 46%, 31%);
   --sl-color-accent-low: hsl(174, 43%, 85%);
-  --sl-color-accent-high: hsl(177, 37%, 30%);
+  --sl-color-accent-high: hsl(177, 46%, 30%);
 }
