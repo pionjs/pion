@@ -61,7 +61,9 @@ type Renderer = (element: Element) => TemplateResult;
 interface Options {
   baseElement: HTMLElement;
   observedAttributes: string[];
-  useShadowDOM: boolean
+  useShadowDOM: boolean;
+  shadowRootInit: ShadowRootInit;
+  styleSheets: (CSSStyleSheet | string)[];
 }
 
 declare function component(
