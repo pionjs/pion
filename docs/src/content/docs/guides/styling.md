@@ -1,42 +1,19 @@
 ---
 title: Styling
-description: Style pion components with adopted style sheets — the css tagged template, the styleSheets option, native CSS modules, and light DOM alternatives.
+description: Style pion components with constructable stylesheets — the css helper, the styleSheets option, native CSS modules, and light DOM alternatives.
 ---
 
-pion components render into a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) by default, so their styles are naturally isolated from the page. This guide covers the supported ways to apply styles: inline in templates, via adopted style sheets, with native CSS modules, and the options available for light DOM components.
+pion components render into a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) by default, so their styles are naturally isolated from the page. pion uses [constructable stylesheets](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM#applying_styles_inside_the_shadow_dom): styles are declared with the `css` helper and adopted on the component's shadow root via the `styleSheets` option — constructed once, shared by every instance of the component.
 
-## Inline styles in templates
+## Component styles
 
-The simplest approach is a `<style>` element inside your template:
-
-```js
-import { component, html } from '@pionjs/pion';
-
-function App() {
-  return html`
-    <style>
-      :host {
-        display: block;
-        padding: 1rem;
-      }
-    </style>
-    <div class="content">Hello!</div>
-  `;
-}
-
-customElements.define('my-app', component(App));
-```
-
-This works fine for small components, but the browser parses the stylesheet once per element instance. For shared styles or components rendered many times, prefer adopted style sheets.
-
-## Adopted style sheets
-
-pion supports [constructable stylesheets](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM#applying_styles_inside_the_shadow_dom) through the `styleSheets` option. Sheets are constructed once and adopted by every instance of the component:
+The recommended pattern is a dedicated style file next to your component. The file exports a `css` template; the component imports it and passes it to `component()`:
 
 ```js
-import { component, html, css } from '@pionjs/pion';
+// my-app.style.ts
+import { css } from '@pionjs/pion';
 
-const style = css`
+export const style = css`
   :host {
     display: block;
     padding: 1rem;
@@ -45,6 +22,12 @@ const style = css`
     color: var(--my-app-color, currentColor);
   }
 `;
+```
+
+```js
+// my-app.ts
+import { component, html } from '@pionjs/pion';
+import { style } from './my-app.style';
 
 function App() {
   return html`<div class="content">Hello!</div>`;
@@ -53,28 +36,9 @@ function App() {
 customElements.define('my-app', component(App, { styleSheets: [style] }));
 ```
 
+This keeps the component function focused on behavior, and makes styles reusable across components.
+
 `styleSheets` accepts a mix of strings and `CSSStyleSheet` instances — strings are converted to stylesheets automatically.
-
-:::tip[Recommended pattern]
-Define styles in a dedicated file next to your component (e.g. `my-app.style.ts`) and import it. This keeps the component function focused on behavior and makes styles reusable:
-
-```js
-// my-app.style.ts
-import { css } from '@pionjs/pion';
-
-export const style = css`
-  :host { display: block; }
-`;
-```
-
-```js
-// my-app.ts
-import { component, html } from '@pionjs/pion';
-import { style } from './my-app.style';
-
-customElements.define('my-app', component(App, { styleSheets: [style] }));
-```
-:::
 
 ### The `css` tagged template
 
@@ -150,7 +114,7 @@ Bundler notes:
 - **Vite** and **Rollup** support `with { type: 'css' }` — the imported value is a constructed stylesheet that adopts cleanly into shadow roots.
 - This syntax requires a modern browser or a bundler that transforms it; it does **not** work from a plain `<script type="module">` without a build step.
 
-Styles inside a CSS module are still global within the sheet (they are not scoped per class name like Sass-style CSS modules) — you get a `CSSStyleSheet`, not transformed class names. Isolation comes from the shadow root, exactly like the other approaches.
+Styles inside a CSS module are still global within the sheet (they are not scoped per class name like Sass-style CSS modules) — you get a `CSSStyleSheet`, not transformed class names. Isolation comes from the shadow root, exactly like with `css` templates.
 
 ## Light DOM components
 
