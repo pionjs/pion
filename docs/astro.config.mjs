@@ -6,7 +6,6 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'PionJS',
-      tagline: 'Hooks for Web Components',
       logo: {
         dark: './src/assets/logo.svg',
         light: './src/assets/logo-navy.svg',
