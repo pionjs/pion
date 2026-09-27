@@ -1,5 +1,9 @@
 import { ChildPart } from "lit-html";
-import { makeComponent, ComponentCreator } from "./component";
+import {
+  makeComponent,
+  makeDebugComponent,
+  ComponentCreator,
+} from "./component";
 import { makeContext, ContextCreator } from "./create-context";
 
 type Component<P> = HTMLElement & P;
@@ -27,12 +31,14 @@ interface Options {
 
 function pion({ render }: Options): {
   component: ComponentCreator;
+  debugComponent: ComponentCreator;
   createContext: ContextCreator;
 } {
   const component = makeComponent(render);
+  const debugComponent = makeDebugComponent(render);
   const createContext = makeContext(component);
 
-  return { component, createContext };
+  return { component, debugComponent, createContext };
 }
 
 export {

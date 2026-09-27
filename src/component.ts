@@ -34,7 +34,7 @@ interface Creator {
   ): Constructor<P>;
   <P extends object>(
     renderer: Renderer<P>,
-    baseElement: Constructor<{}>,
+    baseElement: Constructor<P>,
     options: Omit<Options<P>, "baseElement">
   ): Constructor<P>;
 }
@@ -45,6 +45,7 @@ export interface Options<P> {
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
   styleSheets?: (CSSStyleSheet | string)[];
+  debug?: boolean;
 }
 
 function makeComponent(render: RenderFunction): Creator {
@@ -154,7 +155,7 @@ function makeComponent(render: RenderFunction): Creator {
       return Object.freeze({
         enumerable: true,
         configurable: true,
-        get(): T {
+        get() {
           return value;
         },
         set(this: Element, newValue: T): void {
@@ -215,8 +216,59 @@ function makeComponent(render: RenderFunction): Creator {
   return component;
 }
 
+/**
+ * Like `component`, but logs the element's lifecycle — connected, every render
+ * (with a per-instance count) and disconnected — to `console.debug`, prefixed
+ * by the element's tag name. Use it while debugging a suspect component: add
+ * it at the definition site, reproduce, filter the console on `pion:`, revert.
+ */
+function makeDebugComponent(render: RenderFunction): Creator {
+  const component = makeComponent(render);
+  return <P extends object>(
+    renderer: Renderer<P>,
+    baseElementOrOptions?: Constructor<P> | Options<P>,
+    options?: Options<P>
+  ): Constructor<P> => {
+    // render counting goes through the renderer wrapper: the scheduler calls
+    // the renderer on every commit
+    const DebugRenderer = (host: Component<P>): unknown | void => {
+      (host as HTMLElement & { __pionRenders?: number }).__pionRenders =
+        ((host as HTMLElement & { __pionRenders?: number }).__pionRenders ?? 0) + 1;
+      const renders = (host as HTMLElement & { __pionRenders?: number })
+        .__pionRenders;
+      console.debug(`[pion:${host.localName}] render #${renders}`);
+      return renderer.call(host, host);
+    };
+    const Base = component(
+      DebugRenderer as Renderer<P>,
+      baseElementOrOptions as never,
+      options as never
+    );
+    const DebugElement = class DebugElement extends (Base as unknown as {
+      new (...args: unknown[]): HTMLElement & {
+        connectedCallback(): void;
+        disconnectedCallback(): void;
+      };
+    }) {
+      connectedCallback(): void {
+        console.debug(`[pion:${this.localName}] connected`);
+        super.connectedCallback();
+      }
+      disconnectedCallback(): void {
+        const renders = (this as HTMLElement & { __pionRenders?: number }).__pionRenders ?? 0;
+        console.debug(
+          `[pion:${this.localName}] disconnected (renders: ${renders})`
+        );
+        super.disconnectedCallback();
+      }
+    };
+    return DebugElement as unknown as Constructor<P>;
+  };
+}
+
 export {
   makeComponent,
+  makeDebugComponent,
   Component,
   Constructor as ComponentConstructor,
   Creator as ComponentCreator,
