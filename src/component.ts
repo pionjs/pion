@@ -47,6 +47,61 @@ export interface Options<P> {
   styleSheets?: (CSSStyleSheet | string)[];
 }
 
+/**
+ * Lifecycle debug allowlist. Set `window.__pion_debug_tags` to a `Set` of
+ * tag names and matching components log their lifecycle — connected, every
+ * render (with a per-instance count) and disconnected — to `console.debug`:
+ *
+ *   window.__pion_debug_tags = new Set(['my-element'])
+ *   // [pion:my-element#000004] render #2
+ *
+ * No component code changes required, and no-op when the global is unset.
+ */
+type DebugTags = Set<string>;
+
+// The debug block is stripped from production bundles: bundlers replace
+// `import.meta.env.PROD` (Vite) or `process.env.NODE_ENV` (webpack, esbuild)
+// statically, folding each guard to `false` and dead-code-eliminating the
+// block. The expression is inlined at every guard rather than shared as a
+// module const — esbuild folds the const's declaration but does not
+// propagate it into method bodies of a class extending a base class from
+// another module (verified against esbuild 0.28).
+const isDebugTag = (tag: string): boolean => {
+  // The prod-guard halves are folded away by bundlers and can never evaluate
+  // true in a test browser, so they are uncovered by design.
+  /* c8 ignore next 3 */
+  if (import.meta.env?.PROD === true ||
+      globalThis.process?.env?.NODE_ENV === "production") {
+    return false;
+  }
+  const tags = (globalThis as { __pion_debug_tags?: DebugTags })
+    .__pion_debug_tags;
+  return tags != null && tags.has(tag);
+};
+
+// Git-style short id: fixed width while small, growing past 6 digits only
+// after 16M instances (like git extending a short sha). Assigned at
+// construction, so ids are stable for the session and reproducible across
+// refreshes of the same app structure.
+let instanceSeq = 0;
+const shortId = (): string =>
+  (instanceSeq++).toString(16).padStart(6, "0");
+
+const logLifecycle = (
+  host: HTMLElement,
+  event: string,
+  detail?: string
+): void => {
+  const id = (host as { __pion_debug_id?: string }).__pion_debug_id ?? "";
+  // The host rides along as a second argument so the entry is clickable in
+  // devtools; from a live element, filter by its id:
+  // `querySelector('my-el').__pion_debug_id` → `\[pion:my-el#000004`.
+  console.debug(
+    `[pion:${host.localName}#${id}] ${event}${detail ? ` (${detail})` : ""}`,
+    host
+  );
+};
+
 function makeComponent(render: RenderFunction): Creator {
   class Scheduler<P extends object> extends BaseScheduler<
     P,
@@ -73,6 +128,16 @@ function makeComponent(render: RenderFunction): Creator {
     }
 
     commit(result: unknown): void {
+      const host = this.host as HTMLElement | undefined;
+      /* c8 ignore next 5 -- prod guard halves can't be true in tests */
+      if (!(import.meta.env?.PROD === true ||
+            globalThis.process?.env?.NODE_ENV === "production") &&
+          host?.localName && isDebugTag(host.localName)) {
+        const h = host as { __pion_renders?: number };
+        const renders = (h.__pion_renders ?? 0) + 1;
+        h.__pion_renders = renders;
+        logLifecycle(host, `render #${renders}`);
+      }
       this.renderResult = render(result, this.frag);
     }
   }
@@ -111,6 +176,14 @@ function makeComponent(render: RenderFunction): Creator {
 
       constructor() {
         super();
+        // Stable per-instance debug id, assigned unconditionally so it exists
+        // even before the allowlist is set (prod builds strip this via the
+        // inlined guard — see the comment above `isDebugTag`).
+        /* c8 ignore next 4 -- prod guard halves can't be true in tests */
+        if (!(import.meta.env?.PROD === true ||
+              globalThis.process?.env?.NODE_ENV === "production")) {
+          (this as { __pion_debug_id?: string }).__pion_debug_id = shortId();
+        }
         if (useShadowDOM === false) {
           this._scheduler = new Scheduler(renderer, this);
         } else {
@@ -124,12 +197,25 @@ function makeComponent(render: RenderFunction): Creator {
       }
 
       connectedCallback(): void {
+        /* c8 ignore next 5 -- prod guard halves can't be true in tests */
+        if (!(import.meta.env?.PROD === true ||
+              globalThis.process?.env?.NODE_ENV === "production") &&
+            isDebugTag(this.localName)) {
+          logLifecycle(this, "connected");
+        }
         this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
       }
 
       disconnectedCallback(): void {
+        /* c8 ignore next 5 -- prod guard halves can't be true in tests */
+        if (!(import.meta.env?.PROD === true ||
+              globalThis.process?.env?.NODE_ENV === "production") &&
+            isDebugTag(this.localName)) {
+          const renders = (this as { __pion_renders?: number }).__pion_renders ?? 0;
+          logLifecycle(this, "disconnected", `renders: ${renders}`);
+        }
         this._scheduler.pause();
         this._scheduler.teardown();
         this._scheduler.renderResult?.setConnected(false);
