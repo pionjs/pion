@@ -26,6 +26,19 @@ type Component<P extends object> = HTMLElement & P;
 
 type Constructor<P extends object> = new (...args: unknown[]) => Component<P>;
 
+/**
+ * Lifecycle hooks the generated element invokes on its base class.
+ * Declared optional because `BaseElement` may be `HTMLElement` (whose type
+ * doesn't declare them) or a user class that doesn't implement them.
+ */
+interface BaseLifecycle {
+  connectedCallback?(): void;
+  disconnectedCallback?(): void;
+}
+
+type BaseElementConstructor = abstract new (...args: unknown[]) => HTMLElement &
+  BaseLifecycle;
+
 interface Creator {
   <P extends object>(renderer: Renderer<P>): Constructor<P>;
   <P extends object>(
@@ -93,8 +106,9 @@ function makeComponent(render: RenderFunction): Creator {
     options?: Options<P>
   ): Constructor<P> {
     const BaseElement =
-      (options || (baseElementOrOptions as Options<P>) || {}).baseElement ||
-      HTMLElement;
+      ((options || (baseElementOrOptions as Options<P>) || {})
+        .baseElement as unknown as BaseElementConstructor) ||
+      (HTMLElement as unknown as BaseElementConstructor);
     const {
       observedAttributes = [],
       useShadowDOM = true,
@@ -124,12 +138,14 @@ function makeComponent(render: RenderFunction): Creator {
       }
 
       connectedCallback(): void {
+        super.connectedCallback?.();
         this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
       }
 
       disconnectedCallback(): void {
+        super.disconnectedCallback?.();
         this._scheduler.pause();
         this._scheduler.teardown();
         this._scheduler.renderResult?.setConnected(false);
