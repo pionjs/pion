@@ -26,13 +26,6 @@ type Component<P extends object> = HTMLElement & P;
 
 type Constructor<P extends object> = new (...args: unknown[]) => Component<P>;
 
-/**
- * Lifecycle hooks the generated element invokes on its base class.
- * Declared optional because `BaseElement` may be `HTMLElement` (whose type
- * doesn't declare them) or a user class that doesn't implement them.
- * Widens `Options['baseElement']` so user base classes stay assignable
- * even though they don't implement these hooks.
- */
 interface BaseLifecycle {
   connectedCallback?(): void;
   disconnectedCallback?(): void;
@@ -104,11 +97,6 @@ function makeComponent(render: RenderFunction): Creator {
     baseElementOrOptions?: Constructor<P> | Options<P>,
     options?: Options<P>
   ): Constructor<P> {
-    // Widening `Options['baseElement']`/overloads to Constructor<HTMLElement &
-    // BaseLifecycle> lets this resolve without casts. The annotation (rather
-    // than inference) is needed because TS won't use a ctor-typed union for
-    // `extends` here: without it, Element's base resolves with no HTMLElement
-    // members.
     const BaseElement: Constructor<HTMLElement & BaseLifecycle> =
       (options || (baseElementOrOptions as Options<P>) || {}).baseElement ||
       HTMLElement;
