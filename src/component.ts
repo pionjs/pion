@@ -30,14 +30,13 @@ type Constructor<P extends object> = new (...args: unknown[]) => Component<P>;
  * Lifecycle hooks the generated element invokes on its base class.
  * Declared optional because `BaseElement` may be `HTMLElement` (whose type
  * doesn't declare them) or a user class that doesn't implement them.
+ * Widens `Options['baseElement']` so user base classes stay assignable
+ * even though they don't implement these hooks.
  */
 interface BaseLifecycle {
   connectedCallback?(): void;
   disconnectedCallback?(): void;
 }
-
-type BaseElementConstructor = abstract new (...args: unknown[]) => HTMLElement &
-  BaseLifecycle;
 
 interface Creator {
   <P extends object>(renderer: Renderer<P>): Constructor<P>;
@@ -47,13 +46,13 @@ interface Creator {
   ): Constructor<P>;
   <P extends object>(
     renderer: Renderer<P>,
-    baseElement: Constructor<{}>,
+    baseElement: Constructor<HTMLElement & BaseLifecycle>,
     options: Omit<Options<P>, "baseElement">
   ): Constructor<P>;
 }
 
 export interface Options<P> {
-  baseElement?: Constructor<{}>;
+  baseElement?: Constructor<HTMLElement & BaseLifecycle>;
   observedAttributes?: Atts<P>;
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
@@ -97,7 +96,7 @@ function makeComponent(render: RenderFunction): Creator {
   ): Constructor<P>;
   function component<P extends object>(
     renderer: Renderer<P>,
-    baseElement: Constructor<P>,
+    baseElement: Constructor<HTMLElement & BaseLifecycle>,
     options: Omit<Options<P>, "baseElement">
   ): Constructor<P>;
   function component<P extends object>(
@@ -105,10 +104,14 @@ function makeComponent(render: RenderFunction): Creator {
     baseElementOrOptions?: Constructor<P> | Options<P>,
     options?: Options<P>
   ): Constructor<P> {
-    const BaseElement =
-      ((options || (baseElementOrOptions as Options<P>) || {})
-        .baseElement as unknown as BaseElementConstructor) ||
-      (HTMLElement as unknown as BaseElementConstructor);
+    // Widening `Options['baseElement']`/overloads to Constructor<HTMLElement &
+    // BaseLifecycle> lets this resolve without casts. The annotation (rather
+    // than inference) is needed because TS won't use a ctor-typed union for
+    // `extends` here: without it, Element's base resolves with no HTMLElement
+    // members.
+    const BaseElement: Constructor<HTMLElement & BaseLifecycle> =
+      (options || (baseElementOrOptions as Options<P>) || {}).baseElement ||
+      HTMLElement;
     const {
       observedAttributes = [],
       useShadowDOM = true,
