@@ -26,6 +26,11 @@ type Component<P extends object> = HTMLElement & P;
 
 type Constructor<P extends object> = new (...args: unknown[]) => Component<P>;
 
+interface BaseLifecycle {
+  connectedCallback?(): void;
+  disconnectedCallback?(): void;
+}
+
 interface Creator {
   <P extends object>(renderer: Renderer<P>): Constructor<P>;
   <P extends object>(
@@ -34,13 +39,13 @@ interface Creator {
   ): Constructor<P>;
   <P extends object>(
     renderer: Renderer<P>,
-    baseElement: Constructor<{}>,
+    baseElement: Constructor<HTMLElement & BaseLifecycle>,
     options: Omit<Options<P>, "baseElement">
   ): Constructor<P>;
 }
 
 export interface Options<P> {
-  baseElement?: Constructor<{}>;
+  baseElement?: Constructor<HTMLElement & BaseLifecycle>;
   observedAttributes?: Atts<P>;
   useShadowDOM?: boolean;
   shadowRootInit?: ShadowRootInit;
@@ -84,7 +89,7 @@ function makeComponent(render: RenderFunction): Creator {
   ): Constructor<P>;
   function component<P extends object>(
     renderer: Renderer<P>,
-    baseElement: Constructor<P>,
+    baseElement: Constructor<HTMLElement & BaseLifecycle>,
     options: Omit<Options<P>, "baseElement">
   ): Constructor<P>;
   function component<P extends object>(
@@ -92,7 +97,7 @@ function makeComponent(render: RenderFunction): Creator {
     baseElementOrOptions?: Constructor<P> | Options<P>,
     options?: Options<P>
   ): Constructor<P> {
-    const BaseElement =
+    const BaseElement: Constructor<HTMLElement & BaseLifecycle> =
       (options || (baseElementOrOptions as Options<P>) || {}).baseElement ||
       HTMLElement;
     const {
@@ -124,12 +129,14 @@ function makeComponent(render: RenderFunction): Creator {
       }
 
       connectedCallback(): void {
+        super.connectedCallback?.();
         this._scheduler.resume();
         this._scheduler.update();
         this._scheduler.renderResult?.setConnected(true);
       }
 
       disconnectedCallback(): void {
+        super.disconnectedCallback?.();
         this._scheduler.pause();
         this._scheduler.teardown();
         this._scheduler.renderResult?.setConnected(false);
