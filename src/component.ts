@@ -187,10 +187,12 @@ function makeComponent(render: RenderFunction): Creator {
           desc = Object.getOwnPropertyDescriptor(target, key);
           if (desc && desc.set) {
             desc.set.call(receiver, value);
+            receiver._scheduler?.update();
             return true;
           }
 
           Reflect.set(target, key, value, receiver);
+          receiver._scheduler?.update();
           return true;
         }
 

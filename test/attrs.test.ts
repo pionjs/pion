@@ -34,8 +34,9 @@ describe("Observed attributes", () => {
       title: string;
     }
 
-    function App(this: unknown) {
-      (this as HTMLElement).setAttribute("title", "bar");
+    function App(this: HTMLElement) {
+      // the attribute is the verbatim value; read it per the README guideline
+      return html`<div>title=${this.getAttribute("title")}</div>`;
     }
 
     customElements.define(
@@ -43,9 +44,19 @@ describe("Observed attributes", () => {
       component<HTMLElement & Props>(App, { observedAttributes: ["title"] })
     );
 
-    const el = await fixture(html`<attrs-test-title></attrs-test-title>`);
+    const el = (await fixture(
+      html`<attrs-test-title title="start"></attrs-test-title>`
+    )) as HTMLElement;
+    await nextFrame();
 
-    expect(el.getAttribute("title")).to.equal("bar");
+    expect(el.getAttribute("title")).to.equal("start");
+    expect(el.shadowRoot.textContent).to.equal("title=start");
+
+    el.setAttribute("title", "world");
+    await nextFrame();
+
+    expect(el.getAttribute("title")).to.equal("world");
+    expect(el.shadowRoot.textContent).to.equal("title=world");
   });
 
   it("Trigger rerenders while declared as an option", async () => {
