@@ -1,5 +1,11 @@
 # pion
 
+## 2.16.3
+
+### Patch Changes
+
+- 9224dd5: Setting a native reflected property (`aria-*`, `title`, `lang`, `dir`) or a `baseElement` accessor property on a pion component now schedules a re-render. Read aria values in the renderer with `getAttribute` — the attribute holds the verbatim value.
+
 ## 2.16.2
 
 ### Patch Changes
