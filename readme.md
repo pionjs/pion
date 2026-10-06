@@ -81,6 +81,19 @@ declare function virtual(renderer: Renderer): Directive
 
 ```
 
+## Native properties and ARIA
+
+Observed attributes whose name maps to a native reflected property (`aria-*`, `title`, `lang`, `dir`) re-render on change. Read their values in the renderer with `getAttribute` — the attribute holds the verbatim value:
+
+```js
+customElements.define('my-toggle', component(
+  // aria-expanded=${host.ariaExpanded} — camelCase reads go through the
+  // property, which can coerce; the attribute never does
+  (host) => html`<div aria-expanded=${host.getAttribute('aria-expanded')}>…</div>`,
+  { observedAttributes: ['aria-expanded'] },
+));
+```
+
 ## License
 
 BSD-2-Clause
