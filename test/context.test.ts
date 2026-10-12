@@ -153,6 +153,41 @@ describe("context", function () {
     ).to.equal("slotted");
   });
 
+  it("resubscribes after reconnecting when the provider changed while detached", async () => {
+    const provider = document
+      .querySelector("context-tests")
+      .shadowRoot.querySelector("#with-provider context-provider");
+    const consumer = provider.querySelector("context-consumer");
+    consumer.remove();
+    withProviderUpdate("reconnected");
+    await nextFrame();
+    provider.append(consumer);
+    await nextFrame();
+    expect(contexts.get(consumer)).to.equal("reconnected");
+
+    withProviderUpdate("updated");
+    await nextFrame();
+    expect(contexts.get(consumer)).to.equal("updated");
+  });
+
+  it("follows the new provider when a consumer moves between providers", async () => {
+    const root = document.querySelector("context-tests").shadowRoot;
+    const consumer = root.querySelector("#with-provider context-consumer");
+    const nextProvider = root.querySelector(
+      "#nested-providers context-provider context-provider"
+    );
+    nextProvider.append(consumer);
+    await nextFrame();
+    expect(contexts.get(consumer)).to.equal("nested");
+
+    withProviderUpdate("previous provider");
+    await nextFrame();
+    expect(contexts.get(consumer)).to.equal("nested");
+    nestedProviderUpdate("new provider");
+    await nextFrame();
+    expect(contexts.get(consumer)).to.equal("new provider");
+  });
+
   describe("with generic consumer component", function () {
     it("should render template with context value", async () => {
       expect(
