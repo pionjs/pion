@@ -32,6 +32,7 @@ export default defineConfig({
             { label: 'Getting Started', slug: 'guides/getting-started' },
             { label: 'Bring Your Own Renderer', slug: 'guides/renderers' },
             { label: 'Styling', slug: 'guides/styling' },
+            { label: 'Base classes', slug: 'guides/base-classes' },
             { label: 'Attributes', slug: 'guides/attributes' },
             { label: 'Properties', slug: 'guides/properties' },
             { label: 'API', slug: 'guides/api' },
