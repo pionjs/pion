@@ -74,9 +74,13 @@ const useContext = hook(
       this._unsubscribe = unsubscribe;
     }
 
-    teardown(): void {
+    teardown(disconnected?: boolean): void {
       if (this._unsubscribe) {
         this._unsubscribe();
+        this._unsubscribe = null;
+      }
+      if (disconnected) {
+        this._ranEffect = false;
       }
     }
   }
